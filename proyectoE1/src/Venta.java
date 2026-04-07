@@ -6,6 +6,21 @@ public class Venta {
     private TipoDocumento Tipo;
     private LocalDate Fecha;
 
+    ArrayList<Pasaje> pasaje = new ArrayList<>();
+
+    public Venta (String idDocumento, TipoDocumento Tipo, LocalDate Fecha, Cliente cliente)  {
+      this.idDocumento = idDocumento;
+      this.Tipo = Tipo;
+      this.Fecha = Fecha;
+    }
+
+    public String getIdDocumento() {
+        return idDocumento;
+    }
+
+    public TipoDocumento getTipo() {
+        return Tipo;
+    }
 
 
 
