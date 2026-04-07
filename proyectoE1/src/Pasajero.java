@@ -8,6 +8,7 @@ public class Pasajero extends Persona {
         this.nomContacto = nomContacto;
 
     }
+
     public Nombre getNomContacto() {
         return nomContacto;
     }
