@@ -43,6 +43,7 @@ public class Persona {
         if (this.idPersona.equals(otro.getIdPersona())) {
             return true;
         }
+
         return false;
     }
 
