@@ -37,6 +37,7 @@ public class Bus {
         if (viaje != null) {
             this.viajes.add(viaje);
         }
+
     }
 
 }
