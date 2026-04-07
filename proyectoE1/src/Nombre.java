@@ -43,6 +43,6 @@ public class Nombre {
         if (this == o) return true; //aqui comparo el objeto con el otro
         if (o == null || getClass() != o.getClass()) return false; // si el objeto esta null o no son de la misma clase se retorna falso
         Nombre otro = (Nombre) o; // se guarda la variable (o)  en otro
-        return nombres.equals(otro.nombres) && apellidoPaterno.equals(otro.apellidoPaterno) && apellidoMaterno.equals(otro.apellidoMaterno);
+        return nombres.equals(otro.nombres) && apellidoPaterno.equals(otro.apellidoPaterno) && apellidoMaterno.equals(otro.apellidoMaterno); //aqui comparo lo que pidio el uml
     }
 }
