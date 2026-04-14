@@ -1,3 +1,5 @@
+import org.w3c.dom.ls.LSOutput;
+
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -7,10 +9,11 @@ public class SistemaVentaPasajes {
     ArrayList<Pasajero> pasajeros = new ArrayList<>();
     ArrayList<Bus> buses = new ArrayList<>();
     ArrayList<Viaje> viajes = new ArrayList<>();
+    ArrayList<Venta> ventas = new ArrayList<>();
 
     public boolean createCliente(idPersona idPersona, Nombre nombre, String fono, String email) {
-        for (int i = 0; i < clientes.size(); i++) {
-            if (idPersona.equals(clientes.get(i).getIdPersona())) {
+        for (Cliente cliente : clientes) {
+            if (idPersona.equals(cliente.getIdPersona())) {
                 System.out.println("No se puede tener el mismo ID de otro cliente...");
                 return false;
             }
@@ -24,8 +27,8 @@ public class SistemaVentaPasajes {
     }
 
     public boolean createPasajero(idPersona id, Nombre nom, String fono, Nombre nomContacto, String fonoContacto) {
-        for (int i = 0; i < pasajeros.size(); i++) {
-            if (id.equals(pasajeros.get(i).getIdPersona())) {
+        for (Pasajero pasajero : pasajeros) {
+            if (id.equals(pasajero.getIdPersona())) {
                 System.out.println("No se puede tener el mismo ID de otro cliente...");
                 return false;
             }
@@ -39,8 +42,8 @@ public class SistemaVentaPasajes {
     }
 
     public boolean createBus(String patente, String marca, String modelo, int nroAsientos) {
-        for (int i = 0; i < buses.size(); i++) {
-            if (patente.equals(buses.get(i).getPatente())) {
+        for (Bus bus : buses) {
+            if (patente.equals(bus.getPatente())) {
                 System.out.println("No se puede tener el mismo ID de otro Bus...");
                 return false;
             }
@@ -57,6 +60,36 @@ public class SistemaVentaPasajes {
         //falta clase viaje
         }
         return true;
+    }
+
+    public boolean iniciaVenta(String idDocumento, TipoDocumento tipo, LocalDate fechaVenta,idPersona idCliente) {
+        boolean existeCliente = false;
+        Cliente clienteComprador=null;
+        for (Cliente cliente : clientes) {
+            if (idCliente.equals(cliente.getIdPersona())) {
+                existeCliente = true;
+                clienteComprador=cliente;
+                break;
+            }
+        }
+        if (!existeCliente) {
+            return false;
+        }
+        for (Venta venta : ventas) {
+            if (idDocumento.equals(venta.getIdDocumento())) {
+                return false;
+            }
+        }
+
+        Venta nuevaVenta= new Venta(idDocumento, tipo, fechaVenta, clienteComprador);
+        ventas.add(nuevaVenta);
+        return true;
+    }
+
+
+    public String[][] getHorariosDisponibles(LocalDate fechaViaje) {
+        //hacelo tu cristobal xd
+        return null;
     }
 
 }
