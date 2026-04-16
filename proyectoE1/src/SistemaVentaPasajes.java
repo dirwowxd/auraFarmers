@@ -86,10 +86,44 @@ public class SistemaVentaPasajes {
         return true;
     }
 
-
     public String[][] getHorariosDisponibles(LocalDate fechaViaje) {
-        //hacelo tu cristobal xd
-        return null;
+        return null;//hacer
+    }
+    public String[][]listAsientosDeViaje(LocalDate fecha, LocalTime hora, String patenteBus) {
+        return null;//hacer
+    }
+    public int getMontoVenta(String idDocumento, TipoDocumento tipo) {
+        return 0;//hacer
+    }
+    public String getNombrePasajero(idPersona idPasajero) {
+        return null; //hacer
+    }
+    public boolean vendePasaje(String idDoc, LocalDate fecha, LocalTime hora, String patenteBus, idPersona idPasajero) {
+        return false; //hacer
+
+    }
+    public String[][] listVentas(){
+        return null; //hacer
+
+    }
+    public String[][] listViajes() {
+        return null; //hacer
+
+    }
+    public String[][] listPasajeros(LocalDate fecha, LocalTime hora, String patenteBus) {
+        return null; //hacer
+    }
+    public Cliente findCliente(idPersona id) {
+        return null; //hacer
+    }
+    public Venta findVenta(String idDocumento, TipoDocumento tipoDocumento) {
+        return null; //hacer
+    }
+    public Viaje findViaje(String fecha, String hora, String patenteBus) {
+        return null; //hacer
+    }
+    public Pasajero findPasajero(idPersona idPasajero) {
+        return null; //hacer
     }
 
 }
