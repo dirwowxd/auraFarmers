@@ -31,4 +31,6 @@ public class Pasaje {
     public Venta getVenta ( ) {
         return venta;
     }
+
+
 }
