@@ -5,20 +5,22 @@ public class Viaje {
     private LocalDate Fecha;
     private LocalTime Hora;
     private int Precio;
-
+    private Bus bus;
     //creare un arreglo privado para los datos de los asientos vendidos
     private Pasaje[] PasajesVendidos;
     private int ContadorPasajes;
+
 
     public Viaje(LocalDate Fecha, LocalTime Hora, int Precio, Bus bus) {
         this.Fecha = Fecha;
         this.Hora = Hora;
         this.Precio = Precio;
-        this.Bus = bus;
+        this.bus = bus;
+        this.PasajesVendidos = new Pasaje[bus.getNroAsientos()];
+        this.ContadorPasajes = 0;
     }
 
-    this.PasajesVendidos = new Pasaje[Bus.getNroAsientos()];
-    this.ContadorPasajes = 0;
+
 
     public LocalDate getFecha() {
         return Fecha;
@@ -36,12 +38,12 @@ public class Viaje {
         this.Precio = Precio;
     }
 
-    Public Bus getBus() {
-        return Bus;
+    public Bus getBus() {
+        return bus;
     }
 
     public String[][] getAsientos() {
-        int TotalAsientos = Bus.getNroAsientos();
+        int TotalAsientos = bus.getNroAsientos();
         int Columnas = 4;
         int filas = (int) Math.ceil((double) TotalAsientos/ Columnas);
 
@@ -62,10 +64,10 @@ public class Viaje {
             if (f < filas) {
                 MapaAsientos[f][c] = "Asiento Ocupado";
             }
-            return MapaAsientos;
+            return MapaAsientos;//mod a futuro
         }
 
-
+        return  MapaAsientos;
     }
 
 
@@ -92,7 +94,7 @@ public class Viaje {
 
     //verificar que el contador sea menor al limite del bus
     public boolean ExisteDisponibilidad() {
-        return ContadorPasajes < Bus.getNroAsientos();
+        return ContadorPasajes < bus.getNroAsientos();
     }
 
     public int getNroAsientosDisponibles() {
