@@ -37,8 +37,9 @@ public class Venta {
     public void createPasaje(int asiento, Viaje viaje, Pasajero pasajero) {
         if (this.CantidadPasajes < this.pasajes.length) {
 
-            Pasaje PasajeNuevo = new Pasaje(asiento,viaje,pasajero,this);
-            Pasaje[CantidadPasajes] = nuevoPasaje;
+            Pasaje nuevoPasaje = new Pasaje(asiento,viaje,pasajero, this);
+
+            pasajes[CantidadPasajes] = nuevoPasaje;
             this.CantidadPasajes++;
         } else {
             System.out.println("//ERROR//");

@@ -7,7 +7,6 @@ public class Pasaje {
 
     public Pasaje(int asiento, Viaje viaje, Pasajero pasajero, Venta venta) {
         this.asiento = asiento;
-        this.numero = numero;
         this.viaje = viaje;
         this.venta = venta;
         this.pasajero = pasajero;
@@ -25,11 +24,13 @@ public class Pasaje {
         return viaje;
     }
 
-    public Pasajero getPasajero (Pasajero pasajero){
+    public Pasajero getPasajero (){
         return pasajero;
     }
 
     public Venta getVenta ( ) {
         return venta;
     }
+
+
 }
