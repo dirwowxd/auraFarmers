@@ -3,12 +3,10 @@ public class Persona {
     private Nombre nombreCompleto;
     private String telefono;
 
-    public Persona(idPersona idPersona, Nombre nombreCompleto) {
+    public Persona(idPersona idPersona, Nombre nombreCompleto ) {
         this.idPersona = idPersona;
         this.nombreCompleto = nombreCompleto;
-
     }
-
     public idPersona getIdPersona() {
         return idPersona;
     }
@@ -39,12 +37,12 @@ public class Persona {
                 "----------------------------------------";
     }
 
-    public boolean equals(Persona otro) {
-        if (this.idPersona.equals(otro.getIdPersona())) {
-            return true;
-        }
+    public boolean equals(Object otro) {
+       if (this== otro) return true;
+       if (otro==null || getClass() !=otro.getClass()) return false;
+       Persona p = (Persona)otro;
+       return idPersona.equals(p.idPersona);
 
-        return false;
     }
 
 
