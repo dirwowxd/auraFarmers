@@ -104,17 +104,15 @@ public class SistemaVentaPasajes {
     }
     public String[][] listVentas(){
         return null; //hacer
-
     }
     public String[][] listViajes() {
         return null; //hacer
-
     }
     public String[][] listPasajeros(LocalDate fecha, LocalTime hora, String patenteBus) {
         return null; //hacer
     }
     public Cliente findCliente(idPersona id) {
-        return null; //hacer
+        return  null;
     }
     public Venta findVenta(String idDocumento, TipoDocumento tipoDocumento) {
         return null; //hacer
