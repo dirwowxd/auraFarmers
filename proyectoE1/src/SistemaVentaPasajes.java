@@ -87,21 +87,45 @@ public class SistemaVentaPasajes {
     }
 
     public String[][] getHorariosDisponibles(LocalDate fechaViaje) {
-        return null;//hacer
+        int contador = 0;
+        for (Viaje viaje : viajes) {
+            if (viaje.getFecha().equals(fechaViaje)) {
+                contador++;
+            }
+        }
+
+        String[][] datos = new String[contador][4];
+        int i = 0;
+
+        for (Viaje viaje : viajes) {
+            if (viaje.getFecha().equals(fechaViaje)) {
+                datos[i][0] = viaje.getBus().getPatente();
+                datos[i][1] = viaje.getHora().toString();
+                datos[i][2] = String.valueOf(viaje.getPrecio());
+                datos[i][3] = String.valueOf(viaje.getNroAsientosDisponibles());
+                i++;
+            }
     }
-    public String[][]listAsientosDeViaje(LocalDate fecha, LocalTime hora, String patenteBus) {
-        return null;//hacer
-    }
-    public int getMontoVenta(String idDocumento, TipoDocumento tipo) {
+
+        public String[][] listAsientosDeViaje(LocalDate fecha, LocalTime hora, String patenteBus) {
+            Viaje viaje = findViaje(fecha.toString(), hora.toString(), patenteBus);
+            if (viaje == null) {
+                return new String[0][0];
+            }
+            return viaje.getAsientos();
+        }
+
+        public int getMontoVenta(String idDocumento, TipoDocumento tipo) {
         return 0;//hacer
     }
-    public String getNombrePasajero(idPersona idPasajero) {
-        return null; //hacer
-    }
-    public boolean vendePasaje(String idDoc, LocalDate fecha, LocalTime hora, String patenteBus, idPersona idPasajero) {
-        return false; //hacer
+        public String getNombrePasajero(idPersona idPasajero) {
+            Pasajero pasajero = findPasajero(idPasajero);
+            if (pasajero == null) {
+                return null;
+            }
+            return pasajero.getNombre().toString();
+        }
 
-    }
     public String[][] listVentas(){
         return null; //hacer
 
