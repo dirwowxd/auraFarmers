@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.List;
 
 
 public class Bus {
@@ -7,8 +6,8 @@ public class Bus {
     private String marca;
     private String modelo;
     private int nroAsientos;
+    private ArrayList<Viaje> viajes=new ArrayList<>();
 
-    private List<Viaje> viajes;
     public Bus(String patente, int nroAsientos) {
         this.patente=patente;
         this.nroAsientos=nroAsientos;
