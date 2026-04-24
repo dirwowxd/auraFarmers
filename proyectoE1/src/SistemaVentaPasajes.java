@@ -1,4 +1,4 @@
-import org.w3c.dom.ls.LSOutput;
+
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -100,7 +100,6 @@ public class SistemaVentaPasajes {
     }
     public boolean vendePasaje(String idDoc, LocalDate fecha, LocalTime hora, String patenteBus, idPersona idPasajero) {
         return false; //hacer
-
     }
     public String[][] listVentas(){
         return null; //hacer
