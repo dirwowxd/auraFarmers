@@ -76,7 +76,7 @@ public class SistemaVentaPasajes {
             return false;
         }
         for (Venta venta : ventas) {
-            if (idDocumento.equals(venta.getIdDocumento())) {
+            if (idDocumento.equals(venta.getIdDocumento()) &&  tipo.equals(venta.getTipo())) {
                 return false;
             }
         }
@@ -136,7 +136,7 @@ public class SistemaVentaPasajes {
         }
         return pasajero.getNombreCompleto().getNombres();
     }
-    public boolean vendePasaje(String idDoc, LocalDate fecha, LocalTime hora, String patenteBus, idPersona idPasajero) {
+    public boolean vendePasaje(String idDoc, LocalDate fecha, LocalTime hora, String patenteBus, int asiento, idPersona idPasajero) {
         return false; //hacer
 
     }
@@ -173,7 +173,7 @@ public class SistemaVentaPasajes {
     public String[][] listPasajeros(LocalDate fecha, LocalTime hora, String patenteBus) {
         return null; //hacer
     }
-    public Cliente findCliente(idPersona id) {
+    private Cliente findCliente(idPersona id) {
         for (Cliente cliente : clientes) {
             if (id.equals(cliente.getIdPersona())) {
                 System.out.println("No se puede tener el mismo ID de otro cliente...");
@@ -182,7 +182,7 @@ public class SistemaVentaPasajes {
         }
         return null;
     }
-    public Venta findVenta(String idDocumento, TipoDocumento tipoDocumento) {
+    private Venta findVenta(String idDocumento, TipoDocumento tipoDocumento) {
         for (Venta ventaActual : ventas) {
             if (ventaActual.getIdDocumento().equals(idDocumento) && ventaActual.getTipo().equals(tipoDocumento)) {
                 return  ventaActual;
@@ -191,8 +191,11 @@ public class SistemaVentaPasajes {
 
         return null;
     }
+    private Bus findBus(String patente){
+        return null;//hacer
+    }
 
-    public Viaje findViaje(String fecha, String hora, String patenteBus) {
+    private Viaje findViaje(String fecha, String hora, String patenteBus) {
         for (Viaje ViajeActual : viajes) {
             if (ViajeActual.getFecha().equals(fecha) && ViajeActual.getHora().equals(hora) && ViajeActual.getBus().getPatente().equals(patenteBus)) {
                 return  ViajeActual;
@@ -200,9 +203,14 @@ public class SistemaVentaPasajes {
         }
         return null;
     }
-    public Pasajero findPasajero(idPersona idPasajero) {
-        return null; //hacer
-    }
+    private Pasajero findPasajero(idPersona idPasajero) {
+        for (Pasajero pasajero : pasajeros) {
+            if (idPasajero.equals(pasajero.getIdPersona())) {
+            return  pasajero;
+            }
+        }
+        return null;
+        }
 
 
 }
