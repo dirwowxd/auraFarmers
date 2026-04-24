@@ -48,5 +48,6 @@ public class Persona {
         return Objects.equals(idPersona, persona.idPersona);
        }
 
+
     }
 
