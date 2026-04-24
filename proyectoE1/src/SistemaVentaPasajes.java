@@ -112,7 +112,12 @@ public class SistemaVentaPasajes {
         return null; //hacer
     }
     public Cliente findCliente(idPersona id) {
-        return  null;
+        for (Cliente cliente : clientes) {
+            if (id.equals(cliente.getIdPersona())) {
+                return cliente;
+            }
+        }
+        return null;
     }
     public Venta findVenta(String idDocumento, TipoDocumento tipoDocumento) {
         return null; //hacer

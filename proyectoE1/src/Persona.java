@@ -1,3 +1,5 @@
+import java.util.Objects;
+
 public class Persona {
     private idPersona idPersona;
     private Nombre nombreCompleto;
@@ -39,14 +41,12 @@ public class Persona {
                 "----------------------------------------";
     }
 
-    public boolean equals(Persona otro) {
-        if (this.idPersona.equals(otro.getIdPersona())) {
-            return true;
-        }
+    public boolean equals(Object otro) {
+       if (otro == this) return true;
+       if (otro == null || getClass() != otro.getClass()) return false;
+       Persona persona = (Persona) otro;
+        return Objects.equals(idPersona, persona.idPersona);
+       }
 
-        return false;
     }
 
-
-
-}
