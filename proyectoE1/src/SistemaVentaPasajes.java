@@ -1,4 +1,4 @@
-
+import org.w3c.dom.ls.LSOutput;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -100,23 +100,21 @@ public class SistemaVentaPasajes {
     }
     public boolean vendePasaje(String idDoc, LocalDate fecha, LocalTime hora, String patenteBus, idPersona idPasajero) {
         return false; //hacer
+
     }
     public String[][] listVentas(){
         return null; //hacer
+
     }
     public String[][] listViajes() {
         return null; //hacer
+
     }
     public String[][] listPasajeros(LocalDate fecha, LocalTime hora, String patenteBus) {
         return null; //hacer
     }
     public Cliente findCliente(idPersona id) {
-        for (Cliente cliente : clientes) {
-            if (id.equals(cliente.getIdPersona())) {
-                return cliente;
-            }
-        }
-        return null;
+        return null; //hacer
     }
     public Venta findVenta(String idDocumento, TipoDocumento tipoDocumento) {
         return null; //hacer
@@ -127,6 +125,5 @@ public class SistemaVentaPasajes {
     public Pasajero findPasajero(idPersona idPasajero) {
         return null; //hacer
     }
-
 
 }
