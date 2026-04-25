@@ -54,9 +54,31 @@ public class SistemaVentaPasajes {
     }
 
     public boolean createViaje(LocalDate fecha, LocalTime hora, int precio, String patenteBus) {
-        for (int i = 0; i < viajes.size(); i++) {
-            //falta clase viaje
+        Bus busEncotrado=null;
+        for (Bus b : buses) {
+            if (b.getPatente().equals(patenteBus)) {
+                busEncotrado=b;
+                break;
+
+            }
+
+
         }
+        if (busEncotrado==null) {
+            return false;
+        }
+
+       for (Viaje viaje : viajes) {
+
+           if(viaje.getFecha().equals(fecha) && viaje.getHora().equals(hora) && viaje.getBus().getPatente().equals(patenteBus)){
+               return false;
+           }
+       }
+
+
+        Viaje nuevoViaje= new Viaje(fecha, hora, precio, busEncotrado);
+       viajes.add(nuevoViaje);
+
         return true;
     }
 
