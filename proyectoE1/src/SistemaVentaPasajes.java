@@ -255,7 +255,12 @@ public class SistemaVentaPasajes {
         return null;
     }
     private Bus findBus(String patente) {
-        return null;//hacer
+        for (Bus bus: buses){
+            if(bus.getPatente().equals(patente)){
+                return bus;
+            }
+        }
+        return null;
     }
 
     private Viaje findViaje(String fecha, String hora, String patenteBus) {
