@@ -17,6 +17,14 @@ public class Pasaporte implements idPersona {
     }
 
     public static Pasaporte of(String numero, String nacionalidad) {
+        if (numero == null || nacionalidad == null) {
+            System.out.println("Error: La ruta no puede estar vacia");
+            return null;
+        }
+        if (!numero.matches("^[a-zA-Z0-9]+$")){
+            System.out.println("Error el numero del pasaporte es invalido");
+            return null;
+        }
         return new Pasaporte(numero, nacionalidad);
     }
 
