@@ -165,8 +165,20 @@ public class SistemaVentaPasajes {
     }
 
     public String[][] listViajes() {
-        return null; //hacer
-
+        if(viajes.isEmpty()){
+            System.out.println("No hay viajes registrados.");
+            return new String[0][0];
+        }
+        String[][] listadosViajes = new String[viajes.size()][5];
+        for (int i = 0; i < viajes.size(); i++) {
+            Viaje viaje = viajes.get(i);
+            listadosViajes[i][0] = String.valueOf(viaje.getFecha());
+            listadosViajes[i][1] = String.valueOf(viaje.getHora());
+            listadosViajes[i][2] = String.valueOf(viaje.getPrecio());
+            listadosViajes[i][3] = String.valueOf(viaje.getNroAsientosDisponibles());
+            listadosViajes[i][4] = viaje.getBus().getPatente();
+        }
+        return listadosViajes;
     }
 
 
