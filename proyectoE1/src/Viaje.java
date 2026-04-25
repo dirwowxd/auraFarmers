@@ -21,7 +21,6 @@ public class Viaje {
     }
 
 
-
     public LocalDate getFecha() {
         return Fecha;
     }
@@ -45,19 +44,19 @@ public class Viaje {
     public String[][] getAsientos() {
         int TotalAsientos = bus.getNroAsientos();
         int Columnas = 4;
-        int filas = (int) Math.ceil((double) TotalAsientos/ Columnas);
+        int filas = (int) Math.ceil((double) TotalAsientos / Columnas);
 
         String[][] MapaAsientos = new String[filas][Columnas];
         // generamos el mapa del bus para ver la planilla de asientos
         // y verificamos asientos libres con el for
 
-        for (int f = 0 ; f < filas; f++) {
+        for (int f = 0; f < filas; f++) {
             for (int c = 0; c < Columnas; c++) {
                 MapaAsientos[f][c] = "Asiento Libre";
             }
         }
 
-        for (int i=0; i<ContadorPasajes; i++) {
+        for (int i = 0; i < ContadorPasajes; i++) {
             int NroAsiento = PasajesVendidos[i].getAsiento();
             int f = (NroAsiento - 1) / Columnas;
             int c = (NroAsiento - 1) % Columnas;
@@ -67,7 +66,7 @@ public class Viaje {
             return MapaAsientos;//mod a futuro
         }
 
-        return  MapaAsientos;
+        return MapaAsientos;
     }
 
 
@@ -81,13 +80,15 @@ public class Viaje {
     }
 
     public String[][] getListaPasajeros() {
-        String[][] lista = new String[ContadorPasajes][2];
+        String[][] lista = new String[ContadorPasajes][4];
 
         for (int i = 0; i < ContadorPasajes; i++) {
             Pasajero pa = PasajesVendidos[i].getPasajero();
 
-            lista[i][0] = pa.getNomContacto().toString();
-            lista[i][1] = pa.getIdPersona().toString();
+            lista[i][0] = String.valueOf(pa.getIdPersona());
+            lista[i][1] = String.valueOf(pa.getNombreCompleto());
+            lista[i][2] = String.valueOf(pa.getNomContacto());
+            lista[i][3] = pa.getFonoContacto();
         }
         return lista;
     }
@@ -102,8 +103,6 @@ public class Viaje {
     }
 
 //lol comit
-
-
 
 
 }
