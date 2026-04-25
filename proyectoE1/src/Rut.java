@@ -1,4 +1,4 @@
-public class Rut implements IdPersona {
+public class Rut implements idPersona {
     private static int numero;
     private static char dv;
 

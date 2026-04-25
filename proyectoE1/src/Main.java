@@ -62,7 +62,7 @@ public class Main {
     }
     private void createCliente() {
         Nombre nombreCliente = new Nombre();
-        IdPersona idPersona=null;
+        idPersona idPersona=null;
 
         System.out.println("....::: Crear nuevo cliente:::....");
         System.out.println(" ");

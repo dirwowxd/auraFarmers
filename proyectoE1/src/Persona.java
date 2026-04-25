@@ -1,17 +1,17 @@
 import java.util.Objects;
 
 public class Persona {
-    private IdPersona idPersona;
+    private idPersona idPersona;
     private Nombre nombreCompleto;
     private String telefono;
 
-    public Persona(IdPersona idPersona, Nombre nombreCompleto) {
+    public Persona(idPersona idPersona, Nombre nombreCompleto) {
         this.idPersona = idPersona;
         this.nombreCompleto = nombreCompleto;
 
     }
 
-    public IdPersona getIdPersona() {
+    public idPersona getIdPersona() {
         return idPersona;
     }
 

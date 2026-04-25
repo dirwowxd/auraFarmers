@@ -1,6 +1,6 @@
 import java.util.Objects;
 
-public class Pasaporte implements IdPersona {
+public class Pasaporte implements idPersona {
     private String numero;
     private String nacionalidad;
 
