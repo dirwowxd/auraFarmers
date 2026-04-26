@@ -117,6 +117,7 @@ public class SistemaVentaPasajes {
         String[][] datos = new String[contador][4];
         int i = 0;
 
+
         for (Viaje viaje : viajes) {
             if (viaje.getFecha().equals(fechaViaje)) {
                 datos[i][0] = viaje.getBus().getPatente();
