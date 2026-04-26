@@ -9,7 +9,7 @@ public class SistemaVentaPasajes {
     ArrayList<Viaje> viajes = new ArrayList<>();
     ArrayList<Venta> ventas = new ArrayList<>();
 
-    public boolean createCliente(idPersona idPersona, Nombre nombre, String fono, String email) {
+    public boolean createCliente(IdPersona idPersona, Nombre nombre, String fono, String email) {
         for (Cliente cliente : clientes) {
             if (idPersona.equals(cliente.getIdPersona())) {
                 System.out.println("No se puede tener el mismo ID de otro cliente...");
@@ -24,7 +24,7 @@ public class SistemaVentaPasajes {
 
     }
 
-    public boolean createPasajero(idPersona id, Nombre nom, String fono, Nombre nomContacto, String fonoContacto) {
+    public boolean createPasajero(IdPersona id, Nombre nom, String fono, Nombre nomContacto, String fonoContacto) {
         for (Pasajero pasajero : pasajeros) {
             if (id.equals(pasajero.getIdPersona())) {
                 System.out.println("No se puede tener el mismo ID de otro cliente...");
@@ -82,7 +82,7 @@ public class SistemaVentaPasajes {
         return true;
     }
 
-    public boolean iniciaVenta(String idDocumento, TipoDocumento tipo, LocalDate fechaVenta, idPersona idCliente) {
+    public boolean iniciaVenta(String idDocumento, TipoDocumento tipo, LocalDate fechaVenta, IdPersona idCliente) {
         boolean existeCliente = false;
         Cliente clienteComprador = null;
         for (Cliente cliente : clientes) {
@@ -152,14 +152,14 @@ public class SistemaVentaPasajes {
     }
 
 
-    public String getNombrePasajero(idPersona idPasajero) { //hecho por benja
+    public String getNombrePasajero(IdPersona idPasajero) { //hecho por benja
         Pasajero pasajero = findPasajero(idPasajero);
         if (pasajero == null) {
             return null;
         }
         return pasajero.getNombreCompleto().getNombres();
     }
-    public boolean vendePasaje(String idDoc, TipoDocumento tipo, LocalDate fecha, LocalTime hora, String patenteBus, idPersona idPasajero, int asiento) {
+    public boolean vendePasaje(String idDoc, TipoDocumento tipo, LocalDate fecha, LocalTime hora, String patenteBus, IdPersona idPasajero, int asiento) {
         Venta ventaEncontrada = findVenta(idDoc, tipo);
 
         if (ventaEncontrada == null) {
@@ -297,7 +297,7 @@ public class SistemaVentaPasajes {
 
         return listado;
     }
-    private Cliente findCliente(idPersona id) {
+    private Cliente findCliente(IdPersona id) {
         for (Cliente cliente : clientes) {
             if (id.equals(cliente.getIdPersona())) {
                 return cliente;
@@ -330,7 +330,7 @@ public class SistemaVentaPasajes {
         }
         return null;
     }
-    private Pasajero findPasajero(idPersona idPasajero) {
+    private Pasajero findPasajero(IdPersona idPasajero) {
         for (Pasajero pasajero : pasajeros) {
             if (idPasajero.equals(pasajero.getIdPersona())) {
                 return pasajero;

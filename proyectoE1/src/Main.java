@@ -70,7 +70,7 @@ public class Main {
 
     private void createCliente() {
         Nombre nombreCliente = new Nombre();
-        idPersona idPersona = null;
+        IdPersona idPersona = null;
 
         System.out.println("....::: Crear nuevo cliente:::....");
         System.out.println(" ");
@@ -192,7 +192,7 @@ public class Main {
         } else if (tipoDoc == 2) {
             tipoDocumento = TipoDocumento.FACTURA;
         }
-        idPersona idCliente = null;
+        IdPersona idCliente = null;
         System.out.print("Fecha de venta [dd/mm/yyyy] : ");
         LocalDate fecha = LocalDate.parse(sc.next(), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
         System.out.print("Rut [1] p Pasaporte [2] : ");
