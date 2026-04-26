@@ -1,8 +1,14 @@
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
 public class Main {
     private Scanner sc = new Scanner(System.in);
     private SistemaVentaPasajes sistemas = new SistemaVentaPasajes();
+    DateTimeFormatter formatoFecha = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    DateTimeFormatter formatoHora = DateTimeFormatter.ofPattern("HH:mm");
 
     public static void main(String[] args) {
         Main loxd = new Main();
@@ -119,6 +125,8 @@ public class Main {
     private void createBus() {
         System.out.println("Creación de un nuevo Bus");
 
+        System.out.println();
+
         System.out.print("Patente: ");
         String patente = sc.next();
 
@@ -141,6 +149,31 @@ public class Main {
         }
     }
     private void createViaje() {
+        System.out.println("Creacion de un nuevo Viaje");
+
+        System.out.println();
+
+        System.out.print("Fecha[dd/mm/yyyy]: ");
+        LocalDate fecha = LocalDate.parse(sc.next(), formatoFecha);
+
+        System.out.print("Hora[hh:mm]: ");
+        String textoHora = sc.nextLine();
+        LocalTime hora = LocalTime.parse(textoHora, formatoHora);
+
+        System.out.print("Precio: ");
+        int precio = sc.nextInt();
+
+        System.out.print("Patente Bus: ");
+        String patenteBus = sc.nextLine();
+
+        boolean si = sistemas.createViaje(fecha, hora, precio, patenteBus);
+
+        if(si){
+            System.out.println("Viaje guardado exitosamente.");
+        }else {
+            System.out.println("No existe un Bus con esa patente o ya hay un viaje para esa fecha y hora.");
+        }
+
 
     }
     private void vendePasajes() {
