@@ -155,11 +155,12 @@ public class Main {
         LocalDate fecha = LocalDate.parse(sc.next(), formatoFecha);
 
         System.out.print("Hora[hh:mm]: ");
-        String textoHora = sc.nextLine();
+        String textoHora = sc.next();
         LocalTime hora = LocalTime.parse(textoHora, formatoHora);
 
         System.out.print("Precio: ");
         int precio = sc.nextInt();
+        sc.nextLine();
 
         System.out.print("Patente Bus: ");
         String patenteBus = sc.nextLine();
@@ -209,15 +210,21 @@ public class Main {
             String nacionalidad2 = sc.next();
             idCliente = Pasaporte.of(pasaporte2, nacionalidad2);
         }
-        System.out.println("Nombre Cliente : ");
-        String nombreCliente = sc.next();
         boolean ventaIniciada = sistemas.iniciaVenta(idDoc, tipoDocumento, fecha, idCliente);
         if (!ventaIniciada) {
             System.out.println("La venta no se puede iniciar");
             return;
         }
+        for (Cliente c : sistemas.clientes) {
+            if (c.getIdPersona().equals(idCliente)) {
+                Nombre nom = c.getNombreCompleto();
+                System.out.printf("Nombre: %s\n", nom);
+                break;
+            }
+        }
+
         System.out.println(" :::: Pasajes a vender ");
-        System.out.println("Cantidad de pasajes ");
+        System.out.print("Cantidad de pasajes : ");
         int cantidadPasajes = sc.nextInt();
         System.out.print("Fecha de viaje [dd/mm/yyyy] : ");
         LocalDate fecha2 = LocalDate.parse(sc.next(), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
@@ -227,8 +234,27 @@ public class Main {
         for (int i = 0; i < matrizHorariosDisponibles.length; i++) {
             System.out.println(matrizHorariosDisponibles[i][0] + " | " + matrizHorariosDisponibles[i][1] + " | " + matrizHorariosDisponibles[i][2]);
         }
-        System.out.println("Seleccione viaje de [1...20 ]:");
+        sc.nextLine();
+        System.out.println("Seleccione viaje de [1...20 ] : ");
         int viaje = sc.nextInt();
+
+        int indice = viaje - 1; //porque el arreglo empieza con 0 xd
+        String patenteBus = matrizHorariosDisponibles[indice][0];
+        LocalTime horaViaje = LocalTime.parse(sc.next(), DateTimeFormatter.ofPattern("HH:mm"));
+        String[][] asientos = sistemas.listAsientosDeViaje(fecha, horaViaje, patenteBus);
+        for (int i = 0; i < asientos.length; i++) {
+            String mostrar;
+            if (asientos[i][1].equalsIgnoreCase("Libre")) {
+                mostrar = asientos[i][0]; //guarda el numero
+            } else {
+                mostrar = "*"; //muestra eso
+            }
+            System.out.print("[" + mostrar + "] ");
+
+            if ((i + 1) % 4 == 0) { //se encarga de hacer los saltos de espacios para que se vea bien beum
+                System.out.println();//los espacios en blanco
+            }
+        }
 
     }
 
