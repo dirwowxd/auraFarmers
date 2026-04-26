@@ -324,7 +324,7 @@ public class SistemaVentaPasajes {
 
     private Viaje findViaje(String fecha, String hora, String patenteBus) {
         for (Viaje ViajeActual : viajes) {
-            if (ViajeActual.getFecha().equals(fecha) && ViajeActual.getHora().equals(hora) && ViajeActual.getBus().getPatente().equals(patenteBus)) {
+            if (ViajeActual.getFecha().toString().equals(fecha) && ViajeActual.getHora().toString().equals(hora) && ViajeActual.getBus().getPatente().equals(patenteBus)) {
                 return ViajeActual;
             }
         }
