@@ -2,9 +2,14 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
+import java.time.LocalTime;
+
+
 public class Main {
     private Scanner sc = new Scanner(System.in);
     private SistemaVentaPasajes sistemas = new SistemaVentaPasajes();
+    DateTimeFormatter formatoFecha = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    DateTimeFormatter formatoHora = DateTimeFormatter.ofPattern("HH:mm");
 
     public static void main(String[] args) {
         Main loxd = new Main();
@@ -115,10 +120,58 @@ public class Main {
 
     }
 
-    private void createBus() {
-    }
+    private void createBus() { //hecho por Nico
+        System.out.println("Creación de un nuevo Bus");
 
-    private void createViaje() {
+        System.out.println();
+
+        System.out.print("Patente: ");
+        String patente = sc.next();
+
+        System.out.print("Marca: ");
+        String marca = sc.next();
+
+        System.out.print("Modelo: ");
+        String modelo = sc.next();
+
+        System.out.print("Numero de asientos: ");
+        int numeroAsientos = sc.nextInt();
+        System.out.println();
+
+        boolean si = sistemas.createBus(patente, marca, modelo, numeroAsientos);
+
+        if(si){
+            System.out.println("Bus creado exitosamente.");
+        }else{
+            System.out.println("Ya existe un Bus con esa patente.");
+        }
+    }
+    private void createViaje() { //Hecho por Nico
+        System.out.println("Creacion de un nuevo Viaje");
+
+        System.out.println();
+
+        System.out.print("Fecha[dd/mm/yyyy]: ");
+        LocalDate fecha = LocalDate.parse(sc.next(), formatoFecha);
+
+        System.out.print("Hora[hh:mm]: ");
+        String textoHora = sc.nextLine();
+        LocalTime hora = LocalTime.parse(textoHora, formatoHora);
+
+        System.out.print("Precio: ");
+        int precio = sc.nextInt();
+
+        System.out.print("Patente Bus: ");
+        String patenteBus = sc.nextLine();
+
+        boolean si = sistemas.createViaje(fecha, hora, precio, patenteBus);
+
+        if(si){
+            System.out.println("Viaje guardado exitosamente.");
+        }else {
+            System.out.println("No existe un Bus con esa patente o ya hay un viaje para esa fecha y hora.");
+        }
+
 
     }
 

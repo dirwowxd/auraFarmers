@@ -117,6 +117,7 @@ public class SistemaVentaPasajes {
         String[][] datos = new String[contador][4];
         int i = 0;
 
+
         for (Viaje viaje : viajes) {
             if (viaje.getFecha().equals(fechaViaje)) {
                 datos[i][0] = viaje.getBus().getPatente();
@@ -128,12 +129,16 @@ public class SistemaVentaPasajes {
         }
         return datos;
     }
-    public String[][] listAsientosDeViaje(LocalDate fecha, LocalTime hora, String patenteBus) { //hecho por benja
-        Viaje viaje = findViaje(fecha.toString(), hora.toString(), patenteBus);
-        if (viaje == null) {
-            return new String[0][0];
+    public String[][] listAsientosDeViaje(LocalDate fecha, LocalTime hora, String patenteBus) {
+        for (Viaje viaje : viajes) {
+            if (viaje.getFecha().equals(fecha) &&
+                    viaje.getHora().equals(hora) &&
+                    viaje.getBus().getPatente().equals(patenteBus)) {
+                return viaje.getAsientos();
+            }
         }
-        return viaje.getAsientos();
+
+        return new String[0][0];
     }
 
 
@@ -154,9 +159,41 @@ public class SistemaVentaPasajes {
         }
         return pasajero.getNombreCompleto().getNombres();
     }
-    public boolean vendePasaje(String idDoc, LocalDate fecha, LocalTime hora, String patenteBus, int asiento, idPersona idPasajero) {
-        return false; //hacer
+    public boolean vendePasaje(String idDoc, TipoDocumento tipo, LocalDate fecha, LocalTime hora, String patenteBus, idPersona idPasajero, int asiento) {
+        Venta ventaEncontrada = findVenta(idDoc, tipo);
 
+        if (ventaEncontrada == null) {
+            return false;
+        }
+
+        Viaje viajeEncontrado = null;
+
+        for (Viaje viaje : viajes) {
+            if (viaje.getFecha().equals(fecha) &&
+                    viaje.getHora().equals(hora) &&
+                    viaje.getBus().getPatente().equals(patenteBus)) {
+                viajeEncontrado = viaje;
+                break;
+            }
+        }
+
+        if (viajeEncontrado == null) {
+            return false;
+        }
+
+        Pasajero pasajeroEncontrado = findPasajero(idPasajero);
+
+        if (pasajeroEncontrado == null) {
+            return false;
+        }
+
+        if (!viajeEncontrado.ExisteDisponibilidad()) {
+            return false;
+        }
+
+        ventaEncontrada.createPasaje(asiento, viajeEncontrado, pasajeroEncontrado);
+
+        return true;
     }
     public String[][] listVentas() {
         int CantidadVentas = ventas.size();
