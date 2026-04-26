@@ -117,6 +117,7 @@ public class SistemaVentaPasajes {
         String[][] datos = new String[contador][4];
         int i = 0;
 
+
         for (Viaje viaje : viajes) {
             if (viaje.getFecha().equals(fechaViaje)) {
                 datos[i][0] = viaje.getBus().getPatente();
@@ -128,12 +129,16 @@ public class SistemaVentaPasajes {
         }
         return datos;
     }
-    public String[][] listAsientosDeViaje(LocalDate fecha, LocalTime hora, String patenteBus) { //hecho por benja
-        Viaje viaje = findViaje(fecha.toString(), hora.toString(), patenteBus);
-        if (viaje == null) {
-            return new String[0][0];
+    public String[][] listAsientosDeViaje(LocalDate fecha, LocalTime hora, String patenteBus) {
+        for (Viaje viaje : viajes) {
+            if (viaje.getFecha().equals(fecha) &&
+                    viaje.getHora().equals(hora) &&
+                    viaje.getBus().getPatente().equals(patenteBus)) {
+                return viaje.getAsientos();
+            }
         }
-        return viaje.getAsientos();
+
+        return new String[0][0];
     }
 
 
@@ -319,7 +324,7 @@ public class SistemaVentaPasajes {
 
     private Viaje findViaje(String fecha, String hora, String patenteBus) {
         for (Viaje ViajeActual : viajes) {
-            if (ViajeActual.getFecha().equals(fecha) && ViajeActual.getHora().equals(hora) && ViajeActual.getBus().getPatente().equals(patenteBus)) {
+            if (ViajeActual.getFecha().toString().equals(fecha) && ViajeActual.getHora().toString().equals(hora) && ViajeActual.getBus().getPatente().equals(patenteBus)) {
                 return ViajeActual;
             }
         }
