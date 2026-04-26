@@ -117,6 +117,28 @@ public class Main {
 
     }
     private void createBus() {
+        System.out.println("Creación de un nuevo Bus");
+
+        System.out.print("Patente: ");
+        String patente = sc.next();
+
+        System.out.print("Marca: ");
+        String marca = sc.next();
+
+        System.out.print("Modelo: ");
+        String modelo = sc.next();
+
+        System.out.print("Numero de asientos: ");
+        int numeroAsientos = sc.nextInt();
+        System.out.println();
+
+        boolean si = sistemas.createBus(patente, marca, modelo, numeroAsientos);
+
+        if(si){
+            System.out.println("Bus creado exitosamente.");
+        }else{
+            System.out.println("Ya existe un Bus con esa patente.");
+        }
     }
     private void createViaje() {
 
