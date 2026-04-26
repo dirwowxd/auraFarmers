@@ -40,17 +40,15 @@ public class SistemaVentaPasajes {
     }
 
     public boolean createBus(String patente, String marca, String modelo, int nroAsientos) {
-        for (Bus bus : buses) {
-            if (patente.equals(bus.getPatente())) {
-                System.out.println("No se puede tener el mismo ID de otro Bus...");
-                return false;
-            }
+        Bus aa = findBus(patente);
+        if(aa == null) {
+            Bus nuevoBus = new Bus(patente, nroAsientos);
+            nuevoBus.setMarca(marca);
+            nuevoBus.setModelo(modelo);
+            buses.add(nuevoBus);
+            return true;
         }
-        Bus nuevoBus = new Bus(patente, nroAsientos);
-        nuevoBus.setMarca(marca);
-        nuevoBus.setModelo(modelo);
-        buses.add(nuevoBus);
-        return true;
+        return false;
     }
 
     public boolean createViaje(LocalDate fecha, LocalTime hora, int precio, String patenteBus) {
