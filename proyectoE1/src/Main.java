@@ -68,6 +68,8 @@ public class Main {
         } while (opcion != 9);
     }
 
+
+
     private void createCliente() {
         Nombre nombreCliente = new Nombre();
         idPersona idPersona = null;
@@ -218,7 +220,7 @@ public class Main {
         for (Cliente c : sistemas.clientes) {
             if (c.getIdPersona().equals(idCliente)) {
                 Nombre nom = c.getNombreCompleto();
-                System.out.printf("Nombre: %s\n", nom);
+                System.out.println(nom);
                 break;
             }
         }
@@ -231,40 +233,176 @@ public class Main {
 
         System.out.println(" :::: Listado de Horarios Disponibles ");
         String[][] matrizHorariosDisponibles = sistemas.getHorariosDisponibles(fecha2);
-        for (int i = 0; i < matrizHorariosDisponibles.length; i++) {
-            System.out.println(matrizHorariosDisponibles[i][0] + " | " + matrizHorariosDisponibles[i][1] + " | " + matrizHorariosDisponibles[i][2]);
-        }
         sc.nextLine();
-        System.out.println("Seleccione viaje de [1...20 ] : ");
+        for (int i = 0; i < matrizHorariosDisponibles.length; i++) {
+            System.out.println(i + 1 + " " + matrizHorariosDisponibles[i][0] + " | " + matrizHorariosDisponibles[i][1] + " | " + matrizHorariosDisponibles[i][2]);
+        }
+
+        System.out.print("Seleccione viaje de [1...20 ] : ");
         int viaje = sc.nextInt();
+
 
         int indice = viaje - 1; //porque el arreglo empieza con 0 xd
         String patenteBus = matrizHorariosDisponibles[indice][0];
-        LocalTime horaViaje = LocalTime.parse(sc.next(), DateTimeFormatter.ofPattern("HH:mm"));
-        String[][] asientos = sistemas.listAsientosDeViaje(fecha, horaViaje, patenteBus);
-        for (int i = 0; i < asientos.length; i++) {
-            String mostrar;
-            if (asientos[i][1].equalsIgnoreCase("Libre")) {
-                mostrar = asientos[i][0]; //guarda el numero
-            } else {
-                mostrar = "*"; //muestra eso
-            }
-            System.out.print("[" + mostrar + "] ");
+        String textoHora = matrizHorariosDisponibles[indice][1];
+        LocalTime horaViaje = LocalTime.parse(textoHora);
+        String[][] asientos = sistemas.listAsientosDeViaje(fecha2, horaViaje, patenteBus);
+        System.out.println(":::: Asientos disponibles para el viaje seleccionado");
+        System.out.println("------------------");
 
-            if ((i + 1) % 4 == 0) { //se encarga de hacer los saltos de espacios para que se vea bien beum
-                System.out.println();//los espacios en blanco
+// Avanzamos de a 4 asientos por fila
+        for (int i = 0; i < asientos.length; i += 4) {
+            String[] fila = new String[4];
+
+            // Recopilamos los datos de los 4 asientos de la fila actual
+            for (int j = 0; j < 4; j++) {
+                if (i + j < asientos.length) {
+                    if (asientos[i + j][1].equalsIgnoreCase("Libre")) {
+                        fila[j] = asientos[i + j][0]; // Guarda el número
+                    } else {
+                        fila[j] = ""; // Muestra ocupado
+                    }
+                } else {
+                    fila[j] = " * "; // Por si la última fila tiene menos de 4 asientos
+                }
+            }
+
+            // Dibujamos la fila completa con el pasillo central usando printf
+            // cambia el orden de las variables al final a: fila[0], fila[1], fila[3], fila[2]
+            System.out.printf("| %-2s | %-2s |   | %-2s | %-2s |\n", fila[0], fila[1], fila[2], fila[3]);
+
+
+            if (i + 4 < asientos.length) {
+                System.out.println("|---+---+---+---+---|");
             }
         }
+        System.out.println("------------------*");
 
+
+        System.out.print("Seleccione sus asientos [separe por ,] : ");
+        String seleccionAsientos = sc.next();
+        String[] asientosAComprar = seleccionAsientos.split(",");
+
+
+        for (int i = 0; i < asientosAComprar.length; i++) {
+
+            String numAsientoStr = asientosAComprar[i].trim();
+            int numeroAsiento = Integer.parseInt(numAsientoStr);
+
+            System.out.println("\n:::: Datos pasajeros " + (i + 1));
+
+        }
     }
 
     private void listPasajerosViaje() {
+        System.out.println("....::: Listado de Pasajeros :::....");
+        System.out.print("Fecha de viaje [dd/mm/yyyy] : ");
+        LocalDate fecha = LocalDate.parse(sc.next(), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        System.out.print("Hora de viaje [HH:mm] : ");
+        LocalTime horaViaje = LocalTime.parse(sc.next(), DateTimeFormatter.ofPattern("HH:mm"));
+        System.out.println("Pantente del bus : ");
+        String patenteBus=  sc.next();
+        String [][] matrizPasajeros= sistemas.listPasajeros(fecha,horaViaje,patenteBus);
 
+        if (matrizPasajeros == null ||  matrizPasajeros.length == 0) {
+            System.out.println("No hay pasajeros registrados para el viaje: "+ patenteBus);
+            return;
+        }
+
+        System.out.println("°*Listado de Pasajeros::*°");
+        System.out.println("                (Viaje: " + patenteBus + ")");
+        System.out.println();
+
+        System.out.println("*---------*-----------------*------------------------------------------*-----------------*");
+
+        System.out.printf("| %-7s | %-15s | %-40s | %-15s |\n",
+                "ASIENTO", "RUT/PASAPORTE", "NOMBRE CLIENTE", "TIPO PASAJERO");
+
+        System.out.println("|---------+-----------------+------------------------------------------+-----------------|");
+
+        for (int i = 0; i < matrizPasajeros.length; i++) {
+
+            String asiento = matrizPasajeros[i][0];
+            String documento = matrizPasajeros[i][1];
+            String nombre = matrizPasajeros[i][2];
+            String tipo = matrizPasajeros[i][3];
+
+            System.out.printf("| %7s | %-15s | %-40s | %-15s |\n",
+                    asiento, documento, nombre, tipo);
+        }
+
+        System.out.println("*---------*-----------------*------------------------------------------*-----------------*");
     }
+
     private void listVentas() {
+        String[][] matrizVentas= sistemas.listVentas();
+        if (matrizVentas == null || matrizVentas.length == 0) {
+            System.out.println("No existen ventas registradas en el sistema.");
+            return;
+        }
+
+        System.out.println("°*::Lista de ventas::*°");
+        System.out.println();
+
+        System.out.println("*-------------*-------------*--------------*-----------------*--------------------------------*----------------*---------------*");
+        System.out.printf("| %-11s | %-11s | %-12s | %-15s | %-30s | %-14s | %-13s |\n",
+                "ID DOCUMENTO", "TIPO DOCUMENTO", "FECHA", "RUT/PASAPORTE", "CLIENTE", "CANT. BOLETOS", "TOTAL VENTA");
+
+        System.out.println("|-------------+-------------+--------------+-----------------+--------------------------------+----------------+---------------|");
+
+        for (int i = 0; i < matrizVentas.length; i++) {
+
+            String idDoc = matrizVentas[i][0];
+            String tipoDoc = matrizVentas[i][1];
+            String fecha = matrizVentas[i][2];
+            String rut = matrizVentas[i][3];
+            String cliente = matrizVentas[i][4];
+            String cantBoletos = matrizVentas[i][5];
+            String totalVenta = matrizVentas[i][6];
+
+
+            System.out.printf("| %11s | %-11s | %-12s | %-15s | %-30s | %14s | %13s |\n",
+                    idDoc, tipoDoc, fecha, rut, cliente, cantBoletos, totalVenta);
+        }
+
+        System.out.println("*-------------*-------------*--------------*-----------------*--------------------------------*----------------*---------------*");
+
+
 
     }
+
     private void listViajes() {
+        String[][] matrizViajes= sistemas.listViajes();
+
+        if (matrizViajes == null || matrizViajes.length == 0) {
+            System.out.println("No hay viajes programados dentro del sistema.");
+            return;
+        }
+
+        System.out.println("°*Listado de Viajes*°");
+        System.out.println();
+
+        System.out.println("*------------*--------------*----------*-----------------*-----------------*---------------*");
+
+        System.out.printf("| %-10s | %-12s | %-8s | %-15s | %-15s | %-13s |\n",
+                "ID VIAJE", "FECHA", "HORA", "ORIGEN", "DESTINO", "PATENTE BUS");
+
+        System.out.println("|------------+--------------+----------+-----------------+-----------------+---------------|");
+
+        for (int i = 0; i < matrizViajes.length; i++) {
+
+            String idViaje = matrizViajes[i][0];
+            String fecha = matrizViajes[i][1];
+            String hora = matrizViajes[i][2];
+            String origen = matrizViajes[i][3];
+            String destino = matrizViajes[i][4];
+            String patente = matrizViajes[i][5];
+
+            System.out.printf("| %-10s | %-12s | %-8s | %-15s | %-15s | %-13s |\n",
+                    idViaje, fecha, hora, origen, destino, patente);
+        }
+
+        System.out.println("*------------*--------------*----------*-----------------*-----------------*---------------*");
 
     }
 }

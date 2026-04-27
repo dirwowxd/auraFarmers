@@ -98,8 +98,27 @@ public class Viaje {
         return ContadorPasajes < bus.getNroAsientos();
     }
 
-    public int getNroAsientosDisponibles() {
-        return bus.getNroAsientos() - ContadorPasajes;
+    public String[][] getNroAsientosDisponibles() {
+        int totalAsientos = bus.getNroAsientos();
+
+        String[][] mapaAsientos = new String[totalAsientos][2];
+
+
+        for (int i = 0; i < totalAsientos; i++) {
+            mapaAsientos[i][0] = String.valueOf(i + 1);
+            mapaAsientos[i][1] = "Libre";
+        }
+
+        for (int i = 0; i < ContadorPasajes; i++) {
+            if (PasajesVendidos[i] != null) {
+                int nroAsiento = PasajesVendidos[i].getAsiento();
+
+                mapaAsientos[nroAsiento - 1][1] = "Ocupado";
+            }
+        }
+
+        // Se retorna la matriz completa una vez finalizados los ciclos
+        return mapaAsientos;
     }
 
 //lol comit
