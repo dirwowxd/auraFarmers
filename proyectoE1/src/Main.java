@@ -126,7 +126,7 @@ public class Main {
     }
 
     private void createBus() { //hecho por Nico
-        System.out.println("Creación de un nuevo Bus");
+        System.out.println("....:::Creación de un nuevo Bus:::....");
 
         System.out.println();
 
@@ -152,7 +152,7 @@ public class Main {
         }
     }
     private void createViaje() { //Hecho por Nico
-        System.out.println("Creacion de un nuevo Viaje");
+        System.out.println("....:::Creacion de un nuevo Viaje:::....");
 
         System.out.println();
 
@@ -436,7 +436,7 @@ public class Main {
         System.out.println("*------------*--------------*----------*-----------------*---------------*");
 
         System.out.printf("| %-10s | %-12s | %-8s | %-15s | %-15s |\n",
-                "FECHA", "HORA", "ORIGEN", "DESTINO", "PATENTE BUS");
+                "FECHA", "HORA", "PRECIO", "DISPONIBLES", "PATENTE BUS");
 
         System.out.println("|------------+--------------+----------+-----------------+---------------|");
 
@@ -445,12 +445,12 @@ public class Main {
 
             String fecha = matrizViaje[0];
             String hora = matrizViaje[1];
-            String origen = matrizViaje[2];
-            String destino = matrizViaje[3];
+            String precio = matrizViaje[2];
+            String disponibles = matrizViaje[3];
             String patente = matrizViaje[4];
 
             System.out.printf("| %-10s | %-12s | %-8s | %-15s | %-15s |\n",
-                    fecha, hora, origen, destino, patente);
+                    fecha, hora, precio, disponibles, patente);
         }
 
         System.out.println("*------------*--------------*----------*-----------------*---------------*");
