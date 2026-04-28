@@ -21,7 +21,6 @@ public class Viaje {
     }
 
 
-
     public LocalDate getFecha() {
         return Fecha;
     }
@@ -43,31 +42,22 @@ public class Viaje {
     }
 
     public String[][] getAsientos() {
-        int TotalAsientos = bus.getNroAsientos();
-        int Columnas = 4;
-        int filas = (int) Math.ceil((double) TotalAsientos/ Columnas);
+        int totalAsientos = bus.getNroAsientos();
+        String[][] mapaAsientos = new String[totalAsientos][2];
 
-        String[][] MapaAsientos = new String[filas][Columnas];
-        // generamos el mapa del bus para ver la planilla de asientos
-        // y verificamos asientos libres con el for
-
-        for (int f = 0 ; f < filas; f++) {
-            for (int c = 0; c < Columnas; c++) {
-                MapaAsientos[f][c] = "Asiento Libre";
-            }
+        for (int i = 0; i < totalAsientos; i++) {
+            mapaAsientos[i][0] = String.valueOf(i + 1); // Número de asiento
+            mapaAsientos[i][1] = "Libre"; // Estado inicial por defecto
         }
 
-        for (int i=0; i<ContadorPasajes; i++) {
-            int NroAsiento = PasajesVendidos[i].getAsiento();
-            int f = (NroAsiento - 1) / Columnas;
-            int c = (NroAsiento - 1) % Columnas;
-            if (f < filas) {
-                MapaAsientos[f][c] = "Asiento Ocupado";
+        // Marcar como "Ocupado" los que ya tienen pasaje
+        for (int i = 0; i < ContadorPasajes; i++) {
+            if (PasajesVendidos[i] != null) {
+                int nro = PasajesVendidos[i].getAsiento();
+                mapaAsientos[nro - 1][1] = "Ocupado";
             }
-            return MapaAsientos;//mod a futuro
         }
-
-        return  MapaAsientos;
+        return mapaAsientos;
     }
 
 
@@ -81,13 +71,25 @@ public class Viaje {
     }
 
     public String[][] getListaPasajeros() {
-        String[][] lista = new String[ContadorPasajes][2];
+        String[][] lista = new String[this.ContadorPasajes][5];
 
-        for (int i = 0; i < ContadorPasajes; i++) {
-            Pasajero pa = PasajesVendidos[i].getPasajero();
+        for (int i = 0; i < this.ContadorPasajes; i++) {
+            Pasaje ps = this.PasajesVendidos[i];
+            Pasajero pa = ps.getPasajero();
 
-            lista[i][0] = pa.getNomContacto().toString();
-            lista[i][1] = pa.getIdPersona().toString();
+            lista[i][0] = String.valueOf(ps.getAsiento());   // [0] ASIENTO
+            lista[i][1] = pa.getIdPersona().toString();      // [1] RUT/PASS
+            lista[i][2] = pa.getNombreCompleto().toString(); // [2] PASAJERO (Con Sr/Sra)
+
+            // [3] CONTACTO (Con Sr/Sra y nombre completo)
+            if (pa.getNomContacto() != null) {
+                lista[i][3] = pa.getNomContacto().toString();
+            } else {
+                lista[i][3] = "No registrado";
+            }
+
+            // [4] TELEFONO CONTACTO
+            lista[i][4] = (pa.getFonoContacto() != null) ? pa.getFonoContacto() : "S/N";
         }
         return lista;
     }
@@ -102,8 +104,6 @@ public class Viaje {
     }
 
 //lol comit
-
-
 
 
 }
