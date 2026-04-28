@@ -153,11 +153,6 @@ public class SistemaVentaPasajes {
 
 
     public String getNombrePasajero(IdPersona id) {
-        for (Cliente c : clientes) {
-            if (c.getIdPersona().equals(id)) {
-                return c.getNombreCompleto().toString();
-            }
-        }
 
         for (Pasajero p : pasajeros) {
             if (p.getIdPersona().equals(id)) {

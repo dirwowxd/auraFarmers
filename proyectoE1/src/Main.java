@@ -286,27 +286,46 @@ public class Main {
                 idPasajero = Pasaporte.of(numP, sc.next());
             }
 
-            if (!Boolean.parseBoolean(sistemas.getNombrePasajero(idPasajero))) {
+            if (sistemas.getNombrePasajero(idPasajero) == null) {
                 System.out.println(":::: Ingrese los datos completos del Pasajero y su Contacto");
                 Nombre nomP = new Nombre();
                 System.out.print("Sr.[1] o Sra.[2] : ");
-                nomP.setTratamiento(sc.nextInt() == 1 ? Tratamiento.SR : Tratamiento.SRA);
-                System.out.print("Nombres : "); nomP.setNombres(sc.next());
+                int opcionTratamiento = sc.nextInt();
+                if (opcionTratamiento == 1) {
+                    nomP.setTratamiento(Tratamiento.SR);
+                } else {
+                    nomP.setTratamiento(Tratamiento.SRA);
+                }
+                System.out.print("Nombres : ");
+                nomP.setNombres(sc.next());
                 sc.nextLine();
 
 
-                System.out.print("Apellido Paterno : "); nomP.setApellidoPaterno(sc.next());
-                System.out.print("Apellido Materno : "); nomP.setApellidoMaterno(sc.next());
-                System.out.print("Telefono movil : "); String fonoP = sc.next();
+                System.out.print("Apellido Paterno : ");
+                nomP.setApellidoPaterno(sc.next());
+                System.out.print("Apellido Materno : ");
+                nomP.setApellidoMaterno(sc.next());
+                System.out.print("Telefono movil : ");
+
+                String fonoP = sc.next();
 
                 Nombre nomC = new Nombre();
                 System.out.print("Tratamiento contacto [1] Sr [2] Sra: ");
-                nomC.setTratamiento(sc.nextInt() == 1 ? Tratamiento.SR : Tratamiento.SRA);
-                System.out.print("Nombres contacto: "); nomC.setNombres(sc.next());
+                int opcionTratamientoContacto = sc.nextInt();
+                if (opcionTratamientoContacto == 1) {
+                    nomC.setTratamiento(Tratamiento.SR);
+                } else {
+                    nomC.setTratamiento(Tratamiento.SRA);
+                }
+                System.out.print("Nombres contacto: ");
+                nomC.setNombres(sc.next());
                 sc.nextLine();
-                System.out.print("Apellido Paterno contacto: "); nomC.setApellidoPaterno(sc.next());
-                System.out.print("Apellido Materno contacto: "); nomC.setApellidoMaterno(sc.next());
-                System.out.print("Telefono contacto: "); String fonoC = sc.next();
+                System.out.print("Apellido Paterno contacto: ");
+                nomC.setApellidoPaterno(sc.next());
+                System.out.print("Apellido Materno contacto: ");
+                nomC.setApellidoMaterno(sc.next());
+                System.out.print("Telefono contacto: ");
+                String fonoC = sc.next();
 
                 sistemas.createPasajero(idPasajero, nomP, fonoP, nomC, fonoC);
             }
@@ -461,6 +480,7 @@ public class Main {
             System.out.printf("| %-13s | %-8s | $%-7s | %-10s |\n",
                     patente, hora, precio, libres);
         }
+
         System.out.println("*---------------*----------*----------*------------*");
     }
 }
