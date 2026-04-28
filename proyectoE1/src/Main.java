@@ -294,13 +294,11 @@ public class Main {
                 System.out.print("Nombres : "); nomP.setNombres(sc.next());
                 sc.nextLine();
 
-                // ELIMINÉ EL sc.nextLine() QUE TENÍAS AQUÍ PORQUE CORTA LA LECTURA
 
                 System.out.print("Apellido Paterno : "); nomP.setApellidoPaterno(sc.next());
                 System.out.print("Apellido Materno : "); nomP.setApellidoMaterno(sc.next());
                 System.out.print("Telefono movil : "); String fonoP = sc.next();
 
-                // DATOS DEL CONTACTO (Para que aparezca Sr/Sra y nombre completo)
                 Nombre nomC = new Nombre();
                 System.out.print("Tratamiento contacto [1] Sr [2] Sra: ");
                 nomC.setTratamiento(sc.nextInt() == 1 ? Tratamiento.SR : Tratamiento.SRA);

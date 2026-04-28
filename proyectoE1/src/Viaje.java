@@ -77,11 +77,10 @@ public class Viaje {
             Pasaje ps = this.PasajesVendidos[i];
             Pasajero pa = ps.getPasajero();
 
-            lista[i][0] = String.valueOf(ps.getAsiento());   // [0] ASIENTO
-            lista[i][1] = pa.getIdPersona().toString();      // [1] RUT/PASS
-            lista[i][2] = pa.getNombreCompleto().toString(); // [2] PASAJERO (Con Sr/Sra)
+            lista[i][0] = String.valueOf(ps.getAsiento());
+            lista[i][1] = pa.getIdPersona().toString();
+            lista[i][2] = pa.getNombreCompleto().toString();
 
-            // [3] CONTACTO (Con Sr/Sra y nombre completo)
             if (pa.getNomContacto() != null) {
                 lista[i][3] = pa.getNomContacto().toString();
             } else {
