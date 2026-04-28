@@ -475,6 +475,7 @@ public class Main {
             System.out.printf("| %-13s | %-8s | $%-7s | %-10s |\n",
                     patente, hora, precio, libres);
         }
+
         System.out.println("*---------------*----------*----------*------------*");
     }
 }

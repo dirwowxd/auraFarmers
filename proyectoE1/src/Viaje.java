@@ -50,7 +50,7 @@ public class Viaje {
             mapaAsientos[i][1] = "Libre"; // Estado inicial por defecto
         }
 
-        // Marcar como "Ocupado" los que ya tienen pasaje
+
         for (int i = 0; i < ContadorPasajes; i++) {
             if (PasajesVendidos[i] != null) {
                 int nro = PasajesVendidos[i].getAsiento();
