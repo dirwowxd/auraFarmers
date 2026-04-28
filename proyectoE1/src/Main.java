@@ -357,7 +357,7 @@ public class Main {
         LocalDate fecha = LocalDate.parse(sc.next(), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
         System.out.print("Hora de viaje [HH:mm] : ");
         LocalTime horaViaje = LocalTime.parse(sc.next(), DateTimeFormatter.ofPattern("HH:mm"));
-        System.out.println("Pantente del bus : ");
+        System.out.print("Patente del bus : ");
         String patenteBus=  sc.next();
         String [][] matrizPasajeros= sistemas.listPasajeros(fecha,horaViaje,patenteBus);
 
