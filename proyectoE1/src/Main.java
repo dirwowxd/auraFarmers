@@ -361,6 +361,7 @@ public class Main {
         String patenteBus=  sc.next();
         String [][] matrizPasajeros= sistemas.listPasajeros(fecha,horaViaje,patenteBus);
 
+
         if (matrizPasajeros == null ||  matrizPasajeros.length == 0) {
             System.out.println("No hay pasajeros registrados para el viaje: "+ patenteBus);
             return;
