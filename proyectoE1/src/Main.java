@@ -392,7 +392,7 @@ public class Main {
             return;
         }
 
-        System.out.println("°*::Lista de ventas::*°");
+        System.out.println("....:::Lista de ventas:::....");
         System.out.println();
 
         System.out.println("*-------------*-------------*--------------*-----------------*--------------------------------*----------------*---------------*");
@@ -430,7 +430,7 @@ public class Main {
             return;
         }
 
-        System.out.println("°*Listado de Viajes*°");
+        System.out.println("....::: Listado de Viajes :::....");
         System.out.println();
 
         System.out.println("*------------*--------------*----------*-----------------*---------------*");
