@@ -10,6 +10,7 @@ public class Pasaje {
         this.viaje = viaje;
         this.venta = venta;
         this.pasajero = pasajero;
+        viaje.addPasaje(this);
     }
 
     public int getNumero (){

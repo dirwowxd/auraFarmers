@@ -1,6 +1,6 @@
-public class Rut implements idPersona {
-    private static int numero;
-    private static char dv;
+public class Rut implements IdPersona {
+    private  int numero;
+    private  char dv;
 
     private Rut(int numero, char dv) {
         this.numero = numero;
@@ -27,7 +27,7 @@ public class Rut implements idPersona {
     }
     @Override
     public String toString() {
-        return "Rut{" + "numero=" + numero + ", dv=" + dv + '}';
+        return numero + "-" + dv;
     }
     @Override
     public boolean equals(Object otro) {

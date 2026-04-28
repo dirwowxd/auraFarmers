@@ -1,6 +1,6 @@
 import java.util.Objects;
 
-public class Pasaporte implements idPersona {
+public class Pasaporte implements IdPersona {
     private String numero;
     private String nacionalidad;
 
@@ -30,10 +30,7 @@ public class Pasaporte implements idPersona {
 
     @Override
     public String toString() {
-        return "Pasaporte{" +
-                "numero='" + numero + '\'' +
-                ", nacionalidad='" + nacionalidad + '\'' +
-                '}';
+        return "Pasaporte : "+ numero +" - "+ nacionalidad;
     }
 
     @Override

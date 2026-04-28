@@ -36,7 +36,13 @@ public class Nombre {
         this.apellidoMaterno = apellidoMaterno;
     }
     public String toString() {
-        return "Tratamiento: "+tratamiento+" Nombre: "+nombres+ " Apellido paterno: "+ apellidoPaterno+ " Apellido materno: "+ apellidoMaterno;
+        String prefijo = "";
+        if (tratamiento == Tratamiento.SR) {
+            prefijo = "Sr.";
+        } else if (tratamiento == Tratamiento.SRA) {
+            prefijo = "Sra.";
+        }
+        return  prefijo + " " + nombres + " " + apellidoPaterno + " " + apellidoMaterno;
 
     }
     public boolean equals(Object o) {
