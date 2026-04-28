@@ -286,7 +286,7 @@ public class Main {
                 idPasajero = Pasaporte.of(numP, sc.next());
             }
 
-            if (!Boolean.parseBoolean(sistemas.getNombrePasajero(idPasajero))) {
+            if (sistemas.getNombrePasajero(idPasajero) == null) {
                 System.out.println(":::: Ingrese los datos completos del Pasajero y su Contacto");
                 Nombre nomP = new Nombre();
                 System.out.print("Sr.[1] o Sra.[2] : ");
@@ -311,7 +311,12 @@ public class Main {
 
                 Nombre nomC = new Nombre();
                 System.out.print("Tratamiento contacto [1] Sr [2] Sra: ");
-                nomC.setTratamiento(sc.nextInt() == 1 ? Tratamiento.SR : Tratamiento.SRA);
+                int opcionTratamientoContacto = sc.nextInt();
+                if (opcionTratamientoContacto == 1) {
+                    nomC.setTratamiento(Tratamiento.SR);
+                } else {
+                    nomC.setTratamiento(Tratamiento.SRA);
+                }
                 System.out.print("Nombres contacto: ");
                 nomC.setNombres(sc.next());
                 sc.nextLine();
