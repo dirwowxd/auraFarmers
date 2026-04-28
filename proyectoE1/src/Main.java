@@ -126,7 +126,7 @@ public class Main {
     }
 
     private void createBus() { //hecho por Nico
-        System.out.println("Creación de un nuevo Bus");
+        System.out.println("*.::Creación de un nuevo Bus::.*");
 
         System.out.println();
 
@@ -152,7 +152,7 @@ public class Main {
         }
     }
     private void createViaje() { //Hecho por Nico
-        System.out.println("Creacion de un nuevo Viaje");
+        System.out.println("*.::Creacion de un nuevo Viaje::.*");
 
         System.out.println();
 
@@ -261,7 +261,7 @@ public class Main {
             String a4 = (i + 3 < asientos.length) ? (asientos[i+3][1].equalsIgnoreCase("Libre") ? asientos[i+3][0] : "*") : " ";
 
             System.out.printf("| %2s | %2s |   | %2s | %2s |\n", a1, a2, a4, a3);
-            if (i + 4 < asientos.length) System.out.println("|---+---+---+---+---|");
+            if (i + 4 < asientos.length) System.out.println("|---+---+---+---+---+---|");
         }
         System.out.println("*---*---*---*---*---*");
 
@@ -417,7 +417,7 @@ public class Main {
         System.out.println("*------------*--------------*----------*-----------------*---------------*");
 
         System.out.printf("| %-10s | %-12s | %-8s | %-15s | %-15s |\n",
-                "FECHA", "HORA", "ORIGEN", "DESTINO", "PATENTE BUS");
+                "FECHA", "HORA", "PRECIO", "DISPONIBLES", "PATENTE BUS");
 
         System.out.println("|------------+--------------+----------+-----------------+---------------|");
 
