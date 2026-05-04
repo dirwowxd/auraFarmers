@@ -1,3 +1,5 @@
+package Modelo;
+
 public class Pasajero extends Persona {
     private Nombre nomContacto;
     private String fonoContacto;
