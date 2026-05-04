@@ -1,4 +1,4 @@
-import Modelo.Pasajero;
+package Modelo;
 
 public class Pasaje {
     private long numero;

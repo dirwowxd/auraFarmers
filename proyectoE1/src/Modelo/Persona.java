@@ -38,7 +38,7 @@ public class Persona {
                 " DATOS DE LA PERSONA\n" +
                 "----------------------------------------\n" +
                 "  ID       : " + idPersona + "\n" +
-                "  Nombre   : " + nombreCompleto + "\n" +
+                "  utilidades.Nombre   : " + nombreCompleto + "\n" +
                 "  Teléfono : " + telefono + "\n" +
                 "----------------------------------------";
     }

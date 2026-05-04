@@ -1,5 +1,4 @@
-import Modelo.Cliente;
-import Modelo.Pasajero;
+package Modelo;
 
 import java.time.LocalDate;
 
