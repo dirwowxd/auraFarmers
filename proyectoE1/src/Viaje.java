@@ -1,3 +1,5 @@
+import Modelo.Pasajero;
+
 import java.time.LocalTime;
 import java.time.LocalDate;
 

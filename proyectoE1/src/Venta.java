@@ -1,3 +1,6 @@
+import Modelo.Cliente;
+import Modelo.Pasajero;
+
 import java.time.LocalDate;
 
 public class Venta {

@@ -1,3 +1,5 @@
+package Modelo;
+
 import java.util.Objects;
 
 public class Persona {

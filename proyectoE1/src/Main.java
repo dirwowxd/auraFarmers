@@ -26,7 +26,7 @@ public class Main {
             System.out.println("==========================");
             System.out.println("...::: MENU PRINCIPAL:::...");
             System.out.println("                              ");
-            System.out.println("1) Crear Cliente  ");
+            System.out.println("1) Crear Modelo.Cliente  ");
             System.out.println("2) Crear Bus  ");
             System.out.println("3) Crear Viaje  ");
             System.out.println("4) Vender Pasaje  ");
@@ -117,9 +117,9 @@ public class Main {
 
         boolean creadoExitosamente = sistemas.createCliente(idPersona, nombreCliente, telefonoMovil, email);
         if (creadoExitosamente) {
-            System.out.println("Cliente guardado correctamente");
+            System.out.println("Modelo.Cliente guardado correctamente");
         } else {
-            System.out.println("Cliente no se pudo guardar.");
+            System.out.println("Modelo.Cliente no se pudo guardar.");
         }
 
 
@@ -220,7 +220,7 @@ public class Main {
 
         System.out.println("\n:::: Datos del cliente");
 
-            System.out.println("Nombre Cliente : " + sistemas.getNombrePasajero(idCliente));
+            System.out.println("Nombre Modelo.Cliente : " + sistemas.getNombrePasajero(idCliente));
 
 
         System.out.println("\n:::: Pasajes a vender");
@@ -255,7 +255,7 @@ public class Main {
 
         System.out.println("*---*---*---*---*---*");
         for (int i = 0; i < asientos.length; i += 4) {
-            String a1 = (i < asientos.length) ? (asientos[i][1].equalsIgnoreCase("Libre") ? asientos[i][0] : "*") : " ";
+            String a1 = (i< asientos.length) ? (asientos[i][1].equalsIgnoreCase("Libre") ? asientos[i][0] : "*") : " ";
             String a2 = (i + 1 < asientos.length) ? (asientos[i+1][1].equalsIgnoreCase("Libre") ? asientos[i+1][0] : "*") : " ";
             String a3 = (i + 2 < asientos.length) ? (asientos[i+2][1].equalsIgnoreCase("Libre") ? asientos[i+2][0] : "*") : " ";
             String a4 = (i + 3 < asientos.length) ? (asientos[i+3][1].equalsIgnoreCase("Libre") ? asientos[i+3][0] : "*") : " ";
@@ -287,7 +287,7 @@ public class Main {
             }
 
             if (sistemas.getNombrePasajero(idPasajero) == null) {
-                System.out.println(":::: Ingrese los datos completos del Pasajero y su Contacto");
+                System.out.println(":::: Ingrese los datos completos del Modelo.Pasajero y su Contacto");
                 Nombre nomP = new Nombre();
                 System.out.print("Sr.[1] o Sra.[2] : ");
                 int opcionTratamiento = sc.nextInt();
@@ -377,7 +377,7 @@ public class Main {
             System.out.printf("| %2s | %-10s | %-25s | %-25s | %-17s |\n",
                     matrizPasajero[0], // Asiento
                     matrizPasajero[1], // rut o pasaporte
-                    matrizPasajero[2], // Pasajero
+                    matrizPasajero[2], // Modelo.Pasajero
                     matrizPasajero[3], // Contacto
                     matrizPasajero[4]  // Teléfono
             );
@@ -483,6 +483,7 @@ public class Main {
 
         System.out.println("*---------------*----------*----------*------------*");
     }
+
 }
 
 
