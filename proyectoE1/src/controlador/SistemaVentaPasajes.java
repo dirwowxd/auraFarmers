@@ -1,3 +1,10 @@
+package controlador;
+
+import Modelo.Cliente;
+import Modelo.Pasajero;
+import utilidades.IdPersona;
+import utilidades.Nombre;
+
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -42,7 +49,7 @@ public class SistemaVentaPasajes {
     public boolean createBus(String patente, String marca, String modelo, int nroAsientos) {
         for (Bus bus : buses) {
             if (patente.equals(bus.getPatente())) {
-                System.out.println("No se puede tener el mismo ID de otro Bus...");
+                System.out.println("No se puede tener el mismo ID de otro Modelo.Bus...");
                 return false;
             }
         }
