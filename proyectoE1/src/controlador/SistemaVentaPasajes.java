@@ -4,6 +4,10 @@ import Modelo.Cliente;
 import Modelo.Pasajero;
 import utilidades.IdPersona;
 import utilidades.Nombre;
+import Modelo.Bus;
+import Modelo.Viaje;
+import Modelo.Venta;
+
 
 import java.time.LocalDate;
 import java.time.LocalTime;

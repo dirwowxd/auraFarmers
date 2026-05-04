@@ -1,5 +1,6 @@
 package vista;
-
+import controlador.SistemaVentaPasajes;
+import Modelo.TipoDocumento;
 import utilidades.*;
 
 import java.time.LocalDate;
