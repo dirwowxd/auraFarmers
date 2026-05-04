@@ -1,3 +1,5 @@
+package Modelo;
+
 import java.util.Objects;
 
 public class Persona {
@@ -36,7 +38,7 @@ public class Persona {
                 " DATOS DE LA PERSONA\n" +
                 "----------------------------------------\n" +
                 "  ID       : " + idPersona + "\n" +
-                "  Nombre   : " + nombreCompleto + "\n" +
+                "  utilidades.Nombre   : " + nombreCompleto + "\n" +
                 "  Teléfono : " + telefono + "\n" +
                 "----------------------------------------";
     }
