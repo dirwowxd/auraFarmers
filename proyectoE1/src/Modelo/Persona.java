@@ -1,8 +1,11 @@
 package Modelo;
 
+import utilidades.IdPersona;
+import utilidades.Nombre;
+
 import java.util.Objects;
 
-public class Persona {
+public abstract class Persona {
     private IdPersona idPersona;
     private Nombre nombreCompleto;
     private String telefono;

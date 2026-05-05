@@ -147,13 +147,10 @@ public class Main {
         System.out.print("Numero de asientos: ");
         int numeroAsientos = sc.nextInt();
         System.out.println();
-
-        boolean si = sistemas.createBus(patente, marca, modelo, numeroAsientos);
-
-        if(si){
-            System.out.println("Modelo.Bus creado exitosamente.");
-        }else{
-            System.out.println("Ya existe un Modelo.Bus con esa patente.");
+        try { // modificado     por la exception
+            sistemas.createBus(patente, marca, modelo, numeroAsientos);
+        } catch (RuntimeException e) {
+            System.out.println("Error "+e.getMessage());
         }
     }
     private void createViaje() { //Hecho por Nico
@@ -185,6 +182,7 @@ public class Main {
 
 
     }
+
 
     private void vendePasajes() {
         TipoDocumento tipoDocumento = null;
