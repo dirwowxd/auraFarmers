@@ -63,11 +63,16 @@ public class Empresa {
         return buses.toArray(new Bus[0]);
     }
 
-    public boolean addConductor(IdPersona id, Nombre nom, Direccion direccion ) {
-        for (Tripulante tripulante: tripulantes){
-            if (tripulante.getIdPersona().equals(id)){
 
+    public boolean addConductor(IdPersona id, Nombre nom, Direccion direccion ) {
+        for (Tripulante tripulante: tripulantes){// primero recorro para saber los tripulantes
+            if (tripulante.getIdPersona().equals(id)){ //aqui comparo los id's de los tripulantes si son iguales
+                return false;
             }
         }
+        Conductor conductor= new Conductor(id, nom, direccion); // esta erronea hasta que Benja haga la clase de Conductor 14/05/2026
+        tripulantes.add(conductor); //tambien da error debido a que aun no se termina la clase tripulante
+        return true;
+
     }
 }
