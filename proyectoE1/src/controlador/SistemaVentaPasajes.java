@@ -9,7 +9,7 @@ import Modelo.Bus;
 import Modelo.Viaje;
 import Modelo.Venta;
 import Modelo.TipoDocumento;
-
+import utilidades.Rut;
 
 
 import java.time.LocalDate;
@@ -18,11 +18,28 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 public class SistemaVentaPasajes {
-    ArrayList<Cliente> clientes = new ArrayList<>();
-    ArrayList<Pasajero> pasajeros = new ArrayList<>();
-    ArrayList<Bus> buses = new ArrayList<>();
-    ArrayList<Viaje> viajes = new ArrayList<>();
-    ArrayList<Venta> ventas = new ArrayList<>();
+
+    private static SistemaVentaPasajes instance;
+    private final ArrayList<Cliente> clientes;
+    private final ArrayList<Pasajero> pasajeros;
+    private final ArrayList<Viaje> viajes;
+    private final ArrayList<Venta> ventas;
+
+    private SistemaVentaPasajes(){
+       this.viajes = new ArrayList<>();
+       this.clientes = new ArrayList<>();
+       this.pasajeros = new ArrayList<>();
+       this.ventas = new ArrayList<>();
+
+    }
+    public static SistemaVentaPasajes getInstance(){
+        if(instance == null){
+            instance = new SistemaVentaPasajes();
+
+        }
+        return instance;
+    }
+
 
     public void createCliente(IdPersona id, Nombre nom, String fono, String email) {
         Optional<Cliente> buscarCliente=findCliente(id);
@@ -30,7 +47,7 @@ public class SistemaVentaPasajes {
             throw new SistemaVentaPasajesException("Ya existe un cliente con el id " + id);
         }
         Cliente nuevoCliente= new Cliente(id, nom, email);
-        nuevoCliente.setTelefono(email);
+        nuevoCliente.setTelefono(fono);
         clientes.add(nuevoCliente);
 
 
@@ -49,24 +66,21 @@ public class SistemaVentaPasajes {
         pasajeros.add(nuevoPasajero);
     }
 
-    public void createBus(String patente, String marca, String modelo, int nroAsientos) {
-        Optional<Bus> buscarBus= findBus(patente);
-        if (buscarBus.isPresent()) {
-            throw new SistemaVentaPasajesException("No existe un Bus con la patente indicada " + patente);
-        }
-        Bus nuevoBus= new Bus(patente, nroAsientos);
-        nuevoBus.setMarca(marca);
-        nuevoBus.setModelo(modelo);
-        buses.add(nuevoBus);
-    }
 
-    public void createViaje(LocalDate fecha, LocalTime hora, int precio, String patenteBus) {
+
+    public void createViaje(LocalDate fecha, LocalTime hora, int precio, int duracion, String patenteBus, IdPersona[] idTripulantes, String[] nomComunas) {
+        Optional<Bus>busEncontrado= ControladorEmpresas.getInstance().findBus(patenteBus);
         for (Viaje viaje : viajes) {
-            if (viaje.getFecha().equals(fecha) && viaje.getHora().equals(hora) && viaje.getBus().equals(patenteBus)) {
+            if (viaje.getFecha().equals(fecha) && viaje.getHora().equals(hora) && viaje.getBus().getPatente().equals(patenteBus)) {
                 throw new SistemaVentaPasajesException("Ya existe viaje con fecha, hora y patente de bus indicados ");
             }
         }
-        //seguir modificando 05/05/2026
+        if (busEncontrado.isEmpty()) {
+            throw new SistemaVentaPasajesException("No existe un bus con la patente " + patenteBus);
+        }
+        Bus bus= busEncontrado.get();
+        Rut rutEmpresa= bus.
+
 
     }
 
