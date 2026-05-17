@@ -46,7 +46,7 @@ public class SistemaVentaPasajes {
         if (buscarCliente.isPresent()) {
             throw new SistemaVentaPasajesException("Ya existe un cliente con el id " + id);
         }
-        Cliente nuevoCliente= new Cliente(id, nom, email);
+        Cliente nuevoCliente= new Cliente(id, nom, email, fono);
         nuevoCliente.setTelefono(fono);
         clientes.add(nuevoCliente);
 

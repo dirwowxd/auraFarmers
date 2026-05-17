@@ -7,11 +7,12 @@ import java.util.Objects;
 public abstract class Persona {
     private IdPersona idPersona;
     private Nombre nombreCompleto;
-    // El atributo telefono se elimina de aquí //modificar (Se va a Pasajero según el nuevo UML)
+    private String telefono;
 
-    public Persona(IdPersona idPersona, Nombre nombreCompleto) {
+    public Persona(IdPersona idPersona, Nombre nombreCompleto, String telefono) {
         this.idPersona = idPersona;
         this.nombreCompleto = nombreCompleto;
+        this.telefono = telefono;
     }
 
     public IdPersona getIdPersona() {
@@ -26,17 +27,23 @@ public abstract class Persona {
         this.nombreCompleto = nombreCompleto;
     }
 
-    // Los métodos getTelefono y setTelefono se eliminan //modificar
+    public String getTelefono() {
+        return telefono;
+    }
 
-    public String toString() { // //modificar (Limpiar la salida para que no imprima el teléfono que ya no existe)
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
+    }
+
+    public String toString() {
         return "----------------------------------------\n" +
                 " DATOS DE LA PERSONA\n" +
                 "----------------------------------------\n" +
                 "  ID       : " + idPersona + "\n" +
                 "  Nombre   : " + nombreCompleto + "\n" +
+                "  Telefono : " + telefono + "\n" +
                 "----------------------------------------";
     }
-
     public boolean equals(Object otro) {
         if (otro == this) return true;
         if (otro == null || getClass() != otro.getClass()) return false;
