@@ -59,8 +59,7 @@ public class SistemaVentaPasajes {
                throw new SistemaVentaPasajesException("Ya existe un pasajero con el id " + id);
            }
 
-        Pasajero nuevoPasajero = new Pasajero(id, nom); 
-        nuevoPasajero.setTelefono(fono);
+        Pasajero nuevoPasajero = new Pasajero(id, nom,fono);
         nuevoPasajero.setFonoContacto(fonoContacto);
         nuevoPasajero.setNomContacto(nomContacto);
         pasajeros.add(nuevoPasajero);
@@ -295,7 +294,7 @@ public class SistemaVentaPasajes {
         Optional<Cliente> c = findCliente(idPasajero);
         if (c.isPresent()) {
             Cliente clienteEncontrado = c.get();
-            Pasajero nuevo= new Pasajero(clienteEncontrado.getIdPersona(), clienteEncontrado.getNombreCompleto());
+            Pasajero nuevo= new Pasajero(clienteEncontrado.getIdPersona(), clienteEncontrado.getNombreCompleto(), clienteEncontrado.getTelefono(), clienteEncontrado.);
             nuevo.setTelefono(clienteEncontrado.getTelefono());
             pasajeros.add(nuevo);
             return Optional.of(nuevo);

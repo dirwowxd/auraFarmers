@@ -20,7 +20,7 @@ public class Pasaje {
         return asiento;
     }
     public int getNumero(){
-        return numero;//hacer
+        return (int) numero;
     }
 
     public Viaje getViaje (){
