@@ -80,6 +80,30 @@ public class ControladorEmpresas {
         terminales.add(Terminalnuevo);
     }
 
+    public Optional<Auxiliar> findAuxiliar(IdPersona id, Rut rutEmpresa) {
+
+        Optional<Empresa> empresatemp = findEmpresa(rutEmpresa);
+
+        if (empresatemp.isEmpty()) {
+            return Optional.empty();
+        }
+
+        Empresa empresa = empresatemp.get();
+        Tripulante[] tripulantes = empresa.getTripulantes();
+
+        for (int i = 0; i < tripulantes.length; i++) {
+            Tripulante t = tripulantes[i];
+            if (t != null && t.getIdPersona().equals(id)) {
+                if (t instanceof Auxiliar) {
+                    Auxiliar aux = (Auxiliar) t;
+                    return Optional.of(aux);
+                }
+            }
+        }
+
+        return Optional.empty();
+    }
+
 }
 
 
