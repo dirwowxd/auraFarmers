@@ -153,11 +153,11 @@ public class SistemaVentaPasajes {
     }
 
 
-    public Optional getNombrePasajero(IdPersona id) {
+    public Optional<String> getNombrePasajero(IdPersona id) {
 
         for (Pasajero p : pasajeros) {
             if (p.getIdPersona().equals(id)) {
-                return Optional.of(p.getNombreCompleto());
+                return Optional.of(p.getNombreCompleto().toString());
             }
         }
         return Optional.empty();

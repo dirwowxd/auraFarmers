@@ -1,14 +1,11 @@
 package controlador;
 
-import Modelo.Bus;
-import Modelo.Empresa;
-import Modelo.Terminal;
+import Modelo.*;
 import excepciones.SistemaVentaPasajesException;
-import utilidades.Rut;
+import utilidades.*;
 
 import java.util.ArrayList;
 import java.util.Optional;
-import utilidades.Rut;
 
 public class ControladorEmpresas {
     private static ControladorEmpresas instance;
@@ -58,6 +55,29 @@ public class ControladorEmpresas {
             }
         }
         return Optional.empty();
+    }
+
+    public void createTerminal(String nombre, Direccion direccion) {
+
+        Optional<Terminal> terminal = findTerminal(nombre);
+
+        if (terminal.isPresent()) {
+            throw new SistemaVentaPasajesException("Ya existe terminal con ese nombre");
+        }
+
+        for (int i = 0; i < terminales.size(); i++) {
+            Terminal ter = terminales.get(i);
+
+            String comunaExistente = ter.getDireccion().getComuna();
+            String comunaNueva = direccion.getComuna();
+
+            if (comunaExistente.equals(comunaNueva)) {
+                throw new SistemaVentaPasajesException("Ya existe terminal en la comuna");
+            }
+        }
+
+        Terminal Terminalnuevo = new Terminal(nombre, direccion);
+        terminales.add(Terminalnuevo);
     }
 
 }
