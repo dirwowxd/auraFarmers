@@ -143,24 +143,24 @@ public class SistemaVentaPasajes {
     }
 
 
-    public int getMontoVenta(String idDocumento, TipoDocumento tipo) {
-        Venta ventaEncontrada = this.findVenta(idDocumento, tipo);
+    public Optional<Integer> getMontoVenta(String idDocumento, TipoDocumento tipo) {
+        Optional<Venta> ventaEncontrada = findVenta(idDocumento, tipo);
 
-        if (ventaEncontrada != null) {
-            return ventaEncontrada.getMonto();
+        if (ventaEncontrada.isPresent()) {
+            return Optional.of(ventaEncontrada.get().getMonto());
         }
-        return 0;
+        return Optional.empty();
     }
 
 
-    public String getNombrePasajero(IdPersona id) {
+    public Optional getNombrePasajero(IdPersona id) {
 
         for (Pasajero p : pasajeros) {
             if (p.getIdPersona().equals(id)) {
-                return p.getNombreCompleto().toString();
+                return Optional.of(p.getNombreCompleto());
             }
         }
-        return null;
+        return Optional.empty();
     }
     public boolean vendePasaje(String idDoc, TipoDocumento tipo, LocalDate fecha, LocalTime hora, String patenteBus, IdPersona idPasajero, int asiento) {
         Venta ventaEncontrada = findVenta(idDoc, tipo);
@@ -314,6 +314,8 @@ public class SistemaVentaPasajes {
         }
         return Optional.empty();
     }
+
+
 
 
 
