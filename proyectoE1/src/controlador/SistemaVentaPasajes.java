@@ -223,20 +223,33 @@ public class SistemaVentaPasajes {
     }
 
     public String[][] listViajes() {
-        if (viajes.isEmpty()) {
-            System.out.println("No hay viajes registrados.");
+        if (this.viajes.isEmpty()) {
             return new String[0][0];
         }
-        String[][] listadosViajes = new String[viajes.size()][5];
-        for (int i = 0; i < viajes.size(); i++) {
-            Viaje viaje = viajes.get(i);
-            listadosViajes[i][0] = String.valueOf(viaje.getFecha());
-            listadosViajes[i][1] = String.valueOf(viaje.getHora());
-            listadosViajes[i][2] = String.valueOf(viaje.getPrecio());
-            listadosViajes[i][3] = String.valueOf(viaje.getNroAsientosDisponibles());
-            listadosViajes[i][4] = viaje.getBus().getPatente();
+
+        String[][] viajes = new String[this.viajes.size()][8];
+
+        for (int i = 0; i < this.viajes.size(); i++) {
+            Viaje v = this.viajes.get(i);
+
+            viajes[i][0] = v.getFecha().toString();
+            viajes[i][1] = v.getHora().toString();
+            viajes[i][2] = v.getFechaHoraTermino().toLocalTime().toString();
+            viajes[i][3] = "$" + v.getPrecio();
+
+            String[] asientos = v.getAsientos();
+            int asientosLibres = 0;
+            for (int j = 0; j < asientos.length; j++) {
+                if (!asientos[j].equals("*")) {
+                    asientosLibres++;
+                }
+            }
+            viajes[i][4] = String.valueOf(asientosLibres);
+            viajes[i][5] = v.getBus().getPatente();
+            viajes[i][6] = v.getTerminalSalida().getComuna();
+            viajes[i][7] = v.getTerminalLlegada().getComuna();
         }
-        return listadosViajes;
+        return viajes;
     }
 
 
