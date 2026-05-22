@@ -1,14 +1,18 @@
+package Modelo;
+
+import utilidades.IdPersona;
+import utilidades.Nombre;
 import java.util.Objects;
 
-public class Persona {
+public abstract class Persona {
     private IdPersona idPersona;
     private Nombre nombreCompleto;
     private String telefono;
 
-    public Persona(IdPersona idPersona, Nombre nombreCompleto) {
+    public Persona(IdPersona idPersona, Nombre nombreCompleto, String telefono) {
         this.idPersona = idPersona;
         this.nombreCompleto = nombreCompleto;
-
+        this.telefono = telefono;
     }
 
     public IdPersona getIdPersona() {
@@ -19,7 +23,7 @@ public class Persona {
         return nombreCompleto;
     }
 
-    public void  setNombreCompleto(Nombre nombreCompleto) {
+    public void setNombreCompleto(Nombre nombreCompleto) {
         this.nombreCompleto = nombreCompleto;
     }
 
@@ -37,17 +41,13 @@ public class Persona {
                 "----------------------------------------\n" +
                 "  ID       : " + idPersona + "\n" +
                 "  Nombre   : " + nombreCompleto + "\n" +
-                "  Teléfono : " + telefono + "\n" +
+                "  Telefono : " + telefono + "\n" +
                 "----------------------------------------";
     }
-
     public boolean equals(Object otro) {
-       if (otro == this) return true;
-       if (otro == null || getClass() != otro.getClass()) return false;
-       Persona persona = (Persona) otro;
+        if (otro == this) return true;
+        if (otro == null || getClass() != otro.getClass()) return false;
+        Persona persona = (Persona) otro;
         return Objects.equals(idPersona, persona.idPersona);
-       }
-
-
     }
-
+}
