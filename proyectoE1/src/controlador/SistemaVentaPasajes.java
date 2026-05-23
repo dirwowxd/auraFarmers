@@ -1,14 +1,9 @@
 package controlador;
 
-import Modelo.Cliente;
-import Modelo.Pasajero;
+import Modelo.*;
 import excepciones.SistemaVentaPasajesException;
 import utilidades.IdPersona;
 import utilidades.Nombre;
-import Modelo.Bus;
-import Modelo.Viaje;
-import Modelo.Venta;
-import Modelo.TipoDocumento;
 import utilidades.Rut;
 
 
@@ -78,7 +73,29 @@ public class SistemaVentaPasajes {
             throw new SistemaVentaPasajesException("No existe un bus con la patente " + patenteBus);
         }
         Bus bus= busEncontrado.get();
-        Rut rutEmpresa= bus.
+        Rut rutEmpresa= bus.getEmpresa().getRut();
+       Optional<Auxiliar> auxEncontrado=ControladorEmpresas.getInstance().findAuxiliar(idTripulantes[0], rutEmpresa);
+        if (auxEncontrado.isEmpty()) {
+            throw new SistemaVentaPasajesException("No existe auxiliar con el id indicado en la empresa con el rut indicado ");
+        }
+        Optional<Conductor> conductorEncontrado= ControladorEmpresas.getInstance().findConductor(idTripulantes[1], rutEmpresa);
+        if (conductorEncontrado.isEmpty()) {
+            throw new SistemaVentaPasajesException("No existe conductor con el id indicado en la empresa con el rut indicado");
+        }
+        Optional<Terminal> salidaEncontrada = ControladorEmpresas.getInstance().findTerminalPorComuna(nomComunas[0]);
+        Optional<Terminal> llegadaEncontrada = ControladorEmpresas.getInstance().findTerminalPorComuna(nomComunas[1]);
+        if (salidaEncontrada.isEmpty()) {
+            throw new SistemaVentaPasajesException("No existe terminal de salida en la comuna " + nomComunas[0]);
+        }
+        if (llegadaEncontrada.isEmpty()) {
+            throw new SistemaVentaPasajesException("No existe terminal de llegada en la comuna " + nomComunas[1]);
+        }
+        Viaje nuevoViaje = new Viaje(fecha, hora, precio, duracion, bus, auxEncontrado.get(), conductorEncontrado.get(), salidaEncontrada.get(), llegadaEncontrada.get());
+
+        bus.addViaje(nuevoViaje);
+        viajes.add(nuevoViaje);
+
+        System.out.println("...:::: Viaje guardado exitosamente ::::...");
 
 
     }

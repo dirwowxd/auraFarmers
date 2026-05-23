@@ -2,6 +2,8 @@ package vista;
 
 import controlador.*;
 import excepciones.SistemaVentaPasajesException;
+import utilidades.IdPersona;
+import utilidades.Pasaporte;
 import utilidades.Rut;
 
 import java.time.LocalDate;
@@ -172,6 +174,54 @@ public class UISVP {
     }
 
     private void createViaje() {
+        System.out.println("...:::: Creando un nuevo Viaje ::::...");
+
+        System.out.print("Fecha [dd/mm/yyyy]: ");
+        String fechaStr = sc.nextLine();
+        LocalDate fecha = LocalDate.parse(fechaStr, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+
+        System.out.print("Hora [hh:mm]: ");
+        String horaStr = sc.nextLine();
+        LocalTime hora = LocalTime.parse(horaStr, DateTimeFormatter.ofPattern("HH:mm"));
+
+        System.out.print("Precio: ");
+        int precio = Integer.parseInt(sc.nextLine());
+
+        System.out.print("Duración (minutos): ");
+        int duracion = Integer.parseInt(sc.nextLine());
+
+        System.out.print("Patente Bus: ");
+        String patenteBus = sc.nextLine();
+
+        System.out.print("Nro. de conductores: ");
+        int nroConductores = Integer.parseInt(sc.nextLine());
+
+
+        System.out.println(":: Id Auxiliar ::");
+        System.out.print("Rut[1] p Pasaporte [2] : ");
+        String rutPasaporte = sc.nextLine();
+        if (rutPasaporte.equals("1")) {
+            System.out.print("Rut : ");
+            Rut rut = Rut.of(rutPasaporte);
+        }
+        if (rutPasaporte.equals("2")) {
+            System.out.print("Numero Pasaporte: ");
+            int numeroPasaporte = sc.nextInt();
+            System.out.print("Nacionalidad Pasaporte: ");
+            String Nacionalidad = sc.nextLine();
+            Pasaporte pasaporte = Pasaporte.of(String.valueOf(numeroPasaporte), Nacionalidad);
+
+        }
+
+        System.out.print("Nombre comuna salida : ");
+        String comunaSalida = sc.nextLine();
+
+        System.out.print("Nombre comuna llegada : ");
+        String comunaLlegada = sc.nextLine();
+        try {
+            sistema.createViaje(fecha,hora,precio,duracion,patenteBus, );
+        }
+
     }
 
     private void createBus() {
