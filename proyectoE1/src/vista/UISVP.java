@@ -118,13 +118,13 @@ public class UISVP {
         System.out.println("Listar pasajeros de viaje");
 
         System.out.print("Fecha [dd/mm/yyyy] : ");
-        String fechaTexto = sc.nextLine();
+        String fechaTexto = sc.next();
 
         System.out.print("Hora [hh:mm] : ");
-        String horaTexto = sc.nextLine();
+        String horaTexto = sc.next();
 
         System.out.print("Patente Bus : ");
-        String patente = sc.nextLine();
+        String patente = sc.next();
 
         try {
             LocalDate fecha = LocalDate.parse(fechaTexto, formatoFecha);
