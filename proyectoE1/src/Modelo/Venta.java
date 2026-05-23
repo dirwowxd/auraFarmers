@@ -17,7 +17,7 @@ public class Venta {
             this.Fecha = Fecha;
             this.cliente = cliente;
             this.pago = pago;
-            this.pasajes = new Pasaje[5]; // //modificar (Cambió el límite máximo a 5 según el enunciado)
+            this.pasajes = new Pasaje[5];
             this.CantidadPasajes = 0;
         }
 

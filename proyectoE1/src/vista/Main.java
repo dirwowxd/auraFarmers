@@ -1,4 +1,5 @@
 package vista;
+import Modelo.Empresa;
 import controlador.SistemaVentaPasajes;
 import Modelo.TipoDocumento;
 import utilidades.*;

@@ -78,7 +78,7 @@ public class Empresa {
             }
         }
 
-        Conductor conductor= new Conductor(id, nom, direccion); // esta erronea hasta que Benja haga la clase de Conductor 14/05/2026
+        Conductor conductor= new Conductor(id, nom, direccion.toString()); // esta erronea hasta que Benja haga la clase de Conductor 14/05/2026
         conductores.add(conductor);
         return true;
 
@@ -96,7 +96,7 @@ public class Empresa {
             }
         }
 
-        Auxiliar auxiliar= new Auxiliar(id, nom,direccion);
+        Auxiliar auxiliar= new Auxiliar(id, nom, direccion.toString());
         tripulantes.add(auxiliar);
         return true;
     }
