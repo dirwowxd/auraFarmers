@@ -17,8 +17,10 @@ public class UISVP {
     private static UISVP instance;
     private DateTimeFormatter formatoFecha = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     private DateTimeFormatter formatoHora = DateTimeFormatter.ofPattern("HH:mm");
+
     private UISVP() {
     }
+
     public static UISVP getInstance() {
         if (instance == null) {
             instance = new UISVP();
@@ -286,7 +288,6 @@ public class UISVP {
 
 
     }
-}
 
 private void createTerminal() {
 }
