@@ -4,6 +4,9 @@ import controlador.*;
 import excepciones.SistemaVentaPasajesException;
 import utilidades.Rut;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -12,6 +15,10 @@ public class UISVP {
     Scanner sc = new Scanner(System.in);
     ControladorEmpresas controlador = ControladorEmpresas.getInstance();
     SistemaVentaPasajes sistema = SistemaVentaPasajes.getInstance();
+    DateTimeFormatter formatoFecha = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    DateTimeFormatter formatoHora = DateTimeFormatter.ofPattern("HH:mm");
+
+
 
     public void menuUISVP() {
         int opcion = 0;
@@ -106,8 +113,50 @@ public class UISVP {
 
     }
 
-    private void listPasajerosViaje() {
 
+    public void listPasajerosViaje() {
+        System.out.println("Listar pasajeros de viaje");
+
+        System.out.print("Fecha [dd/mm/yyyy] : ");
+        String fechaTexto = sc.next();
+
+        System.out.print("Hora [hh:mm] : ");
+        String horaTexto = sc.next();
+
+        System.out.print("Patente Bus : ");
+        String patente = sc.next();
+
+        try {
+            LocalDate fecha = LocalDate.parse(fechaTexto, formatoFecha);
+            LocalTime hora = LocalTime.parse(horaTexto, formatoHora);
+
+            String[][] Pasajeros = sistema.listPasajeros(fecha, hora, patente);
+
+            if (Pasajeros.length == 0) {
+                System.out.println("No hay pasajeros registrados para este viaje.");
+            } else {
+                System.out.println("LISTADO DE PASAJEROS REGISTRADOS EN EL VIAJE");
+
+                for (int i = 0; i < Pasajeros.length; i++) {
+                    String id = Pasajeros[i][0];
+                    String nombre = Pasajeros[i][1];
+                    String nomContacto = Pasajeros[i][2];
+                    String fonoContacto = Pasajeros[i][3];
+
+                    System.out.println("Pasajero N°" + (i + 1) + ":");
+                    System.out.println("ID: " + id);
+                    System.out.println("Nombre: " + nombre);
+                    System.out.println("Contacto de Emergencia: " + nomContacto);
+                    System.out.println("Teléfono Contacto: " + fonoContacto);
+                    System.out.println("----");
+                }
+            }
+        } catch (SistemaVentaPasajesException e) {
+            System.out.println("Error: " + e.getMessage());
+
+        } catch (Exception e) {//nose cual es la excepcion que saltaria al intentar convertir a localdate o localtime y que no cumpla con el formato, por eso uso exception en generico
+            System.out.println("Error: Formato de fecha u hora incorrecto");
+        }
     }
 
     private void listViajes() {
