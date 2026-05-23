@@ -191,18 +191,20 @@ public class UISVP {
         System.out.println("Creando una nueva Empresa");
 
         System.out.print("R.U.T : ");
-        String rut = sc.nextLine();
+        String rut = sc.next();
+
+        sc.nextLine();
 
         System.out.print("Nombre : ");
         String nombre = sc.nextLine();
 
         System.out.print("url : ");
-        String url = sc.nextLine();
+        String url = sc.next();
 
         try {
             Rut rutAhoraSi = Rut.of(rut);
 
-            this.controlador.createEmpresa(rutAhoraSi, nombre, url);
+            controlador.createEmpresa(rutAhoraSi, nombre, url);
 
             System.out.println("Empresa creada exitosamente");
 
