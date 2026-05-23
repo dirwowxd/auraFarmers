@@ -2,9 +2,7 @@ package vista;
 
 import controlador.*;
 import excepciones.SistemaVentaPasajesException;
-import utilidades.IdPersona;
-import utilidades.Pasaporte;
-import utilidades.Rut;
+import utilidades.*;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -13,12 +11,21 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class UISVP {
-
     Scanner sc = new Scanner(System.in);
     ControladorEmpresas controlador = ControladorEmpresas.getInstance();
     SistemaVentaPasajes sistema = SistemaVentaPasajes.getInstance();
-    DateTimeFormatter formatoFecha = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-    DateTimeFormatter formatoHora = DateTimeFormatter.ofPattern("HH:mm");
+    private static UISVP instance;
+    private DateTimeFormatter formatoFecha = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    private DateTimeFormatter formatoHora = DateTimeFormatter.ofPattern("HH:mm");
+    private UISVP() {
+    }
+    public static UISVP getInstance() {
+        if (instance == null) {
+            instance = new UISVP();
+
+        }
+        return instance;
+    }
 
 
 
@@ -220,7 +227,7 @@ public class UISVP {
         String comunaLlegada = sc.nextLine();
         try {
             sistema.createViaje(fecha,hora,precio,duracion,patenteBus, );
-        }
+        } catch ()
 
     }
 
@@ -228,40 +235,91 @@ public class UISVP {
     }
 
     private void createCliente() {
-    }
+        Nombre nombreCliente = new Nombre();
+        IdPersona idPersona = null;
 
-    private void createTerminal() {
-    }
-
-    private void contrataTripulante() {
-    }
-
-
-    public void createEmpresa() {
-        System.out.println("Creando una nueva Empresa");
-
-        System.out.print("R.U.T : ");
-        String rut = sc.next();
-
+        System.out.println("....::: Crear nuevo cliente:::....");
+        System.out.println(" ");
+        System.out.print("utilidades.Rut[1] o utilidades.Pasaporte [2] : ");
+        String idDoc = sc.next();
+        if (idDoc.equals("1")) {
+            System.out.print("R.U.T : ");
+            String rut = sc.next();
+            idPersona = Rut.of(rut);
+        } else if (idDoc.equals("2")) {
+            System.out.print("utilidades.Pasaporte : ");
+            String pasaporte = sc.next();
+            System.out.print("Nacionalidad : ");
+            String nacionalidad = sc.next();
+            idPersona = Pasaporte.of(pasaporte, nacionalidad);
+        }
+        System.out.print("Sr.[1] o Sra. [2] : ");
+        int sra = sc.nextInt();
+        if (sra == 1) {
+            nombreCliente.setTratamiento(Tratamiento.SR);
+        } else if (sra == 2) {
+            nombreCliente.setTratamiento(Tratamiento.SRA);
+        }
         sc.nextLine();
+        System.out.print("Nombres : ");
+        String nombres = sc.next();
+        sc.nextLine();
+        System.out.print("Apellido Paterno : ");
+        String apellidoPaterno = sc.next();
+        System.out.print("Apellido Materno : ");
+        String apellidoMaterno = sc.next();
+        System.out.print("Telefono movil : ");
+        String telefonoMovil = sc.next();
+        System.out.print("Email : ");
+        String email = sc.next();
+        nombreCliente.setNombres(nombres);
+        nombreCliente.setApellidoPaterno(apellidoPaterno);
+        nombreCliente.setApellidoMaterno(apellidoMaterno);
 
-        System.out.print("Nombre : ");
-        String nombre = sc.nextLine();
-
-        System.out.print("url : ");
-        String url = sc.next();
 
         try {
-            Rut rutAhoraSi = Rut.of(rut);
-
-            controlador.createEmpresa(rutAhoraSi, nombre, url);
-
-            System.out.println("Empresa creada exitosamente");
-
+            sistema.createCliente(idPersona, nombreCliente, telefonoMovil, email);
+            System.out.println("Cliente guardado correctamente.");
         } catch (SistemaVentaPasajesException e) {
             System.out.println("Error: " + e.getMessage());
-
         }
-    }
 
+
+    }
 }
+
+private void createTerminal() {
+}
+
+private void contrataTripulante() {
+}
+
+
+public void createEmpresa() {
+    System.out.println("Creando una nueva Empresa");
+
+    System.out.print("R.U.T : ");
+    String rut = sc.next();
+
+    sc.nextLine();
+
+    System.out.print("Nombre : ");
+    String nombre = sc.nextLine();
+
+    System.out.print("url : ");
+    String url = sc.next();
+
+    try {
+        Rut rutAhoraSi = Rut.of(rut);
+
+        controlador.createEmpresa(rutAhoraSi, nombre, url);
+
+        System.out.println("Empresa creada exitosamente");
+
+    } catch (SistemaVentaPasajesException e) {
+        System.out.println("Error: " + e.getMessage());
+
+    }
+}
+}
+
