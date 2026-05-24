@@ -1,5 +1,7 @@
 package Modelo;
 
+import utilidades.Rut;
+
 import java.util.ArrayList;
 
 public class Bus {
@@ -8,17 +10,14 @@ public class Bus {
     private String marca;
     private String modelo;
     private int nroAsientos;
-    private Empresa empresa;
+    private Rut rutEmpresa;
     private ArrayList<Viaje> viajes = new ArrayList<>();
 
-    public Bus(String patente, String marca, String modelo,
-               int nroAsientos, Empresa empresa) {
+    public Bus(String patente, int nroAsientos, Rut rutEmpresa) {
 
         this.patente = patente;
-        this.marca = marca;
-        this.modelo = modelo;
         this.nroAsientos = nroAsientos;
-        this.empresa = empresa;
+        this.rutEmpresa = rutEmpresa;
     }
 
     public String getPatente() {
@@ -29,39 +28,47 @@ public class Bus {
         return marca;
     }
 
-    public String getModelo() {
-        return modelo;
-    }
-
-    public int getNroAsientos() {
-        return nroAsientos;
-    }
-
-    public Empresa getEmpresa() {
-        return empresa;
-    }
-
-    public ArrayList<Viaje> getViajes() {
-        return viajes;
-    }
-
     public void setMarca(String marca) {
         this.marca = marca;
+    }
+
+    public String getModelo() {
+        return modelo;
     }
 
     public void setModelo(String modelo) {
         this.modelo = modelo;
     }
 
+    public int getNroAsientos() {
+        return nroAsientos;
+    }
+
+    public Rut getRutEmpresa() {
+        return rutEmpresa;
+    }
+
     public void addViaje(Viaje viaje) {
 
-        if (viaje != null && !viajes.contains(viaje)) {
+        if (viaje != null) {
             viajes.add(viaje);
         }
     }
 
+    public Viaje[] getViajes() {
+        return viajes.toArray(new Viaje[0]);
+    }
+
     @Override
     public String toString() {
-        return patente + " " + marca + " " + modelo;
+
+        return "----------------------------------------\n" +
+                " DATOS BUS\n" +
+                "----------------------------------------\n" +
+                " Patente     : " + patente + "\n" +
+                " Marca       : " + marca + "\n" +
+                " Modelo      : " + modelo + "\n" +
+                " NroAsientos : " + nroAsientos + "\n" +
+                "----------------------------------------";
     }
 }
