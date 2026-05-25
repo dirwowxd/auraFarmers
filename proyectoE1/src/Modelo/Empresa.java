@@ -18,6 +18,7 @@ public class Empresa {
     private final ArrayList<Bus> buses;
     private final ArrayList<Conductor> conductores;
     private final ArrayList<Tripulante> tripulantes;
+    private final ArrayList<Auxiliar> auxiliars;
 
     public Empresa(Rut rut, String nombre) {
         this.rut = rut;
@@ -25,6 +26,7 @@ public class Empresa {
         this.buses= new ArrayList<>();
         this.conductores= new ArrayList<>();
         this.tripulantes= new ArrayList<>();
+        this.auxiliars= new ArrayList<>();
     }
 
     public Rut getRut() {
