@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 public class ControladorEmpresas {
     private static ControladorEmpresas instance;
@@ -208,6 +210,110 @@ public class ControladorEmpresas {
             }
         }
         return Optional.empty();
+    }
+    protected Optional<Terminal> findTerminal(String nombre) {
+
+        for (Terminal terminal : terminales) {
+
+            if (terminal.getNombre().equals(nombre)) {
+                return Optional.of(terminal);
+            }
+        }
+
+        return Optional.empty();
+    }
+
+    protected Optional<Terminal> findTerminalPorComuna(String comuna) {
+
+        for (Terminal terminal : terminales) {
+
+            if (terminal.getDireccion().getComuna().equals(comuna)) {
+                return Optional.of(terminal);
+            }
+        }
+
+        return Optional.empty();
+    }
+
+    public String[][] listEmpresas() {
+
+        if (empresas.isEmpty()) {
+            return new String[0][0];
+        }
+
+        String[][] listaEmpresas = new String[empresas.size()][3];
+
+        for (int i = 0; i < empresas.size(); i++) {
+
+            Empresa empresa = empresas.get(i);
+
+            listaEmpresas[i][0] = empresa.getRut().toString();
+            listaEmpresas[i][1] = empresa.getNombre();
+            listaEmpresas[i][2] = empresa.getUrl();
+        }
+
+        return listaEmpresas;
+    }
+
+    public String[][] listLlegadasSalidasTerminal(String nombreTerminal, LocalDate fecha) {
+
+        Optional<Terminal> terminalBuscado = findTerminal(nombreTerminal);
+
+        if (terminalBuscado.isEmpty()) {
+            throw new SistemaVentaPasajesException("No existe terminal con el nombre indicado");
+        }
+
+        Terminal terminal = terminalBuscado.get();
+
+        ArrayList<String[]> listaViajes = new ArrayList<>();
+
+        for (Bus bus : buses) {
+
+            for (Viaje viaje : bus.getViajes()) {
+
+                if (viaje.getTerminalSalida().equals(terminal)
+                        && viaje.getFecha().equals(fecha)) {
+
+                    String[] fila = new String[5];
+
+                    fila[0] = "Salida";
+                    fila[1] = viaje.getHora().toString();
+                    fila[2] = viaje.getTerminalLlegada().getNombre();
+                    fila[3] = bus.getPatente();
+                    fila[4] = String.valueOf(viaje.getPrecio());
+
+                    listaViajes.add(fila);
+                }
+
+                LocalTime horaLlegada = viaje.getHora().plusHours(viaje.getDuracion());
+
+                if (viaje.getTerminalLlegada().equals(terminal)
+                        && viaje.getFecha().equals(fecha)) {
+
+                    String[] fila = new String[5];
+
+                    fila[0] = "Llegada";
+                    fila[1] = horaLlegada.toString();
+                    fila[2] = viaje.getTerminalSalida().getNombre();
+                    fila[3] = bus.getPatente();
+                    fila[4] = String.valueOf(viaje.getPrecio());
+
+                    listaViajes.add(fila);
+                }
+            }
+        }
+
+        if (listaViajes.isEmpty()) {
+            return new String[0][0];
+        }
+
+        String[][] resultado = new String[listaViajes.size()][5];
+
+        for (int i = 0; i < listaViajes.size(); i++) {
+            resultado[i] = listaViajes.get(i);
+        }
+
+        return resultado;
     }
 
 }

@@ -262,6 +262,69 @@ public class UISVP {
             System.out.println("Error: " + e.getMessage());
 
         }
+        private void listEmpresas() {
+
+            System.out.println("LISTADO DE EMPRESAS");
+
+            String[][] empresas = controlador.listEmpresas();
+
+            if (empresas.length == 0) {
+                System.out.println("No existen empresas registradas");
+                return;
+            }
+
+            for (int i = 0; i < empresas.length; i++) {
+
+                System.out.println("------------------------");
+                System.out.println("Rut    : " + empresas[i][0]);
+                System.out.println("Nombre : " + empresas[i][1]);
+                System.out.println("URL    : " + empresas[i][2]);
+            }
+        }
+
+        private void listLlegadasSalidasTerminal() {
+
+            sc.nextLine();
+
+            System.out.println("LISTADO LLEGADAS Y SALIDAS");
+
+            System.out.print("Nombre terminal : ");
+            String terminal = sc.nextLine();
+
+            System.out.print("Fecha [dd/mm/yyyy] : ");
+            String fechaTexto = sc.nextLine();
+
+            try {
+
+                LocalDate fecha = LocalDate.parse(fechaTexto, formatoFecha);
+
+                String[][] viajes =
+                        controlador.listLlegadasSalidasTerminal(terminal, fecha);
+
+                if (viajes.length == 0) {
+                    System.out.println("No existen viajes");
+                    return;
+                }
+
+                for (int i = 0; i < viajes.length; i++) {
+
+                    System.out.println("------------------------");
+                    System.out.println("Tipo      : " + viajes[i][0]);
+                    System.out.println("Hora      : " + viajes[i][1]);
+                    System.out.println("Terminal  : " + viajes[i][2]);
+                    System.out.println("Patente   : " + viajes[i][3]);
+                    System.out.println("Precio    : " + viajes[i][4]);
+                }
+
+            } catch (SistemaVentaPasajesException e) {
+
+                System.out.println("Error: " + e.getMessage());
+
+            } catch (Exception e) {
+
+                System.out.println("Error en formato de fecha");
+            }
+        }
     }
 
 }
