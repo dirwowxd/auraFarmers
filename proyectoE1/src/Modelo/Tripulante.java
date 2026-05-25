@@ -8,8 +8,8 @@ import utilidades.Nombre;
 public class Tripulante extends Persona {
 
 
-    public Tripulante(IdPersona idPersona, Nombre nombreCompleto) {
-        super(idPersona, nombreCompleto);
+    public Tripulante(IdPersona idPersona, Nombre nombreCompleto,  String telefono) {
+        super(idPersona, nombreCompleto,  telefono );
     }
 
 
