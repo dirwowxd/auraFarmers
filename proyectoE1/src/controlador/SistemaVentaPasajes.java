@@ -179,41 +179,55 @@ public class SistemaVentaPasajes {
         }
         return Optional.empty();
     }
-    public boolean vendePasaje(String idDoc, TipoDocumento tipo, LocalDate fecha, LocalTime hora, String patenteBus, IdPersona idPasajero, int asiento) {
-        Venta ventaEncontrada = findVenta(idDoc, tipo);
+    public void vendePasaje(String patente,
+                            LocalDate fecha,
+                            LocalTime hora,
+                            int asiento,
+                            Pasajero pasajero,
+                            Venta venta) {
 
-        if (ventaEncontrada == null) {
-            return false;
+        Optional<Bus> busBuscado = controladorEmpresas.findBus(patente);
+
+        if (busBuscado.isEmpty()) {
+            throw new SistemaVentaPasajesException("No existe bus con la patente indicada");
         }
+
+        Bus bus = busBuscado.get();
 
         Viaje viajeEncontrado = null;
 
-        for (Viaje viaje : viajes) {
-            if (viaje.getFecha().equals(fecha) &&
-                    viaje.getHora().equals(hora) &&
-                    viaje.getBus().getPatente().equals(patenteBus)) {
+        for (Viaje viaje : bus.getViajes()) {
+
+            if (viaje.getFecha().equals(fecha)
+                    && viaje.getHora().equals(hora)) {
+
                 viajeEncontrado = viaje;
                 break;
             }
         }
 
         if (viajeEncontrado == null) {
-            return false;
-        }
-
-        Pasajero pasajeroEncontrado = findPasajero(idPasajero);
-
-        if (pasajeroEncontrado == null) {
-            return false;
+            throw new SistemaVentaPasajesException("No existe viaje con los datos indicados");
         }
 
         if (!viajeEncontrado.ExisteDisponibilidad()) {
-            return false;
+            throw new SistemaVentaPasajesException("No existen asientos disponibles");
         }
 
-        ventaEncontrada.createPasaje(asiento, viajeEncontrado, pasajeroEncontrado);
+        String[][] asientos = viajeEncontrado.getAsientos();
 
-        return true;
+        for (int i = 0; i < asientos.length; i++) {
+
+            int nroAsiento = Integer.parseInt(asientos[i][0]);
+
+            if (nroAsiento == asiento
+                    && asientos[i][1].equals("Ocupado")) {
+
+                throw new SistemaVentaPasajesException("El asiento ya se encuentra ocupado");
+            }
+        }
+
+        venta.createPasaje(asiento, viajeEncontrado, pasajero);
     }
     public String[][] listVentas() {
         int CantidadVentas = ventas.size();
@@ -330,5 +344,40 @@ public class SistemaVentaPasajes {
             return Optional.of(nuevo);
         }
         return Optional.empty();
+    }
+    public String[][] listPasajerosViaje(String patente,
+                                         LocalDate fecha,
+                                         LocalTime hora) {
+
+        Optional<Bus> busBuscado = ControladorEmpresas.findBus(patente);
+
+        if (busBuscado.isEmpty()) {
+            throw new SistemaVentaPasajesException("No existe bus con la patente indicada");
+        }
+
+        Bus bus = busBuscado.get();
+
+        for (Viaje viaje : bus.getViajes()) {
+
+            if (viaje.getFecha().equals(fecha)
+                    && viaje.getHora().equals(hora)) {
+
+                return viaje.getListaPasajeros();
+            }
+        }
+
+        throw new SistemaVentaPasajesException("No existe viaje con los datos indicados");
+    }
+    public boolean pagaVenta(Venta venta) {
+
+        if (venta == null) {
+            throw new SistemaVentaPasajesException("La venta no puede ser nula");
+        }
+
+        if (venta.getPago() != null) {
+            throw new SistemaVentaPasajesException("La venta ya se encuentra pagada");
+        }
+
+        return venta.pagaMonto();
     }
 }
