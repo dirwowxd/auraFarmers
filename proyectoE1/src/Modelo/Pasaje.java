@@ -15,12 +15,12 @@ public class Pasaje {
         viaje.addPasaje(this);
     }
 
-    public int getNumero (){
-        return  (int) numero;
-    }
 
     public int getAsiento() {
         return asiento;
+    }
+    public int getNumero(){
+        return (int) numero;
     }
 
     public Viaje getViaje (){

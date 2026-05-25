@@ -1,25 +1,55 @@
 package Modelo;
 
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.LocalDate;
 
 public class Viaje {
-    private LocalDate Fecha;
-    private LocalTime Hora;
+    private final LocalDate Fecha;
+    private final LocalTime Hora;
     private int Precio;
-    private Bus bus;
-    //creare un arreglo privado para los datos de los asientos vendidos
-    private Pasaje[] PasajesVendidos;
+    private final Bus bus;
+    private final Pasaje[] PasajesVendidos;
     private int ContadorPasajes;
+    private final int duracion;
+    private final Auxiliar auxiliar;
+    private final Conductor[] conductores;
+    private final Terminal terminalSalida;
+    private final Terminal terminalLlegada;
 
 
-    public Viaje(LocalDate Fecha, LocalTime Hora, int Precio, Bus bus) {
+    public Viaje(LocalDate Fecha, LocalTime Hora, int Precio, int duracion, Bus bus, Auxiliar auxiliar, Conductor[] conductores, Terminal terminalSalida, Terminal terminalLlegada) {
         this.Fecha = Fecha;
         this.Hora = Hora;
         this.Precio = Precio;
         this.bus = bus;
+        this.duracion = duracion;
+        this.auxiliar = auxiliar;
+        this.conductores = conductores;
+        this.terminalSalida = terminalSalida;
+        this.terminalLlegada = terminalLlegada;
         this.PasajesVendidos = new Pasaje[bus.getNroAsientos()];
         this.ContadorPasajes = 0;
+    }
+
+    public int getDuracion() {
+        return duracion;
+    }
+
+    public Auxiliar getAuxiliar() {
+        return auxiliar;
+    }
+
+    public Conductor[] getConductores() {
+        return conductores;
+    }
+
+    public Terminal getTerminalSalida() {
+        return terminalSalida;
+    }
+
+    public Terminal getTerminalLlegada() {
+        return terminalLlegada;
     }
 
 
@@ -43,7 +73,7 @@ public class Viaje {
         return bus;
     }
 
-    public String[][] getAsientos() {
+    public String[][] getAsientos() { //modificar ya que ahora es unidimensional
         int totalAsientos = bus.getNroAsientos();
         String[][] mapaAsientos = new String[totalAsientos][2];
 
@@ -72,7 +102,7 @@ public class Viaje {
         }
     }
 
-    public String[][] getListaPasajeros() {
+    public String[][] getListaPasajeros() {//modificar
         String[][] lista = new String[this.ContadorPasajes][5];
 
         for (int i = 0; i < this.ContadorPasajes; i++) {
@@ -96,15 +126,29 @@ public class Viaje {
     }
 
     //verificar que el contador sea menor al limite del bus
-    public boolean ExisteDisponibilidad() {
+    public boolean ExisteDisponibilidad() { //modificar
         return ContadorPasajes < bus.getNroAsientos();
     }
 
-    public int getNroAsientosDisponibles() {
+    public int getNroAsientosDisponibles() {// se debe borrar segun yo ya que no aparece en el uml
         return bus.getNroAsientos() - ContadorPasajes;
     }
 
-//lol comit
+    public LocalDateTime getFechaHoraTermino() {
+        return null;//HACER
+    }
+    public Venta[] getVentas() {
+        return null; //hacer
+    }
+    public Tripulante[] getTripulantes(){
+        return null; //hacer
+    }
+    public void addConductor(Conductor conductor){
+        //hacer
+    }
+    public boolean existeDisponibilidad(int nroAsientos){
+        return false; //hacer
+    }
 
 
 }
