@@ -75,6 +75,7 @@ public class ControladorEmpresas {
 
             if (comunaExistente.equals(comunaNueva)) {
                 throw new SistemaVentaPasajesException("Ya existe terminal en la comuna");
+
             }
         }
 

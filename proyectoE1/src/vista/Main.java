@@ -340,7 +340,7 @@ public class Main {
         }
 
         System.out.println("\n:::: Monto total de la venta: $" + sistemas.getMontoVenta(idDoc, tipoDocumento));
-        System.out.println("...:::: Modelo.Venta generada exitosamente ::::....");
+        System.out.println("...:::: Venta generada exitosamente ::::....");
 
         System.out.println("\n:::: Imprimiendo los pasajes");
         for (String string : asientosAComprar) {
