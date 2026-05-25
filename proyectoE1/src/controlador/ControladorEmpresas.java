@@ -17,6 +17,7 @@ public class ControladorEmpresas {
     private final ArrayList<Bus> buses;
     private final ArrayList<Venta> ventas;
 
+
     private ControladorEmpresas() {
         this.empresas = new ArrayList<>();
         this.terminales = new ArrayList<>();
