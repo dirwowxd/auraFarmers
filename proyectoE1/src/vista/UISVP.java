@@ -694,16 +694,18 @@ public class UISVP {
 
         System.out.print("Rut [1] o Pasaporte [2] : ");
         int tipoId = Integer.parseInt(sc.nextLine());
-        System.out.print("Identificador : ");
-        String valorId = sc.nextLine();
 
         IdPersona id;
         if (tipoId == 1) {
-            id = Rut.of(valorId);
+            System.out.print("RUT : ");
+            String rut = sc.nextLine();
+            id = Rut.of(rut);
         } else {
+            System.out.print("Número Pasaporte : ");
+            String numP = sc.nextLine();
             System.out.print("Nacionalidad : ");
             String nac = sc.nextLine();
-            id = Pasaporte.of(valorId, nac);
+            id = Pasaporte.of(numP, nac);
         }
         Nombre nom = new Nombre();
         System.out.print("      Sr.[1] o Sra.[2] : ");
