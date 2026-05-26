@@ -372,7 +372,6 @@ public class UISVP {
         String seleccionAsientos = sc.nextLine();
         String[] asientosAComprar = seleccionAsientos.split(",");
 
-        // 4. Registrar pasajeros en cada asiento asignado
         for (int i = 0; i < asientosAComprar.length; i++) {
             int nroAsiento = Integer.parseInt(asientosAComprar[i]);
             System.out.println("\n:::: Datos pasajeros " + (i + 1));
@@ -708,7 +707,7 @@ public class UISVP {
             id = Pasaporte.of(numP, nac);
         }
         Nombre nom = new Nombre();
-        System.out.print("      Sr.[1] o Sra.[2] : ");
+        System.out.print("Sr.[1] o Sra.[2] : ");
         int trat = Integer.parseInt(sc.nextLine());
         nom.setTratamiento((trat == 1) ? Tratamiento.SR : Tratamiento.SRA);
 
