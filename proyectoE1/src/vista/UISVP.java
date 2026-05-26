@@ -727,7 +727,7 @@ public class UISVP {
             sistema.createCliente(id, nom, fono, email);
             System.out.println("\n...:::: Cliente creado exitosamente ::::....");
         } catch (SistemaVentaPasajesException e) {
-            System.out.println("\n*** Error: " + e.getMessage() + " ***");
+            System.out.println("Error: " + e.getMessage());
         }
     }
 
