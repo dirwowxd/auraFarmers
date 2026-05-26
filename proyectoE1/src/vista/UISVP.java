@@ -1,14 +1,15 @@
 package vista;
 
+
 import Modelo.TipoDocumento;
 import controlador.*;
 import excepciones.SistemaVentaPasajesException;
 import utilidades.*;
-
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.InputMismatchException;
+import java.util.Optional;
 import java.util.Scanner;
 
 public class UISVP {
@@ -18,6 +19,7 @@ public class UISVP {
     SistemaVentaPasajes sistema = SistemaVentaPasajes.getInstance();
     DateTimeFormatter formatoFecha = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     DateTimeFormatter formatoHora = DateTimeFormatter.ofPattern("HH:mm");
+
 
 
 
@@ -45,6 +47,7 @@ public class UISVP {
 
             try {
                 opcion = sc.nextInt();
+                sc.nextLine();
 
                 if (opcion < 1 || opcion > 14) {
                     System.out.println("Error: La opción debe ser un número entre el 1 y 14.");
@@ -96,6 +99,7 @@ public class UISVP {
                 }
             } catch (InputMismatchException e) {
                 System.out.println("Error: Ingrese solo numeros enteros");
+                sc.nextLine();
                 opcion = 0;
             }
 
@@ -103,15 +107,86 @@ public class UISVP {
     }
 
     private void listVentasEmpresa() {
+        System.out.println("\n...:::: Ventas por Empresa ::::....");
+        System.out.print("Ingrese el RUT de la empresa: ");
+        String rutInput = sc.nextLine();
+        Rut rut = Rut.of(rutInput);
 
+        try {
+            ControladorEmpresas controlador = ControladorEmpresas.getInstance();
+            String[][] datos = controlador.listVentasEmpresa(rut);
+            if (datos.length == 0) {
+                System.out.println("No hay ventas registradas para esta empresa.");
+                return;
+            }
+            System.out.printf("%-15s | %-15s | %-10s | %-15s%n", "Fecha", "Tipo", "Monto", "Pago");
+            System.out.println("------------------------------------------------------------------");
+
+            for (String[] fila : datos) {
+                System.out.printf("%-15s | %-15s | %-10s | %-15s%n",
+                        fila[0], fila[1], fila[2], fila[3]);
+            }
+        } catch (SistemaVentaPasajesException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
     }
+
 
     private void listLlegadasSalidasTerminal() {
+        System.out.println("LISTADO LLEGADAS Y SALIDAS");
+        System.out.print("Nombre terminal : ");
+        String terminal = sc.nextLine();
+        System.out.print("Fecha [dd/mm/yyyy] : ");
+        String fechaTexto = sc.nextLine();
+        try {
+            LocalDate fecha = LocalDate.parse(fechaTexto,
+                    formatoFecha);
+            String[][] viajes =
+                    controlador.listLlegadasSalidasTerminal(terminal,
+                            fecha);
+            if (viajes.length == 0) {
+                System.out.println("No existen viajes");
+                return;
+            }
+            for (String[] viaje : viajes) {
+                System.out.println("------------------------");
+                System.out.println("Tipo : " + viaje[0]);
+                System.out.println("Hora : " + viaje[1]);
+                System.out.println("Terminal : " + viaje[2]);
+                System.out.println("Patente : " + viaje[3]);
+                System.out.println("Precio : " + viaje[4]);
+            }
+        } catch (SistemaVentaPasajesException e) {
+            System.out.println("Error: " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("Error: "+e.getMessage());
+        }
 
-    }
+        }
+
 
     private void listEmpresas() {
+        System.out.println("\n...::::: Listado de empresas ::::....\n");
 
+        ControladorEmpresas controlador = ControladorEmpresas.getInstance();
+        String[][] datos = controlador.listEmpresas();
+
+        if (datos.length == 0) {
+            System.out.println(" No existen empresas registradas en el sistema ");
+            return;
+        }
+
+        String separador = "----------------------------------------------------------------------------------------------------------------------*";
+        String formato   = "| %-13s | %-28s | %-28s | %-17s | %-10s | %-12s |%n";
+
+        System.out.println(separador);
+        System.out.printf(formato, "RUT EMPRESA", "NOMBRE", "URL", "NRO. TRIPULANTES", "NRO. BUSES", "NRO. VENTAS");
+        System.out.println(separador);
+
+        for (String[] fila : datos) {
+            System.out.printf(formato, fila[0], fila[1], fila[2], fila[3], fila[4], fila[5]);
+            System.out.println(separador);
+        }
     }
 
 
@@ -155,77 +230,112 @@ public class UISVP {
         } catch (SistemaVentaPasajesException e) {
             System.out.println("Error: " + e.getMessage());
 
-        } catch (Exception e) {//nose cual es la excepcion que saltaria al intentar convertir a localdate o localtime y que no cumpla con el formato, por eso uso exception en generico
+        } catch (Exception e) {
             System.out.println("Error: Formato de fecha u hora incorrecto");
         }
     }
 
     private void listViajes() {
+        System.out.println("\n...::::: Listado de viajes ::::....\n");
 
+        SistemaVentaPasajes svp = SistemaVentaPasajes.getInstance();
+        String[][] datos = svp.listViajes();
+
+        if (datos.length == 0) {
+            System.out.println(" No existen viajes registrados en el sistema ");
+            return;
+        }
+
+        String separador = "----------------------------------------------------------------------------------------------------------*";
+        String formato   = "| %-12s | %-9s | %-10s | %-7s | %-14s | %-8s | %-15s | %-15s |%n";
+
+        System.out.println(separador);
+        System.out.printf(formato, "FECHA", "HORA SALE", "HORA LLEGA", "PRECIO", "ASIENTOS DISP.", "PATENTE", "ORIGEN", "DESTINO");
+        System.out.println(separador);
+
+        for (String[] fila : datos) {
+            System.out.printf(formato, fila[0], fila[1], fila[2], fila[3], fila[4], fila[5], fila[6], fila[7]);
+            System.out.println(separador);
+        }
     }
 
     private void listVentas() {
+        System.out.println("\n...:::: Listado General de Ventas ::::....\n");
 
+        String[][] datos = sistema.listVentas();
+
+        if (datos == null || datos.length == 0) {
+            System.out.println("No hay ventas registradas en el sistema.");
+            return;
+        }
+        String separador = "-----------------------------------------------------------------------------------------------------------";
+        String formato = "%-10s | %-8s | %-12s | %-12s | %-20s | %-8s | %-12s%n";
+        System.out.println(separador);
+        System.out.printf(formato, "ID Doc", "Tipo", "Fecha", "ID Cliente", "Nombre", "Pasajes", "Monto");
+        System.out.println(separador);
+        for (String[] fila : datos) {
+            System.out.printf(formato, fila[0], fila[1], fila[2], fila[3], fila[4], fila[5], fila[6]);
+        }
+        System.out.println(separador);
     }
 
-    private void venderPasajes() { // agregar origen comuna y destino comuna
-        TipoDocumento tipoDocumento = null;
-        sc.nextLine();
-        System.out.println("....::: Venta de pasajes ::::....");
+
+
+
+
+    private void venderPasajes() {
+        System.out.println("\n....::: Venta de pasajes ::::....");
         System.out.println(" ");
         System.out.println(":::: Datos de la Venta");
+
         System.out.print("ID Documento : ");
-        String idDoc = sc.next();
+        String idDoc = sc.nextLine();
+
         System.out.print("Tipo documento: [1] Boleta [2] Factura : ");
-        int tipoDoc = sc.nextInt();
-        if (tipoDoc == 1) {
-            tipoDocumento = TipoDocumento.BOLETA;
-        } else if (tipoDoc == 2) {
-            tipoDocumento = TipoDocumento.FACTURA;
-        }
+        int tipoDoc = Integer.parseInt(sc.nextLine());
+        TipoDocumento tipoDocumento = (tipoDoc == 1) ? TipoDocumento.BOLETA : TipoDocumento.FACTURA;
 
-        IdPersona idCliente = null;
-        System.out.print("Fecha de venta [dd/mm/yyyy] : ");
-        LocalDate fechaVenta = LocalDate.parse(sc.next(), formatoFecha);
-        System.out.print("Origen (Comuna)");
-        String origenComuna = sc.next();
-        System.out.print("Destino (Comuna)");
-        String destinoComuna = sc.next();
-        System.out.println("::: Datos del cliente ");
-        System.out.println("  ");
-        System.out.print("Rut [1] o Pasaporte [2] : ");
-        String rutPasaporte = sc.next();
-        if (rutPasaporte.equals("1")) {
-            System.out.print("R.U.T : ");
-            idCliente = Rut.of(sc.next());
-        } else if (rutPasaporte.equals("2")) {
-            System.out.print("Pasaporte : ");
-            String p = sc.next();
-            System.out.print("Nacionalidad : ");
-            idCliente = Pasaporte.of(p, sc.next());
-        }
-
-        try {
-            SistemaVentaPasajes ventaIniciada = sistema.iniciaVenta(idDoc, tipoDocumento, fechaVenta, idCliente);
-        } catch (SistemaVentaPasajesException e){
-            System.out.println("Error: " + e.getMessage());
-        }
-
-        System.out.println("\n:::: Datos del cliente");
-
-        System.out.println("Nombre Cliente : " + sistema.getNombrePasajero(idCliente));
-
-
-        System.out.println("\n:::: Pasajes a vender");
-        System.out.print("Cantidad de pasajes : ");
-        int cantidadPasajes = sc.nextInt();
         System.out.print("Fecha de viaje [dd/mm/yyyy] : ");
-        LocalDate fechaViaje = LocalDate.parse(sc.next(), formatoFecha);
+        String fechaViajeStr = sc.nextLine();
+        LocalDate fechaViaje = LocalDate.parse(fechaViajeStr, formatoFecha);
 
+        System.out.print("Origen (Comuna): ");
+        String origenComuna = sc.nextLine();
+
+        System.out.print("Destino (Comuna): ");
+        String destinoComuna = sc.nextLine();
+
+        System.out.println("::: Datos del cliente ");
+        System.out.print("Rut [1] o Pasaporte [2] : ");
+        int tipoIdCliente = Integer.parseInt(sc.nextLine());
+        IdPersona idCliente = null;
+
+        if (tipoIdCliente == 1) {
+            System.out.print("R.U.T : ");
+            idCliente = Rut.of(sc.nextLine());
+        } else {
+            System.out.print("Pasaporte : ");
+            String p = sc.nextLine();
+            System.out.print("Nacionalidad : ");
+            idCliente = Pasaporte.of(p, sc.nextLine());
+        }
+
+        System.out.print("Cantidad de pasajes : ");
+        int cantidadPasajes = Integer.parseInt(sc.nextLine());
+        try {
+            sistema.iniciaVenta(idDoc, tipoDocumento, LocalDate.now(), idCliente);
+        } catch (SistemaVentaPasajesException e) {
+            System.out.println("*** Error: " + e.getMessage() + " ***");
+            return;
+        }
+        Optional<String> nomClienteOpt = sistema.getNombrePasajero(idCliente);
+        String nombreClienteStr = nomClienteOpt.isPresent() ? nomClienteOpt.get() : "No registrado";
+        System.out.println("Nombre Cliente : " + nombreClienteStr);
         System.out.println("\n:::: Listado de horarios disponibles");
         String[][] horarios = sistema.getHorariosDisponibles(fechaViaje);
+
         if (horarios.length == 0) {
-            System.out.println("No existen viajes para la fecha indicada.");
+            System.out.println("No existen viajes disponibles para los criterios indicados.");
             return;
         }
 
@@ -238,7 +348,7 @@ public class UISVP {
         System.out.println("*---*--------------*----------*----------*------------*");
 
         System.out.print("Seleccione viaje en [1.." + horarios.length + "] : ");
-        int seleccion = sc.nextInt();
+        int seleccion = Integer.parseInt(sc.nextLine());
         int indice = seleccion - 1;
         String patenteBus = horarios[indice][0];
         LocalTime horaViaje = LocalTime.parse(horarios[indice][1]);
@@ -259,76 +369,99 @@ public class UISVP {
         System.out.println("*---*---*---*---*---*");
 
         System.out.print("Seleccione sus asientos [separe por ,] : ");
-        String seleccionAsientos = sc.next();
+        String seleccionAsientos = sc.nextLine();
         String[] asientosAComprar = seleccionAsientos.split(",");
 
+        // 4. Registrar pasajeros en cada asiento asignado
         for (int i = 0; i < asientosAComprar.length; i++) {
             int nroAsiento = Integer.parseInt(asientosAComprar[i]);
             System.out.println("\n:::: Datos pasajeros " + (i + 1));
-            System.out.print("utilidades.Rut[1] o utilidades.Pasaporte[2] : ");
-            String tipoIdP = sc.next();
-            IdPersona idPasajero = null;
+            System.out.print("Rut[1] o Pasaporte[2] : ");
+            int tipoIdP = Integer.parseInt(sc.nextLine());
+            IdPersona idPasajero;
 
-            if (tipoIdP.equals("1")) {
+            if (tipoIdP == 1) {
                 System.out.print("R.U.T : ");
-                idPasajero = Rut.of(sc.next());
+                idPasajero = Rut.of(sc.nextLine());
             } else {
-                System.out.print("utilidades.Pasaporte : ");
-                String numP = sc.next();
+                System.out.print("Pasaporte : ");
+                String numP = sc.nextLine();
                 System.out.print("Nacionalidad : ");
-                idPasajero = Pasaporte.of(numP, sc.next());
+                idPasajero = Pasaporte.of(numP, sc.nextLine());
             }
 
-            if (sistema.getNombrePasajero(idPasajero).isEmpty()) {
+            Optional<String> nomPasajeroOpt = sistema.getNombrePasajero(idPasajero);
+
+            if (nomPasajeroOpt.isEmpty()) {
                 System.out.println(":::: Ingrese los datos completos del Pasajero y su Contacto");
                 Nombre nomP = new Nombre();
                 System.out.print("Sr.[1] o Sra.[2] : ");
-                int opcionTratamiento = sc.nextInt();
-                if (opcionTratamiento == 1) {
-                    nomP.setTratamiento(Tratamiento.SR);
-                } else {
-                    nomP.setTratamiento(Tratamiento.SRA);
-                }
+                int opcionTratamiento = Integer.parseInt(sc.nextLine());
+                nomP.setTratamiento((opcionTratamiento == 1) ? Tratamiento.SR : Tratamiento.SRA);
+
                 System.out.print("Nombres : ");
-                nomP.setNombres(sc.next());
-                sc.nextLine();
-
-
+                nomP.setNombres(sc.nextLine());
                 System.out.print("Apellido Paterno : ");
-                nomP.setApellidoPaterno(sc.next());
+                nomP.setApellidoPaterno(sc.nextLine());
                 System.out.print("Apellido Materno : ");
-                nomP.setApellidoMaterno(sc.next());
-                System.out.print("Telefono movil : ");
+                nomP.setApellidoMaterno(sc.nextLine());
 
-                String fonoP = sc.next();
+                System.out.print("Telefono movil : ");
+                String fonoP = sc.nextLine();
 
                 Nombre nomC = new Nombre();
                 System.out.print("Tratamiento contacto [1] Sr [2] Sra: ");
-                int opcionTratamientoContacto = sc.nextInt();
-                if (opcionTratamientoContacto == 1) {
-                    nomC.setTratamiento(Tratamiento.SR);
-                } else {
-                    nomC.setTratamiento(Tratamiento.SRA);
-                }
-                System.out.print("Nombres contacto: ");
-                nomC.setNombres(sc.next());
-                sc.nextLine();
-                System.out.print("Apellido Paterno contacto: ");
-                nomC.setApellidoPaterno(sc.next());
-                System.out.print("Apellido Materno contacto: ");
-                nomC.setApellidoMaterno(sc.next());
-                System.out.print("Telefono contacto: ");
-                String fonoC = sc.next();
+                int opcionTratamientoContacto = Integer.parseInt(sc.nextLine());
+                nomC.setTratamiento((opcionTratamientoContacto == 1) ? Tratamiento.SR : Tratamiento.SRA);
 
-                sistema.createPasajero(idPasajero, nomP, fonoP, nomC, fonoC);
+                System.out.print("Nombres contacto: ");
+                nomC.setNombres(sc.nextLine());
+                System.out.print("Apellido Paterno contacto: ");
+                nomC.setApellidoPaterno(sc.nextLine());
+                System.out.print("Apellido Materno contacto: ");
+                nomC.setApellidoMaterno(sc.nextLine());
+
+                System.out.print("Telefono contacto: ");
+                String fonoC = sc.nextLine();
+
+                try {
+                    sistema.createPasajero(idPasajero, nomP, fonoP, nomC, fonoC);
+                } catch (SistemaVentaPasajesException e) {
+                    System.out.println(" Error : " + e.getMessage());
+                    return;
+                }
             }
 
-            sistema.vendePasaje(idDoc, tipoDocumento, fechaViaje, horaViaje, patenteBus, idPasajero, nroAsiento);
-            System.out.println(":::: Modelo.Pasaje agregado exitosamente");
+            try {
+                sistema.vendePasaje(idDoc, tipoDocumento, fechaViaje, horaViaje, patenteBus, idPasajero, nroAsiento);
+                System.out.println(":::: Pasaje asignado con éxito.");
+            } catch (SistemaVentaPasajesException e) {
+                System.out.println(" Error : " + e.getMessage());
+                return;
+            }
         }
 
-        System.out.println("\n:::: Monto total de la venta: $" + sistema.getMontoVenta(idDoc, tipoDocumento));
-        System.out.println("...:::: Venta generada exitosamente ::::....");
+        Optional<Integer> montoOpt = sistema.getMontoVenta(idDoc, tipoDocumento);
+        int montoTotal = montoOpt.orElse(0);
+        System.out.println("\n:::: Monto total de la venta: $" + montoTotal);
+        System.out.println(":::: Pago de la venta");
+        System.out.print("Efectivo[1] o Tarjeta[2] : ");
+        int tipoPago = Integer.parseInt(sc.nextLine());
+
+        try {
+            if (tipoPago == 1) {
+                sistema.pagaVenta(idDoc, tipoDocumento);
+            } else {
+                System.out.print("Ingrese número de tarjeta: ");
+                long nroTarjeta = Long.parseLong(sc.nextLine());
+                sistema.pagaVenta(idDoc, tipoDocumento, nroTarjeta);
+            }
+            System.out.println("...:::: Venta realizada exitosamente ::::....");
+        } catch (SistemaVentaPasajesException e) {
+            System.out.println("*** Error: " + e.getMessage());
+        } catch (NumberFormatException e) {
+            System.out.println(" Error : "+e.getMessage());
+        }
 
         System.out.println("\n:::: Imprimiendo los pasajes");
         for (String string : asientosAComprar) {
@@ -339,73 +472,198 @@ public class UISVP {
             System.out.println("ASIENTO         : " + string);
             System.out.println("------------------------------------------------------");
         }
-
     }
 
-    private void createViaje() {
-        System.out.println("...:::: Creando un nuevo Viaje ::::...");
-
-        System.out.print("Fecha [dd/mm/yyyy]: ");
-        String fechaStr = sc.nextLine();
-        LocalDate fecha = LocalDate.parse(fechaStr, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-
-        System.out.print("Hora [hh:mm]: ");
-        String horaStr = sc.nextLine();
-        LocalTime hora = LocalTime.parse(horaStr, DateTimeFormatter.ofPattern("HH:mm"));
-
-        System.out.print("Precio: ");
-        int precio = Integer.parseInt(sc.nextLine());
-
-        System.out.print("Duración (minutos): ");
-        int duracion = Integer.parseInt(sc.nextLine());
-
-        System.out.print("Patente Bus: ");
-        String patenteBus = sc.nextLine();
-
-        System.out.print("Nro. de conductores: ");
-        int nroConductores = Integer.parseInt(sc.nextLine());
-
-
-        System.out.println(":: Id Auxiliar ::");
-        System.out.print("Rut[1] p Pasaporte [2] : ");
-        String rutPasaporte = sc.nextLine();
-        if (rutPasaporte.equals("1")) {
-            System.out.print("Rut : ");
-            Rut rut = Rut.of(rutPasaporte);
-        }
-        if (rutPasaporte.equals("2")) {
-            System.out.print("Numero Pasaporte: ");
-            int numeroPasaporte = sc.nextInt();
-            System.out.print("Nacionalidad Pasaporte: ");
-            String Nacionalidad = sc.nextLine();
-            Pasaporte pasaporte = Pasaporte.of(String.valueOf(numeroPasaporte), Nacionalidad);
-
-        }
-
-        System.out.print("Nombre comuna salida : ");
-        String comunaSalida = sc.nextLine();
-
-        System.out.print("Nombre comuna llegada : ");
-        String comunaLlegada = sc.nextLine();
+    public void createViaje() {
         try {
-            sistema.createViaje(fecha,hora,precio,duracion,patenteBus);
+            System.out.println("\n..:::: Creando un nuevo Viaje ::::....");
 
-        } catch (SistemaVentaPasajesException e){
-            System.out.println("Error: " + e.getMessage());
+            System.out.print("Fecha del viaje (dd/MM/yyyy): ");
+            String fechaStr = sc.nextLine();
+            LocalDate fecha = LocalDate.parse(fechaStr, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+
+            System.out.print("Hora del viaje (HH:mm): ");
+            String horaStr = sc.nextLine();
+            LocalTime hora = LocalTime.parse(horaStr, DateTimeFormatter.ofPattern("HH:mm"));
+
+            System.out.print("Precio del pasaje: ");
+            int precio = Integer.parseInt(sc.nextLine());
+
+            System.out.print("Duracion del viaje (minutos): ");
+            int duracion = Integer.parseInt(sc.nextLine());
+            System.out.print("Patente del bus: ");
+            String patenteBus = sc.nextLine();
+            System.out.print("Cantidad de conductores (1 o 2): ");
+            int cantidadConductores = Integer.parseInt(sc.nextLine());
+            while (cantidadConductores < 1 || cantidadConductores > 2) {
+                System.out.println("ERROR. Debe ingresar 1 o 2 conductores.");
+                System.out.print("Cantidad de conductores (1 o 2): ");
+                cantidadConductores = Integer.parseInt(sc.nextLine());
+            }
+            IdPersona[] idTripulantes = new IdPersona[cantidadConductores + 1];
+            System.out.println("\n:: Id Auxiliar ::");
+            System.out.print("Rut[1] o Pasaporte[2] : ");
+            int tipoAux = Integer.parseInt(sc.nextLine());
+
+            if (tipoAux == 1) {
+                System.out.print("R.U.T : ");
+                idTripulantes[0] = Rut.of(sc.nextLine());
+            } else {
+                System.out.print("Numero de Pasaporte : ");
+                String numP = sc.nextLine();
+                System.out.print("Nacionalidad : ");
+                idTripulantes[0] = Pasaporte.of(numP, sc.nextLine());
+            }
+
+            for (int i = 1; i <= cantidadConductores; i++) {
+                System.out.println("\n:: Id Conductor " + i + " ::");
+                System.out.print("Rut[1] o Pasaporte[2] : ");
+                int tipoCond = Integer.parseInt(sc.nextLine());
+
+                if (tipoCond == 1) {
+                    System.out.print("R.U.T : ");
+                    idTripulantes[i] = Rut.of(sc.nextLine());
+                } else {
+                    System.out.print("Numero de Pasaporte : ");
+                    String numP = sc.nextLine();
+                    System.out.print("Nacionalidad : ");
+                    idTripulantes[i] = Pasaporte.of(numP, sc.nextLine());
+                }
+            }
+
+            String[] nomComunas = new String[2];
+            System.out.print("Nombre comuna salida: ");
+            nomComunas[0] = sc.nextLine();
+            System.out.print("Nombre comuna llegada: ");
+            nomComunas[1] = sc.nextLine();
+
+            sistema.createViaje(fecha, hora, precio, duracion, patenteBus, idTripulantes, nomComunas);
+            System.out.println("...:::: Viaje guardado exitosamente ::::....");
+
+        } catch (SistemaVentaPasajesException e) {
+            // Captura de la excepción de tu capa lógica
+            System.out.println(" Error: " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage() );
         }
-
     }
+
 
     private void createBus() {
-    }
+        System.out.println("\n...::::: Creando un nuevo Bus ::::....\n");
 
-    private void createCliente() {
+        System.out.print("Patente : ");
+        String patente = sc.nextLine();
+
+        System.out.print("            Marca : ");
+        String marca = sc.nextLine();
+
+        System.out.print("Modelo : ");
+        String modelo = sc.nextLine();
+
+        System.out.print("Número de asientos : ");
+        int nroAsientos = sc.nextInt();
+        sc.nextLine();
+
+        System.out.println("\n:::: Dato de la empresa");
+        System.out.print("R.U.T : ");
+        String rutStr = sc.nextLine();
+
+        try {
+            Rut rutEmpresa =  Rut.of(rutStr);
+            ControladorEmpresas controlador = ControladorEmpresas.getInstance();
+            controlador.createBus(patente, marca, modelo, nroAsientos, rutEmpresa);
+            System.out.println("\n...::::: Bus guardado exitosamente ::::....");
+        } catch (SistemaVentaPasajesException e) {
+            System.out.println("\n Error: " + e.getMessage() + " ");
+        }
     }
 
     private void createTerminal() {
+        System.out.println("\n...::::: Creando un nuevo Terminal ::::....\n");
+
+        System.out.print("Nombre : ");
+        String nombre = sc.nextLine();
+
+        System.out.print("Calle : ");
+        String calle = sc.nextLine();
+
+        System.out.print("Numero : ");
+        int numero = sc.nextInt();
+        sc.nextLine();
+
+        System.out.print("Comuna : ");
+        String comuna = sc.nextLine();
+
+        try {
+            Direccion dir = new Direccion(calle, numero, comuna);
+            ControladorEmpresas controlador = ControladorEmpresas.getInstance();
+            controlador.createTerminal(nombre, dir);
+            System.out.println("\n...::::: Terminal guardado exitosamente ::::....");
+        } catch (SistemaVentaPasajesException e) {
+            System.out.println("\n Error: " + e.getMessage() + " ");
+        }
     }
 
     private void contrataTripulante() {
+        System.out.println("\n...:::: Contactando un nuevo Tripulante ::::....\n");
+        System.out.print("R.U.T de la empresa: ");
+        String rutEmpresa = sc.nextLine();
+        System.out.print("Auxiliar [1] o Conductor [2] : ");
+        int tipoTripulante = Integer.parseInt(sc.nextLine());
+        System.out.print("Rut [1] o Pasaporte [2] : ");
+        int tipoId = Integer.parseInt(sc.nextLine());
+        String valorId;
+        String nacionalidad = "";
+        if (tipoId == 1) {
+            System.out.print("R.U.T : ");
+            valorId = sc.nextLine();
+        } else {
+            System.out.print("Número Pasaporte : ");
+            valorId = sc.nextLine();
+            System.out.print("Nacionalidad : ");
+            nacionalidad = sc.nextLine();
+        }
+        System.out.print("Sr.[1] o Sra.[2] : ");
+        int tratamiento = Integer.parseInt(sc.nextLine());
+        Tratamiento trat = (tratamiento == 1) ? Tratamiento.SR : Tratamiento.SRA;
+        System.out.print("Nombres : ");
+        String nombres = sc.nextLine();
+        System.out.print("Apellido Paterno : ");
+        String apellidoPaterno = sc.nextLine();
+        System.out.print("Apellido Materno : ");
+        String apellidoMaterno = sc.nextLine();
+
+        System.out.print("Calle : ");
+        String calle = sc.nextLine();
+        System.out.print("Numero : ");
+        int numero = Integer.parseInt(sc.nextLine());
+        System.out.print("Comuna : ");
+        String comuna = sc.nextLine();
+        try {
+            Rut rutEmp = Rut.of(rutEmpresa);
+
+            IdPersona id;
+            if (tipoId == 1) {
+                id = Rut.of(valorId);
+            } else {
+                id = Pasaporte.of(valorId, nacionalidad);
+            }
+            Nombre nom = new Nombre(trat, nombres, apellidoPaterno, apellidoMaterno);
+            Direccion dir = new Direccion(calle, numero, comuna);
+            ControladorEmpresas controlador = ControladorEmpresas.getInstance();
+            if (tipoTripulante == 1) {
+                controlador.hireAuxiliarForEmpresa(rutEmp, id, nom, dir);
+                System.out.println("\n...:::: Auxiliar contratado exitosamente ::::....");
+            } else {
+                controlador.hireConductorForEmpresa(rutEmp, id, nom, dir);
+                System.out.println("\n...:::: Conductor contratado exitosamente ::::....");
+            }
+        } catch (SistemaVentaPasajesException e) {
+            System.out.println(" Error: " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println(" Error en el formato de los datos: " + e.getMessage());
+        }
     }
 
 
@@ -414,15 +672,11 @@ public class UISVP {
 
         System.out.print("R.U.T : ");
         String rut = sc.next();
-
         sc.nextLine();
-
         System.out.print("Nombre : ");
         String nombre = sc.nextLine();
-
         System.out.print("url : ");
         String url = sc.next();
-
         try {
             Rut rutAhoraSi = Rut.of(rut);
 
@@ -433,6 +687,47 @@ public class UISVP {
         } catch (SistemaVentaPasajesException e) {
             System.out.println("Error: " + e.getMessage());
 
+        }
+    }
+    private void createCliente() {
+        System.out.println("\n...:::: Creando nuevo Cliente ::::....");
+
+        System.out.print("Rut [1] o Pasaporte [2] : ");
+        int tipoId = Integer.parseInt(sc.nextLine());
+        System.out.print("Identificador : ");
+        String valorId = sc.nextLine();
+
+        IdPersona id;
+        if (tipoId == 1) {
+            id = Rut.of(valorId);
+        } else {
+            System.out.print("Nacionalidad : ");
+            String nac = sc.nextLine();
+            id = Pasaporte.of(valorId, nac);
+        }
+        Nombre nom = new Nombre();
+        System.out.print("      Sr.[1] o Sra.[2] : ");
+        int trat = Integer.parseInt(sc.nextLine());
+        nom.setTratamiento((trat == 1) ? Tratamiento.SR : Tratamiento.SRA);
+
+        System.out.print("Nombres : ");
+        nom.setNombres(sc.nextLine());
+        System.out.print("Apellido Paterno : ");
+        nom.setApellidoPaterno(sc.nextLine());
+        System.out.print("Apellido Materno : ");
+        nom.setApellidoMaterno(sc.nextLine());
+
+        System.out.print("Telefono : ");
+        String fono = sc.nextLine();
+        System.out.print("Email : ");
+        String email = sc.nextLine();
+
+        try {
+            ControladorEmpresas controlador = ControladorEmpresas.getInstance();
+            sistema.createCliente(id, nom, fono, email);
+            System.out.println("\n...:::: Cliente creado exitosamente ::::....");
+        } catch (SistemaVentaPasajesException e) {
+            System.out.println("\n*** Error: " + e.getMessage() + " ***");
         }
     }
 

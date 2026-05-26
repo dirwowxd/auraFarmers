@@ -9,10 +9,9 @@ public abstract class Persona {
     private Nombre nombreCompleto;
     private String telefono;
 
-    public Persona(IdPersona idPersona, Nombre nombreCompleto, String telefono) {
+    public Persona(IdPersona idPersona, Nombre nombreCompleto) {
         this.idPersona = idPersona;
         this.nombreCompleto = nombreCompleto;
-        this.telefono = telefono;
     }
 
     public IdPersona getIdPersona() {

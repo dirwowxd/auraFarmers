@@ -67,39 +67,24 @@ public class Empresa {
     }
 
 
-    public boolean addConductor(IdPersona id, Nombre nom, Direccion direccion ) {
-        for (Conductor conductorAux : conductores) {
-            if (conductorAux.getIdPersona().equals(id)) { // esta malo hasta que se cree el metodo getter de getIdPersona en la clase Conductor //17-05-2026
+    public boolean addConductor(IdPersona id, Nombre nom, Direccion direccion) {
+        for (Tripulante tripulante : tripulantes) {
+            if (tripulante.getIdPersona().equals(id)) {
                 return false;
             }
         }
-
-        for (Tripulante tripulante: tripulantes){// primero recorro para saber los tripulantes
-            if (tripulante.getIdPersona().equals(id)){ //aqui comparo los id's de los tripulantes si son iguales
-                return false;
-            }
-        }
-
-        Conductor conductor= new Conductor(id, nom, direccion.toString()); // esta erronea hasta que Benja haga la clase de Conductor 14/05/2026
-        conductores.add(conductor);
+        Conductor conductor = new Conductor(id, nom, direccion);
+        this.tripulantes.add(conductor);
         return true;
-
     }
-    public boolean addAuxiliar (IdPersona id, Nombre nom, Direccion direccion) {
-        for (Conductor conductorAux : conductores) {
-            if (conductorAux.getIdPersona().equals(id)){ // lo mismo que en la linea 68
+    public boolean addAuxiliar(IdPersona id, Nombre nom, Direccion direccion) {
+        for (Tripulante tripulante : tripulantes) {
+            if (tripulante.getIdPersona().equals(id)) {
                 return false;
             }
         }
-
-        for (Tripulante tripulante: tripulantes){
-            if (tripulante.getIdPersona().equals(id)){
-                return false;
-            }
-        }
-
-        Auxiliar auxiliar= new Auxiliar(id, nom, direccion.toString());
-        tripulantes.add(auxiliar);
+        Auxiliar auxiliar = new Auxiliar(id, nom, direccion);
+        this.tripulantes.add(auxiliar);
         return true;
     }
     public Tripulante[] getTripulantes() {

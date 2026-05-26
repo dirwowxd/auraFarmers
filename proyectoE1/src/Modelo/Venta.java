@@ -11,15 +11,16 @@ public class Venta {
         private int CantidadPasajes;
         private Pago pago;
 
-        public Venta (String idDocumento, TipoDocumento Tipo, LocalDate Fecha, Cliente cliente, Pago pago)  {
-            this.idDocumento = idDocumento;
-            this.Tipo = Tipo;
-            this.Fecha = Fecha;
-            this.cliente = cliente;
-            this.pago = pago;
-            this.pasajes = new Pasaje[5];
-            this.CantidadPasajes = 0;
-        }
+    public Venta(String idDocumento, TipoDocumento tipo, LocalDate fecha, Cliente cliente) {
+        this.idDocumento = idDocumento;
+        this.Tipo = tipo;
+        this.Fecha = fecha;
+        this.cliente = cliente;
+        this.pago = null; // corregido por vicente
+        this.pasajes = new Pasaje[5];
+        this.CantidadPasajes = 0;
+        this.cliente.addVenta(this);
+    }
 
         public String getIdDocumento() {
             return idDocumento;
@@ -37,7 +38,6 @@ public class Venta {
             return cliente;
         }
 
-        // NUEVO GETTER
         public Pago getPago() {
             return pago;
         }
