@@ -794,5 +794,15 @@ public class UISVP {
             System.out.println("Error: " + e.getMessage());
         }
     }
+    private void saveDatosSistema() {
+
+        try {
+            SistemaVentaPasajes.getInstance().saveDatosSistema();
+            System.out.println("Datos guardados correctamente.");
+
+        } catch (SistemaVentaPasajesException e) {
+            System.out.println(e.getMessage());
+        }
+    }
 
 }
