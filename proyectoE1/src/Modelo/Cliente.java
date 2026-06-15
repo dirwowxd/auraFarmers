@@ -1,5 +1,6 @@
 package Modelo;
 
+import utilidades.Direccion;
 import utilidades.IdPersona;
 import utilidades.Nombre;
 
@@ -9,8 +10,8 @@ public class Cliente extends Persona {
     private String email;
     private ArrayList<Venta> ventas;
 
-    public Cliente(IdPersona id, Nombre nom, String email, String telefono) {
-        super(id, nom, telefono);
+    public Cliente(IdPersona id, Nombre nom, String email) {
+        super(id, nom);
         this.email = email;
         this.ventas = new ArrayList<>();
 
