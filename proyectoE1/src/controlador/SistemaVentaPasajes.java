@@ -271,11 +271,8 @@ public class SistemaVentaPasajes {
             throw new SVPException("Error al leer datos iniciales: " + e.getMessage());
         }
     }
-    private void parsearClientes()throws SVPException {
-        try {
 
-        }
-    }
+
 
 
     private Optional<Cliente> findCliente(IdPersona id) {

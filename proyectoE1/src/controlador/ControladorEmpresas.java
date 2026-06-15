@@ -133,10 +133,10 @@ public class ControladorEmpresas {
                     .collect(Collectors.toCollection(ArrayList::new));
 
             System.out.println("\n=== RESUMEN DE CARGA ===");
-            System.out.println("Empresas: " + empresas.size());
-            System.out.println("Buses: " + buses.size());
-            System.out.println("Ventas: " + ventas.size());
-            System.out.println("Terminales: " + terminales.size());
+            System.out.println("Empresas : " + empresas.size());
+            System.out.println("Buses : " + buses.size());
+            System.out.println("Ventas : " + ventas.size());
+            System.out.println("Terminales : " + terminales.size());
 
             System.out.println("\n=== EMPRESAS ===");
             empresas.forEach(System.out::println);
@@ -294,7 +294,7 @@ public class ControladorEmpresas {
             listaEmpresas[i][2] = empresa.getUrl();
             listaEmpresas[i][3] = String.valueOf(empresa.getTripulantes().length);
             listaEmpresas[i][4] = String.valueOf(empresa.getBuses().length);
-            listaEmpresas[i][5] = String.valueOf(empresa.getVentas().length);
+            listaEmpresas[i][5] = String.valueOf(empresa.getventas().length);
         }
 
         return listaEmpresas;
