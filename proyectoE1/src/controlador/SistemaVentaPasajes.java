@@ -5,6 +5,8 @@ import excepciones.SistemaVentaPasajesException;
 import utilidades.IdPersona;
 import utilidades.Nombre;
 import utilidades.Rut;
+import persistencia.IOSVP;
+import excepciones.SistemaVentaPasajesException;
 
 
 import java.time.LocalDate;
@@ -324,5 +326,16 @@ public class SistemaVentaPasajes {
         if (!ventaOpt.get().pagaMonto()) {
             throw new SistemaVentaPasajesException("La venta ya fue pagada");
         }
+    }
+    public void saveDatosSistema() throws SistemaVentaPasajesException {
+
+        IOSVP io = new IOSVP();
+
+        Object[] controladores = {
+                ControladorEmpresas.getInstance(),
+                SistemaVentaPasajes.getInstance()
+        };
+
+        io.saveControladores(controladores);
     }
 }
