@@ -12,6 +12,8 @@ public class Pasajero extends Persona {
     }
 
 
+
+
     public Nombre getNomContacto() {
         return nomContacto;
     }
