@@ -3,19 +3,21 @@ package Modelo;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 public class Viaje {
-    private final LocalDate Fecha;
-    private final LocalTime Hora;
+    private  LocalDate Fecha;
+    private LocalTime Hora;
     private int Precio;
     private final Bus bus;
     private final Pasaje[] PasajesVendidos;
     private int ContadorPasajes;
-    private final int duracion;
-    private final Auxiliar auxiliar;
+    private int duracion;
+    private final ArrayList<Auxiliar> auxiliar;
     private final Conductor[] conductores;
     private final Terminal terminalSalida;
     private final Terminal terminalLlegada;
+
 
 
     public Viaje(LocalDate Fecha, LocalTime Hora, int Precio, int duracion, Bus bus, Auxiliar auxiliar, Conductor[] conductores, Terminal terminalSalida, Terminal terminalLlegada) {
@@ -24,7 +26,7 @@ public class Viaje {
         this.Precio = Precio;
         this.bus = bus;
         this.duracion = duracion;
-        this.auxiliar = auxiliar;
+        this.auxiliar = new ArrayList<>();
         this.conductores = conductores;
         this.terminalSalida = terminalSalida;
         this.terminalLlegada = terminalLlegada;
@@ -36,9 +38,7 @@ public class Viaje {
         return duracion;
     }
 
-    public Auxiliar getAuxiliar() {
-        return auxiliar;
-    }
+
 
     public Conductor[] getConductores() {
         return conductores;
@@ -68,6 +68,17 @@ public class Viaje {
     public void setPrecio(int Precio) {
         this.Precio = Precio;
     }
+
+    public void setDuracion(int duracion) {
+        this.duracion = duracion;
+    }
+
+    public LocalDateTime getFechaHoraTermino() {
+        LocalDateTime fechaHoraTermino = LocalDateTime.of(this.Fecha, this.Hora);
+        LocalDateTime fechaHoraLlegada = fechaHoraTermino.plusMinutes(this.duracion);
+        return fechaHoraLlegada;
+    }
+
 
     public Bus getBus() {
         return bus;
@@ -134,21 +145,46 @@ public class Viaje {
         return bus.getNroAsientos() - ContadorPasajes;
     }
 
-    public LocalDateTime getFechaHoraTermino() {
-        return null;//HACER
-    }
+
     public Venta[] getVentas() {
         return null; //hacer
     }
     public Tripulante[] getTripulantes(){
-        return null; //hacer
+        int totalTripulantes = conductores.length + auxiliar.size();
+
+        Tripulante[] tripulantes = new Tripulante[totalTripulantes];
+
+        int index = 0;
+
+        for (Conductor condu : conductores) {
+            tripulantes[index] = condu;
+            index++;
+        }
+
+        for (Auxiliar auxiliar : auxiliar) {
+            tripulantes[index] = auxiliar;
+            index++;
+        }
+
+        return tripulantes;
+
     }
     public void addConductor(Conductor conductor){
-        //hacer
+        if (conductor != null) {
+
+            for (int i = 0; i < this.conductores.length; i++) {
+
+                if (this.conductores[i] == null) {
+                    this.conductores[i] = conductor;
+                    break;
+                }
+            }
+        }
     }
     public boolean existeDisponibilidad(int nroAsientos){
         return false; //hacer
     }
+
 
 
 }

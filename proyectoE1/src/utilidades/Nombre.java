@@ -6,6 +6,16 @@ public class Nombre {
     private String apellidoPaterno;
     private String apellidoMaterno;
 
+
+    public Nombre(Tratamiento tratamiento, String nombres, String apellidoPaterno, String apellidoMaterno) {
+        this.tratamiento = tratamiento;
+        this.nombres = nombres;
+        this.apellidoPaterno = apellidoPaterno;
+        this.apellidoMaterno = apellidoMaterno;
+
+    }
+    public Nombre() {}
+
     public Tratamiento getTratamiento() {
         return tratamiento;
     }
@@ -37,6 +47,7 @@ public class Nombre {
     public void setApellidoMaterno(String apellidoMaterno) {
         this.apellidoMaterno = apellidoMaterno;
     }
+    @Override
     public String toString() {
         String prefijo = "";
         if (tratamiento == Tratamiento.SR) {
@@ -47,6 +58,7 @@ public class Nombre {
         return  prefijo + " " + nombres + " " + apellidoPaterno + " " + apellidoMaterno;
 
     }
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true; //aqui comparo el objeto con el otro
         if (o == null || getClass() != o.getClass()) return false; // si el objeto esta null o no son de la misma clase se retorna falso

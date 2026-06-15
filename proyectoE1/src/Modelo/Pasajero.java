@@ -7,8 +7,8 @@ public class Pasajero extends Persona {
     private Nombre nomContacto;
     private String fonoContacto;
 
-    public Pasajero(IdPersona idPersona, Nombre nombreCompleto, String telefono) {
-        super(idPersona, nombreCompleto, telefono);
+    public Pasajero(IdPersona idPersona, Nombre nombreCompleto) {
+        super(idPersona, nombreCompleto);
     }
 
 

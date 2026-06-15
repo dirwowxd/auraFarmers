@@ -1,5 +1,6 @@
 package Modelo;
 
+import utilidades.Direccion;
 import utilidades.IdPersona;
 import utilidades.Nombre;
 
@@ -9,8 +10,8 @@ public class Conductor extends Tripulante {
 
     private ArrayList<Viaje> viajes;
 
-    public Conductor(IdPersona idPersona, Nombre nombreCompleto, String telefono) {
-        super(idPersona, nombreCompleto, telefono);
+    public Conductor(IdPersona idPersona, Nombre nombreCompleto, Direccion direccion) {
+        super(idPersona, nombreCompleto,direccion);
     }
 
     public void addViaje(Viaje viaje) {
