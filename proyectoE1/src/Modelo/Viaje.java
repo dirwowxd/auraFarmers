@@ -6,185 +6,122 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class Viaje {
-    private  LocalDate Fecha;
-    private LocalTime Hora;
-    private int Precio;
+    private LocalDate fecha;
+    private LocalTime hora;
+    private int precio;
     private final Bus bus;
-    private final Pasaje[] PasajesVendidos;
-    private int ContadorPasajes;
+    private final Pasaje[] pasajesVendidos;
+    private int contadorPasajes;
     private int duracion;
-    private final ArrayList<Auxiliar> auxiliar;
-    private final Conductor[] conductores;
+    private final ArrayList<Auxiliar> auxiliares;
+    private final Conductor conductor;
     private final Terminal terminalSalida;
     private final Terminal terminalLlegada;
 
-
-
-    public Viaje(LocalDate Fecha, LocalTime Hora, int Precio, int duracion, Bus bus, Auxiliar auxiliar, Conductor[] conductores, Terminal terminalSalida, Terminal terminalLlegada) {
-        this.Fecha = Fecha;
-        this.Hora = Hora;
-        this.Precio = Precio;
+    public Viaje(LocalDate fecha, LocalTime hora, int precio, int duracion, Bus bus,
+                 Auxiliar auxiliar, Conductor[] conductor, Terminal terminalSalida, Terminal terminalLlegada) {
+        this.fecha = fecha;
+        this.hora = hora;
+        this.precio = precio;
         this.bus = bus;
         this.duracion = duracion;
-        this.auxiliar = new ArrayList<>();
-        this.conductores = conductores;
+        this.auxiliares = new ArrayList<>();
+        if (auxiliar != null) this.auxiliares.add(auxiliar);
+        this.conductor = conductor[0];
         this.terminalSalida = terminalSalida;
         this.terminalLlegada = terminalLlegada;
-        this.PasajesVendidos = new Pasaje[bus.getNroAsientos()];
-        this.ContadorPasajes = 0;
+        this.pasajesVendidos = new Pasaje[bus.getNroAsientos()];
+        this.contadorPasajes = 0;
     }
-
-    public int getDuracion() {
-        return duracion;
-    }
-
-
-
-    public Conductor[] getConductores() {
-        return conductores;
-    }
-
-    public Terminal getTerminalSalida() {
-        return terminalSalida;
-    }
-
-    public Terminal getTerminalLlegada() {
-        return terminalLlegada;
-    }
-
-
     public LocalDate getFecha() {
-        return Fecha;
-    }
-
+        return fecha; }
     public LocalTime getHora() {
-        return Hora;
-    }
-
+        return hora; }
     public int getPrecio() {
-        return Precio;
-    }
+        return precio; }
+    public int getDuracion() {
+        return duracion; }
+    public Bus getBus() {
+        return bus; }
+    public Terminal getTerminalSalida() {
+        return terminalSalida; }
+    public Terminal getTerminalLlegada() {
+        return terminalLlegada; }
+    public Conductor getConductor() {
+        return conductor; }
 
-    public void setPrecio(int Precio) {
-        this.Precio = Precio;
-    }
 
-    public void setDuracion(int duracion) {
-        this.duracion = duracion;
-    }
+
 
     public LocalDateTime getFechaHoraTermino() {
-        LocalDateTime fechaHoraTermino = LocalDateTime.of(this.Fecha, this.Hora);
-        LocalDateTime fechaHoraLlegada = fechaHoraTermino.plusMinutes(this.duracion);
-        return fechaHoraLlegada;
+        return LocalDateTime.of(this.fecha, this.hora).plusMinutes(this.duracion);
     }
 
-
-    public Bus getBus() {
-        return bus;
-    }
-
-    public String[][] getAsientos() { //modificar ya que ahora es unidimensional
-        int totalAsientos = bus.getNroAsientos();
-        String[][] mapaAsientos = new String[totalAsientos][2];
-
-        for (int i = 0; i < totalAsientos; i++) {
-            mapaAsientos[i][0] = String.valueOf(i + 1); // Número de asiento
-            mapaAsientos[i][1] = "Libre"; // Estado inicial por defecto
+    public boolean existeDisponibilidad(int nroAsiento) {
+        if (nroAsiento < 1 || nroAsiento > bus.getNroAsientos()) {
+            return false;
         }
-
-
-        for (int i = 0; i < ContadorPasajes; i++) {
-            if (PasajesVendidos[i] != null) {
-                int nro = PasajesVendidos[i].getAsiento();
-                mapaAsientos[nro - 1][1] = "Ocupado";
-            }
-        }
-        return mapaAsientos;
+        return pasajesVendidos[nroAsiento - 1] == null;
     }
-
 
     public void addPasaje(Pasaje pasaje) {
-        if (ContadorPasajes < PasajesVendidos.length) {
-            this.PasajesVendidos[ContadorPasajes] = pasaje;
-            ContadorPasajes++;
-        } else {
-            System.out.println("Error: Ya no quedan asientos disponibles");
+        if (contadorPasajes < pasajesVendidos.length) {
+            this.pasajesVendidos[pasaje.getAsiento() - 1] = pasaje;
+            contadorPasajes++;
         }
     }
 
-    public String[][] getListaPasajeros() {//modificar
-        String[][] lista = new String[this.ContadorPasajes][5];
-
-        for (int i = 0; i < this.ContadorPasajes; i++) {
-            Pasaje ps = this.PasajesVendidos[i];
-            Pasajero pa = ps.getPasajero();
-
-            lista[i][0] = String.valueOf(ps.getAsiento());
-            lista[i][1] = pa.getIdPersona().toString();
-            lista[i][2] = pa.getNombreCompleto().toString();
-
-            if (pa.getNomContacto() != null) {
-                lista[i][3] = pa.getNomContacto().toString();
-            } else {
-                lista[i][3] = "No registrado";
+    public Tripulante[] getTripulantes() {
+        int total = (conductor != null ? 1 : 0) + auxiliares.size();
+        Tripulante[] tripulantes = new Tripulante[total];
+        int index = 0;
+        if (conductor != null) {
+            tripulantes[index++] = conductor;
+        }
+        for (Auxiliar a : auxiliares) {
+            tripulantes[index++] = a;
+        }
+        return tripulantes;
+    }
+    public String[][] getAsientos() {
+        String[][] mapa = new String[bus.getNroAsientos()][2];
+        for (int i = 0; i < bus.getNroAsientos(); i++) {
+            mapa[i][0] = String.valueOf(i + 1);
+            mapa[i][1] = (pasajesVendidos[i] == null) ? "Libre" : "Ocupado";
+        }
+        return mapa;
+    }
+    public String[][] getListaPasajeros() {
+        String[][] lista = new String[this.contadorPasajes][5];
+        int fila = 0;
+        for (Pasaje ps : pasajesVendidos) {
+            if (ps != null) {
+                Pasajero pa = ps.getPasajero();
+                lista[fila][0] = String.valueOf(ps.getAsiento());
+                lista[fila][1] = pa.getIdPersona().toString();
+                lista[fila][2] = pa.getNombreCompleto().toString();
+                lista[fila][3] = (pa.getNomContacto() != null) ? pa.getNomContacto().toString() : "No registrado";
+                lista[fila][4] = (pa.getFonoContacto() != null) ? pa.getFonoContacto() : "S/N";
+                fila++;
             }
-
-            // [4] TELEFONO CONTACTO
-            lista[i][4] = (pa.getFonoContacto() != null) ? pa.getFonoContacto() : "S/N";
         }
         return lista;
     }
-
-    //verificar que el contador sea menor al limite del bus
-    public boolean ExisteDisponibilidad() { //modificar
-        return ContadorPasajes < bus.getNroAsientos();
-    }
-
-    public int getNroAsientosDisponibles() {// se debe borrar segun yo ya que no aparece en el uml
-        return bus.getNroAsientos() - ContadorPasajes;
-    }
-
-
     public Venta[] getVentas() {
-        return null; //hacer
-    }
-    public Tripulante[] getTripulantes(){
-        int totalTripulantes = conductores.length + auxiliar.size();
+        ArrayList<Venta> ventasUnicas = new ArrayList<>();
 
-        Tripulante[] tripulantes = new Tripulante[totalTripulantes];
-
-        int index = 0;
-
-        for (Conductor condu : conductores) {
-            tripulantes[index] = condu;
-            index++;
-        }
-
-        for (Auxiliar auxiliar : auxiliar) {
-            tripulantes[index] = auxiliar;
-            index++;
-        }
-
-        return tripulantes;
-
-    }
-    public void addConductor(Conductor conductor){
-        if (conductor != null) {
-
-            for (int i = 0; i < this.conductores.length; i++) {
-
-                if (this.conductores[i] == null) {
-                    this.conductores[i] = conductor;
-                    break;
+        for (Pasaje pasaje : pasajesVendidos) {
+            if (pasaje != null) {
+                Venta venta = pasaje.getVenta();
+                if (venta != null && !ventasUnicas.contains(venta)) {
+                    ventasUnicas.add(venta);
                 }
             }
         }
+
+        return ventasUnicas.toArray(new Venta[0]);
     }
-    public boolean existeDisponibilidad(int nroAsientos){
-        return false; //hacer
+    public int getNroAsientosDisponibles() {
+        return bus.getNroAsientos() - contadorPasajes;
     }
-
-
-
 }
