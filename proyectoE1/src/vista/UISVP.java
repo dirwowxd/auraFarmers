@@ -744,6 +744,17 @@ public class UISVP {
             System.out.println("Error al cargar datos iniciales: " + e.getMessage());
         }
     }
+    private void readDatosSistema() {
+        System.out.println(" Leyendo datos del sistema ");
+        try {
+           // sistema.readDatosSistema();
+            System.out.println(" Datos del sistema cargados exitosamente ");
+        } catch (SVPException e) {
+            System.out.println("Error al leer los datos: " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("Error inesperado: " + e.getMessage());
+        }
+    }
 
 
 }

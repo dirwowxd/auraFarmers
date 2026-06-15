@@ -294,7 +294,7 @@ public class ControladorEmpresas {
             listaEmpresas[i][2] = empresa.getUrl();
             listaEmpresas[i][3] = String.valueOf(empresa.getTripulantes().length);
             listaEmpresas[i][4] = String.valueOf(empresa.getBuses().length);
-            listaEmpresas[i][5] = String.valueOf(empresa.getventas().length);
+            listaEmpresas[i][5] = String.valueOf(empresa.getVentas().length);
         }
 
         return listaEmpresas;

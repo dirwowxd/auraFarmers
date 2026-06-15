@@ -11,14 +11,16 @@ import utilidades.Rut;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class SistemaVentaPasajes {
 
     private static SistemaVentaPasajes instance;
-    private final ArrayList<Cliente> clientes;
-    private final ArrayList<Pasajero> pasajeros;
-    private final ArrayList<Viaje> viajes;
+    private ArrayList<Cliente> clientes;
+    private ArrayList<Pasajero> pasajeros;
+    private ArrayList<Viaje> viajes;
     private final ArrayList<Venta> ventas;
     private final ArrayList<Bus>buses;
     private ControladorEmpresas controladorEmpresas;
@@ -262,17 +264,37 @@ public class SistemaVentaPasajes {
     }
     public void readDatosIniciales() throws SVPException {
         try {
+
             Object[] datos = IOSVP.getInstancia().readDatosIniciales();
             controladorEmpresas.setDatosIniciales(datos);
+            this.clientes= Arrays.stream(datos)
+                    .filter(Cliente.class::isInstance)
+                    .map(Cliente.class::cast)
+                    .collect(Collectors.toCollection(ArrayList::new));
+            this.pasajeros= Arrays.stream(datos)
+                    .filter(Pasajero.class::isInstance)
+                    .map(Pasajero.class::cast)
+                    .collect(Collectors.toCollection(ArrayList::new));
+            this.viajes= Arrays.stream(datos)
+                    .filter(Viaje.class::isInstance)
+                    .map(Viaje.class::cast)
+                    .collect(Collectors.toCollection(ArrayList::new));
+
+            System.out.println("\n=== RESUMEN DE CARGA ===");
             System.out.println("Clientes: " + clientes.size());
             System.out.println("Pasajeros: " + pasajeros.size());
             System.out.println("Viajes: " + viajes.size());
+            System.out.println("\n=== CLIENTES ===");
+            clientes.forEach(System.out::println);
+            System.out.println("\n=== PASAJEROS ===");
+            pasajeros.forEach(System.out::println);
+            System.out.println("\n=== VIAJES ===");
+            viajes.forEach(System.out::println);
+
         } catch (SVPException e) {
             throw new SVPException("Error al leer datos iniciales: " + e.getMessage());
         }
     }
-
-
 
 
     private Optional<Cliente> findCliente(IdPersona id) {

@@ -106,7 +106,7 @@ public class Empresa {
         }
         return todasLasVentas.toArray(new Venta[0]);
     }
-    @Override
+    @Override // temporal
     public String toString() {
         return "Empresa{" +
                 "rut=" + rut +

@@ -154,7 +154,6 @@ public class IOSVP {
             Rut rut= Rut.of(datos[0]);
             String nombre = datos[1];
             String url= datos[2];
-
             Empresa nuevaEmpresa= new Empresa(rut, nombre);
             nuevaEmpresa.setUrl(url);
 
