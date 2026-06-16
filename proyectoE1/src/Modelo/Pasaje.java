@@ -19,6 +19,7 @@ public class Pasaje {
     public int getAsiento() {
         return asiento;
     }
+
     public int getNumero(){
         return (int) numero;
     }
@@ -35,5 +36,8 @@ public class Pasaje {
         return venta;
     }
 
+    public String toString(){
+        return String.format("%30s, ", pasajero.getNombreCompleto());
+    }
 
 }

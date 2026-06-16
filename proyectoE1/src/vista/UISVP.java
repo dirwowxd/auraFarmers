@@ -731,5 +731,44 @@ public class UISVP {
             System.out.println("Error: " + e.getMessage());
         }
     }
+    private void readDatosSistema() {
+        System.out.println(" Leyendo datos del sistema ");
+        try {
+            sistema.readDatosSistema();
+            System.out.println(" Datos del sistema cargados exitosamente ");
+        } catch (SistemaVentaPasajesException e) {
+            System.out.println("Error al leer los datos: " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("Error inesperado: " + e.getMessage());
+        }
+    }
+    private void generatePasajesVenta() {
+        System.out.println(" Generar Pasajes de Venta");
 
+        System.out.print("ID Documento: ");
+        String idDoc = sc.nextLine();
+
+        System.out.print("Tipo documento [1] Boleta [2] Factura: ");
+        int tipoDocOpcion = 0;
+
+        try {
+            tipoDocOpcion = Integer.parseInt(sc.nextLine());
+        } catch (NumberFormatException e) {
+            System.out.println("Error: Debe ingresar un número válido.");
+            return;
+        }
+
+        TipoDocumento tipo = (tipoDocOpcion == 1) ? TipoDocumento.BOLETA : TipoDocumento.FACTURA;
+
+        try {
+
+            sistema.generatePasajesVenta(idDoc, tipo);
+            System.out.println(" Archivo de pasajes generado exitosamente ");
+        } catch (SistemaVentaPasajesException e) {
+
+            System.out.println("Error al generar pasajes: " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("Error inesperado: " + e.getMessage());
+        }
+    }
 }

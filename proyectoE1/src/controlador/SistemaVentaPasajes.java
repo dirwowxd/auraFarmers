@@ -36,7 +36,11 @@ public class SistemaVentaPasajes {
         }
         return instance;
     }
-
+    public void readDatosSistema() throws SistemaVentaPasajesException {
+        // 1. Invocar a IOSVP.readDatosSistema() para recuperar los controladores.
+        // 2. Realizar la asignación a la instancia actual (this).
+        // 3. Invocar setInstanciaPersistente de ControladorEmpresas.
+    }
 
     public void createCliente(IdPersona id, Nombre nom, String fono, String email) {
         Optional<Cliente> buscarCliente=findCliente(id);

@@ -4,11 +4,12 @@ import Modelo.*;
 import excepciones.SistemaVentaPasajesException;
 import utilidades.*;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.*;
 
-public class ControladorEmpresas {
+public class ControladorEmpresas implements Serializable {
     private static ControladorEmpresas instance;
 
     private final ArrayList<Empresa> empresas;
