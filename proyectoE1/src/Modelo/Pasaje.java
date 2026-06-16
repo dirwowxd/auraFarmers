@@ -35,5 +35,10 @@ public class Pasaje {
         return venta;
     }
 
+    @Override
+    public String toString(){
+        return "Pasaje{" + "numero=" + numero + ", asiento=" + asiento + '}';
+    }
+
 
 }

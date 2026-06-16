@@ -290,7 +290,6 @@ public class SistemaVentaPasajes {
             pasajeros.forEach(System.out::println);
             System.out.println("\n=== VIAJES ===");
             viajes.forEach(System.out::println);
-            //actualizacion rama
 
         } catch (SVPException e) {
             throw new SVPException("Error al leer datos iniciales: " + e.getMessage());
