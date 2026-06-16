@@ -271,11 +271,15 @@ public class SistemaVentaPasajes {
             throw new SVPException("Error al leer datos iniciales: " + e.getMessage());
         }
     }
-    private void parsearClientes()throws SVPException {
-        try {
 
-        }
+    public void saveDatosSistema() {
+        IOSVP io = IOSVP.getInstancia();
+
+        Object[] arregloControladores = { this, ControladorEmpresas.getInstance() };
+
+        io.saveControladores(arregloControladores);
     }
+
 
 
     private Optional<Cliente> findCliente(IdPersona id) {
@@ -347,4 +351,5 @@ public class SistemaVentaPasajes {
             throw new SVPException("La venta ya fue pagada");
         }
     }
+
 }

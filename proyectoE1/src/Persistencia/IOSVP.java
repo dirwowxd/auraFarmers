@@ -4,9 +4,7 @@ import Modelo.*;
 import excepciones.SVPException;
 import utilidades.*;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -76,12 +74,36 @@ public class IOSVP {
         return lista.toArray();
     }
 
-        public void saveControladores (Object[]controlador){
+        public void saveControladores (Object[]controlador) throws SVPException{
+        File archivoObjetos = new File("SVPControladores.obj");
+        try (FileOutputStream Fos = new FileOutputStream(archivoObjetos);ObjectOutputStream Ous = new ObjectOutputStream(Fos)) {
+            Ous.writeObject(controlador);
+        } catch (FileNotFoundException e) {
+            throw new  SVPException("No se pudo abrir ni crear el archivo SVPControladores.obj");
+        } catch (IOException e) {
+            throw new SVPException("No se pudo grabar los objetos en el archivo SVPControladores.obj");
+        }
 
         }
-        public Object[] readControladores () {
+        public Object[] readControladores () throws SVPException{
+            File archivoObjetos = new File("SVPControladores.obj");
 
-            return new Object[0];
+            Object[]controladores = new Object[2];
+
+            try (FileInputStream Fis = new FileInputStream(archivoObjetos);ObjectInputStream Ois = new ObjectInputStream(Fis)){
+                  controladores[0] = Ois.readObject();
+                  controladores[1] = Ois.readObject();
+
+                  return controladores;
+            } catch (FileNotFoundException e) {
+                throw new SVPException("No existe o no es posible abrir el archivo SVPControladores.obj");
+            } catch (IOException e) {
+                throw new SVPException("No se puede leer el archivo SVPControladores.obj");
+            } catch (ClassNotFoundException e) {
+                throw new SVPException("No se encontro la clase de los objetos");
+            }
+
+
         }
         public void savePasajesDeVenta (Pasaje[]pasajes, String nombreArchivo){
 
