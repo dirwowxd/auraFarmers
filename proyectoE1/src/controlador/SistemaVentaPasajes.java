@@ -295,15 +295,18 @@ public class SistemaVentaPasajes {
             throw new SVPException("Error al leer datos iniciales: " + e.getMessage());
         }
     }
+    public void generatePasajesVenta(String idDoc, TipoDocumento tipo) {
+    }
+    public void saveDatosSistema() throws SVPException {
+        IOSVP.saveControladores(ControladorEmpresas.getInstance(), this);
+    }
+
 
 
     private Optional<Cliente> findCliente(IdPersona id) {
-        for (Cliente cliente : clientes) {
-            if (id.equals(cliente.getIdPersona())) {
-                return Optional.of(cliente);
-            }
-        }
-        return Optional.empty();
+        return clientes.stream()
+                .filter(cliente -> cliente.getIdPersona().equals(id))
+                .findFirst();
     }
     private Optional<Venta> findVenta(String idDocumento, TipoDocumento tipoDocumento) {
         for (Venta ventaActual : ventas) {
@@ -314,12 +317,7 @@ public class SistemaVentaPasajes {
         return Optional.empty();
     }
     private Optional<Bus> findBus(String patente) {
-        for (Bus bus: buses){
-            if(bus.getPatente().equals(patente)){
-                return Optional.of(bus);
-            }
-        }
-        return Optional.empty();
+       return buses.stream().filter(b -> b.getPatente().equals(patente)).findFirst();
     }
 
     private Optional<Viaje> findViaje(LocalDate fecha, LocalTime hora, String patenteBus) {

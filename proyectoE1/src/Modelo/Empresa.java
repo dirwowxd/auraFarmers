@@ -29,10 +29,6 @@ public class Empresa {
         return rut;
     }
 
-    public void setRut(Rut rut) {
-        this.rut = rut;
-    }
-
     public String getNombre() {
         return nombre;
     }
@@ -63,7 +59,7 @@ public class Empresa {
     }
 
 
-    public boolean addConductor(IdPersona id, Nombre nom, Direccion direccion) {
+    public boolean addConductor(IdPersona id, Nombre nom, Direccion direccion) { // modificar a stream
         for (Tripulante tripulante : tripulantes) {
             if (tripulante.getIdPersona().equals(id)) {
                 return false;
@@ -74,7 +70,7 @@ public class Empresa {
         return true;
     }
 
-    public boolean addAuxiliar(IdPersona id, Nombre nom, Direccion direccion) {
+    public boolean addAuxiliar(IdPersona id, Nombre nom, Direccion direccion) { // modificar a stream
         for (Tripulante tripulante : tripulantes) {
             if (tripulante.getIdPersona().equals(id)) {
                 return false;
@@ -89,7 +85,7 @@ public class Empresa {
         return tripulantes.toArray(new Tripulante[0]);
     }
 
-    public Venta[] getVentas() {
+    public Venta[] getVentas() { // modificar a stream
         ArrayList<Venta> todasLasVentas = new ArrayList<>();
 
         for (Bus bus : buses) {
@@ -105,15 +101,5 @@ public class Empresa {
                     });
         }
         return todasLasVentas.toArray(new Venta[0]);
-    }
-    @Override // temporal
-    public String toString() {
-        return "Empresa{" +
-                "rut=" + rut +
-                ", nombre='" + nombre + '\'' +
-                ", url='" + url + '\'' +
-                ", buses=" + buses.size() +
-                ", tripulantes=" + tripulantes.size() +
-                '}';
     }
 }

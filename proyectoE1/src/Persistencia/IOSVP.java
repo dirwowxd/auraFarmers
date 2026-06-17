@@ -4,9 +4,7 @@ import Modelo.*;
 import excepciones.SVPException;
 import utilidades.*;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -281,6 +279,25 @@ public class IOSVP {
             throw new SVPException("Error al crear un Viaje: " + e.getMessage());
         }
     }
+    public void generatePasajesVenta(String idDoc, TipoDocumento tipo) {
+
+    }
+    public void savePasajesDeVenta(Object[] pasajes, String nombreArchivo)
+            throws SVPException {
+
+        try (PrintWriter pw = new PrintWriter(new FileWriter(nombreArchivo))) {
+
+            for (Object pasaje : pasajes) {
+                pw.println(pasaje.toString());
+                pw.println();
+            }
+
+        } catch (IOException e) {
+            throw new SVPException(
+                    "No se puede crear el archivo " + nombreArchivo);
+        }
+    }
+
         private Optional<Empresa> findEmpresa (List<Empresa> empresas, Rut rut){
         return empresas.stream()
                 .filter(obj-> obj instanceof Empresa)

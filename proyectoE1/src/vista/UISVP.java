@@ -2,6 +2,7 @@ package vista;
 
 
 import Modelo.TipoDocumento;
+import Persistencia.IOSVP;
 import controlador.*;
 import excepciones.SVPException;
 import utilidades.*;
@@ -44,6 +45,9 @@ public class UISVP {
             System.out.println("13. Listar ventas de empresa");
             System.out.println("14. Generar pasajes de venta");
             System.out.println("15. Leer datos iniciales");
+            System.out.println("16. Guardar datos del sistema");
+            System.out.println("17. Leer datos del sistema");
+            System.out.println("18. Salir");
             System.out.println("------------------------------");
             System.out.print("Ingrese opcion: ");
 
@@ -95,11 +99,20 @@ public class UISVP {
                             listVentasEmpresa();
                             break;
                         case 14:
-                            System.out.println();
+                            generatePasajesVenta();
                             break;
                         case 15:
                             readDatosIniciales();
                             break;
+                        case 16:
+
+                            break;
+                        case 17:
+
+                            break;
+                        case 18:
+                            System.out.println("Saliendo...");
+                            return;
                     }
                 }
             } catch (InputMismatchException e) {
@@ -166,16 +179,12 @@ public class UISVP {
         } catch (Exception e) {
             System.out.println("Error: "+e.getMessage());
         }
-
         }
-
 
     private void listEmpresas() {
         System.out.println("\n...::::: Listado de empresas ::::....\n");
-
         ControladorEmpresas controlador = ControladorEmpresas.getInstance();
         String[][] datos = controlador.listEmpresas();
-
         if (datos.length == 0) {
             System.out.println(" No existen empresas registradas en el sistema ");
             return;
@@ -753,6 +762,37 @@ public class UISVP {
             System.out.println("Error al leer los datos: " + e.getMessage());
         } catch (Exception e) {
             System.out.println("Error inesperado: " + e.getMessage());
+        }
+    }
+    private void generatePasajesVenta() throws SVPException {
+        System.out.println(" Generar Pasajes de Venta");
+        System.out.print("ID Documento: ");
+        String idDoc = sc.nextLine();
+        System.out.print("Tipo documento [1] Boleta [2] Factura: ");
+        int tipoDocOpcion = 0;
+        try {
+            tipoDocOpcion = Integer.parseInt(sc.nextLine());
+        } catch (NumberFormatException e) {
+            System.out.println("Error: Debe ingresar un número válido.");
+            return;
+        }
+        TipoDocumento tipo = (tipoDocOpcion == 1) ? TipoDocumento.BOLETA : TipoDocumento.FACTURA;
+        try {
+            sistema.generatePasajesVenta(idDoc, tipo);
+            System.out.println(" Archivo de pasajes generado exitosamente ");
+        } catch (SVPException e) {
+
+            System.out.println("Error al generar pasajes: " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("Error inesperado: " + e.getMessage());
+        }
+    }
+    public void saveDatosSistema() {
+        try {
+            sistema.saveDatosSistema();
+            System.out.println(":::: Datos del sistema guardados exitosamente ::::.");
+        } catch (SVPException e) {
+            System.out.println("Error al guardar: " + e.getMessage());
         }
     }
 

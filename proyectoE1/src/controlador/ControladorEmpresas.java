@@ -198,32 +198,23 @@ public class ControladorEmpresas {
     }
 
     public void hireAuxiliarForEmpresa(Rut RutEmp, IdPersona Id, Nombre nombre, Direccion direccion) {
-
         Optional<Empresa> EmpresaBuscada = findEmpresa(RutEmp);
-
         if (EmpresaBuscada.isEmpty()) {
             throw new SVPException("No existe empresa con el rut indicado.");
         }
-
         Empresa EmpresaContratada = EmpresaBuscada.get();
         boolean ContratacionExitosa = EmpresaContratada.addAuxiliar(Id, nombre, direccion);
-
         if (!ContratacionExitosa) {
             throw new SVPException("El Auxiliar con el id dado por la empresa ya se encuentra contratado.");
         }
-
     }
-
     Optional<Conductor> findConductor(IdPersona Id, Rut RutEmp) {
         Optional<Empresa> EmpresaOpcion = findEmpresa(RutEmp);
-
         if (EmpresaOpcion.isEmpty()) {
             return Optional.empty();
         }
-
         Empresa EmpresaContratada = EmpresaOpcion.get();
         Tripulante[] tripulantesEmpresa = EmpresaContratada.getTripulantes();
-
         for (Tripulante tripulante : tripulantesEmpresa) {
 
             if (tripulante != null) {
@@ -245,7 +236,6 @@ public class ControladorEmpresas {
         }
         return Optional.empty();
     }
-
     protected Optional<Bus> findBus(String patente) {
         for (Bus bus : buses) {
             if (bus.getPatente().equals(patente)) {
@@ -255,26 +245,19 @@ public class ControladorEmpresas {
         return Optional.empty();
     }
     protected Optional<Terminal> findTerminal(String nombre) {
-
         for (Terminal terminal : terminales) {
-
             if (terminal.getNombre().equals(nombre)) {
                 return Optional.of(terminal);
             }
         }
-
         return Optional.empty();
     }
-
     protected Optional<Terminal> findTerminalPorComuna(String comuna) {
-
         for (Terminal terminal : terminales) {
-
             if (terminal.getDireccion().getComuna().equals(comuna)) {
                 return Optional.of(terminal);
             }
         }
-
         return Optional.empty();
     }
     public String[][] listEmpresas() {
