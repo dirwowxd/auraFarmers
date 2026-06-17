@@ -797,4 +797,17 @@ public class UISVP {
     }
 
 
+    public void PagaVentaPasajes(String idDoc, TipoDocumento tipo) {
+         try {
+
+             SistemaVentaPasajes.getInstance().pagaVenta(idDoc, tipo);
+             System.out.println("\n El pago del documento" + tipo + " con ID" + idDoc + "se registro y realizo con exito!");
+
+         } catch (SVPException e) {
+             System.out.println("No se pudo procesar el pago: "+e.getMessage());
+         } catch (Exception e) {
+             System.out.println("Ocurrio un error al momento de realizar el pago: "+e.getMessage());
+         }
+    }
+
 }

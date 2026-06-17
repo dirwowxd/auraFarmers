@@ -11,16 +11,14 @@ import utilidades.Rut;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 public class SistemaVentaPasajes {
 
     private static SistemaVentaPasajes instance;
-    private ArrayList<Cliente> clientes;
-    private ArrayList<Pasajero> pasajeros;
-    private ArrayList<Viaje> viajes;
+    private final ArrayList<Cliente> clientes;
+    private final ArrayList<Pasajero> pasajeros;
+    private final ArrayList<Viaje> viajes;
     private final ArrayList<Venta> ventas;
     private final ArrayList<Bus>buses;
     private ControladorEmpresas controladorEmpresas;
@@ -264,41 +262,22 @@ public class SistemaVentaPasajes {
     }
     public void readDatosIniciales() throws SVPException {
         try {
-
             Object[] datos = IOSVP.getInstancia().readDatosIniciales();
             controladorEmpresas.setDatosIniciales(datos);
-            this.clientes= Arrays.stream(datos)
-                    .filter(Cliente.class::isInstance)
-                    .map(Cliente.class::cast)
-                    .collect(Collectors.toCollection(ArrayList::new));
-            this.pasajeros= Arrays.stream(datos)
-                    .filter(Pasajero.class::isInstance)
-                    .map(Pasajero.class::cast)
-                    .collect(Collectors.toCollection(ArrayList::new));
-            this.viajes= Arrays.stream(datos)
-                    .filter(Viaje.class::isInstance)
-                    .map(Viaje.class::cast)
-                    .collect(Collectors.toCollection(ArrayList::new));
-
-            System.out.println("\n=== RESUMEN DE CARGA ===");
             System.out.println("Clientes: " + clientes.size());
             System.out.println("Pasajeros: " + pasajeros.size());
             System.out.println("Viajes: " + viajes.size());
-            System.out.println("\n=== CLIENTES ===");
-            clientes.forEach(System.out::println);
-            System.out.println("\n=== PASAJEROS ===");
-            pasajeros.forEach(System.out::println);
-            System.out.println("\n=== VIAJES ===");
-            viajes.forEach(System.out::println);
-
         } catch (SVPException e) {
             throw new SVPException("Error al leer datos iniciales: " + e.getMessage());
         }
     }
-    public void generatePasajesVenta(String idDoc, TipoDocumento tipo) {
-    }
-    public void saveDatosSistema() throws SVPException {
-        IOSVP.saveControladores(ControladorEmpresas.getInstance(), this);
+
+    public void saveDatosSistema() {
+        IOSVP io = IOSVP.getInstancia();
+
+        Object[] arregloControladores = { this, ControladorEmpresas.getInstance() };
+
+        io.saveControladores(arregloControladores);
     }
 
 
@@ -309,30 +288,32 @@ public class SistemaVentaPasajes {
                 .findFirst();
     }
     private Optional<Venta> findVenta(String idDocumento, TipoDocumento tipoDocumento) {
-        for (Venta ventaActual : ventas) {
-            if (ventaActual.getIdDocumento().equals(idDocumento) && ventaActual.getTipo().equals(tipoDocumento)) {
-                return Optional.of(ventaActual);
-            }
-        }
-        return Optional.empty();
+        return ventas.stream()
+                .filter(v -> v.getIdDocumento().equals(idDocumento))
+                .filter(venta -> venta.getTipo().equals(tipoDocumento))
+                .findFirst();
     }
     private Optional<Bus> findBus(String patente) {
-       return buses.stream().filter(b -> b.getPatente().equals(patente)).findFirst();
+        return buses.stream()
+                .filter(bus -> bus.getPatente().equals(patente))
+                .findFirst();
     }
 
+    //getFecha , getHora , getPatente
     private Optional<Viaje> findViaje(LocalDate fecha, LocalTime hora, String patenteBus) {
-        for (Viaje v : viajes) {
-            if (v.getFecha().equals(fecha) &&
-                    v.getHora().equals(hora) &&
-                    v.getBus().getPatente().equals(patenteBus)) {
-                return Optional.of(v);
-            }
-        }
-        return Optional.empty();
+        return viajes.stream()
+                .filter(viaje -> viaje.getFecha().equals(fecha))
+                .filter(viaje -> viaje.getHora().equals(hora))
+                .filter(viaje -> viaje.getBus().getPatente().equals(patenteBus))
+                .findFirst();
     }
     private Optional<Pasajero> findPasajero(IdPersona idPasajero) {
-        for (Pasajero p : pasajeros) {
-            if (idPasajero.equals(p.getIdPersona())) return Optional.of(p);
+        Optional<Pasajero> pasajeroBuscado = pasajeros.stream()
+                .filter(p -> idPasajero.equals(p.getIdPersona()))
+                .findFirst();
+
+        if (pasajeroBuscado.isPresent()) {
+            return pasajeroBuscado;
         }
         Optional<Cliente> c = findCliente(idPasajero);
         if (c.isPresent()) {
@@ -364,4 +345,5 @@ public class SistemaVentaPasajes {
             throw new SVPException("La venta ya fue pagada");
         }
     }
+
 }
