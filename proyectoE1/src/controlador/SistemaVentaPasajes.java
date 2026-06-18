@@ -279,6 +279,13 @@ public class SistemaVentaPasajes {
 
         io.saveControladores(arregloControladores);
     }
+    public void generatePasajesVenta(String idDoc, TipoDocumento tipo) throws SVPException {
+
+    }
+
+    public void readDatosSistemas(){
+
+    }
 
 
 

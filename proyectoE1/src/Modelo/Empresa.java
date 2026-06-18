@@ -59,47 +59,26 @@ public class Empresa {
     }
 
 
-    public boolean addConductor(IdPersona id, Nombre nom, Direccion direccion) { // modificar a stream
-        for (Tripulante tripulante : tripulantes) {
-            if (tripulante.getIdPersona().equals(id)) {
-                return false;
-            }
-        }
-        Conductor conductor = new Conductor(id, nom, direccion);
-        this.tripulantes.add(conductor);
-        return true;
+    public boolean addConductor(IdPersona id, Nombre nom, Direccion direccion) {
+        return tripulantes.stream().noneMatch(t -> t.getIdPersona().equals(id))
+                && this.tripulantes.add(new Conductor(id, nom, direccion));
     }
 
-    public boolean addAuxiliar(IdPersona id, Nombre nom, Direccion direccion) { // modificar a stream
-        for (Tripulante tripulante : tripulantes) {
-            if (tripulante.getIdPersona().equals(id)) {
-                return false;
-            }
-        }
-        Auxiliar auxiliar = new Auxiliar(id, nom, direccion);
-        this.tripulantes.add(auxiliar);
-        return true;
+
+    public boolean addAuxiliar(IdPersona id, Nombre nom, Direccion direccion) {
+        return tripulantes.stream().noneMatch(t -> t.getIdPersona().equals(id))
+                && this.tripulantes.add(new Auxiliar(id, nom, direccion));
     }
 
     public Tripulante[] getTripulantes() {
         return tripulantes.toArray(new Tripulante[0]);
     }
 
-    public Venta[] getVentas() { // modificar a stream
-        ArrayList<Venta> todasLasVentas = new ArrayList<>();
-
-        for (Bus bus : buses) {
-            Arrays.stream(bus.getViajes())
-                    .filter(viaje -> viaje != null)
-                    .forEach(viaje -> {
-                        Venta[] ventas = viaje.getVentas();
-                        if (ventas != null) {
-                            Arrays.stream(ventas)
-                                    .filter(venta -> venta != null)
-                                    .forEach(todasLasVentas::add);
-                        }
-                    });
-        }
-        return todasLasVentas.toArray(new Venta[0]);
+    public Venta[] getVentas() {
+        return buses.stream().flatMap(bus -> Arrays.stream(bus.getViajes()))
+                .filter(viaje -> viaje != null && viaje.getVentas() != null)
+                .flatMap(viaje -> Arrays.stream(viaje.getVentas()))
+                .filter(venta -> venta != null)
+                .toArray(Venta[]::new);
     }
 }

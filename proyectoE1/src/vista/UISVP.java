@@ -2,7 +2,7 @@ package vista;
 
 
 import Modelo.TipoDocumento;
-import Persistencia.IOSVP;
+
 import controlador.*;
 import excepciones.SVPException;
 import utilidades.*;
@@ -105,10 +105,10 @@ public class UISVP {
                             readDatosIniciales();
                             break;
                         case 16:
-
+                            saveDatosSistema();
                             break;
                         case 17:
-
+                            readDatosSistema();
                             break;
                         case 18:
                             System.out.println("Saliendo...");
@@ -756,7 +756,7 @@ public class UISVP {
     private void readDatosSistema() {
         System.out.println(" Leyendo datos del sistema ");
         try {
-           // sistema.readDatosSistema();
+           sistema.readDatosSistemas();
             System.out.println(" Datos del sistema cargados exitosamente ");
         } catch (SVPException e) {
             System.out.println("Error al leer los datos: " + e.getMessage());
