@@ -328,14 +328,24 @@ public class SistemaVentaPasajes {
         }
     }
     public void saveDatosSistema() throws SistemaVentaPasajesException {
+        try {
+            Object[] arregloControladores = { this, ControladorEmpresas.getInstance() };
+            IOSVP.getInstancia().saveControladores(arregloControladores);
+        } catch (SistemaVentaPasajesException e) {
+            throw new SistemaVentaPasajesException("Error al guardar datos del sistema: " + e.getMessage());
+        }
+    }
 
-        IOSVP io = new IOSVP();
-
-        Object[] controladores = {
-                ControladorEmpresas.getInstance(),
-                SistemaVentaPasajes.getInstance()
-        };
-
-        io.saveControladores(controladores);
+    public void generatePasajesVenta(String idDoc, TipoDocumento tipo) throws SistemaVentaPasajesException {
+        Optional<Venta> ventaOpt = findVenta(idDoc, tipo);
+        if (ventaOpt.isEmpty()) {
+            throw new SistemaVentaPasajesException("No existe venta con el id y tipo de documento indicados");
+        }
+        String nombreArchivo = idDoc + tipo.name().toLowerCase() + ".txt";
+        try {
+            IOSVP.getInstancia().savePasajesDeVenta(ventaOpt.get().getPasajes(), nombreArchivo);
+        } catch (SistemaVentaPasajesException e) {
+            throw new SistemaVentaPasajesException(e.getMessage());
+        }
     }
 }

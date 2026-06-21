@@ -19,19 +19,14 @@ public class IOSVP {
         return null;
     }
 
-    public void savePasajesDeVenta(Object[] pasajes, String nombreArchivo)
-            throws SistemaVentaPasajesException {
-
+    public void savePasajesDeVenta(Pasaje[] pasajes, String nombreArchivo) throws SVPException {
         try (PrintWriter pw = new PrintWriter(new FileWriter(nombreArchivo))) {
-
-            for (Object pasaje : pasajes) {
+            for (Pasaje pasaje : pasajes) {
                 pw.println(pasaje.toString());
                 pw.println();
             }
-
         } catch (IOException e) {
-            throw new SistemaVentaPasajesException(
-                    "No se puede crear el archivo " + nombreArchivo);
+            throw new SVPException("No se puede abrir o crear el archivo " + nombreArchivo);
         }
     }
 }
