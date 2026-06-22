@@ -298,7 +298,7 @@ public class SistemaVentaPasajes {
             Object[] ControladorGuardadoObjetos = IOSVP.getInstancia().readControladores();
             SistemaVentaPasajes.instance = (SistemaVentaPasajes) ControladorGuardadoObjetos[0];
             ControladorEmpresas empresaGuardada = (ControladorEmpresas) ControladorGuardadoObjetos[1];
-            ControladorEmpresas.setInstancia(empresaGuardada);
+            ControladorEmpresas.getInstance().setInstancePersistente(empresaGuardada);
         } catch (SVPException e){
             throw new SVPException("Error :" +e.getMessage());
         }

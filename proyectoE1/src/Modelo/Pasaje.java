@@ -36,8 +36,27 @@ public class Pasaje {
     }
 
     @Override
-    public String toString(){
-        return "Pasaje{" + "numero=" + numero + ", asiento=" + asiento + '}';
+    public String toString() {
+        String nombreEmpresa = this.getViaje().getBus().getEmpresas().getNombre();
+        String patenteBus = this.getViaje().getBus().getPatente();
+        String terminalOrigen = this.getViaje().getTerminalSalida().getNombre();
+        String terminalDestino = this.getViaje().getTerminalLlegada().getNombre();
+
+        String fecha = this.getViaje().getFecha().toString();
+        String hora = this.getViaje().getHora().toString();
+        int valorPagado = this.getViaje().getPrecio();
+        String nombrePasajero = this.getPasajero().getNomContacto().toString();
+        String rutPasaporte = this.getPasajero().getIdPersona().toString();
+        return "------------------- PASAJE ELECTRÓNICO -------------------\n" +
+                "Nombre Empresa            Número de pasaje\n" +
+                nombreEmpresa + "                 " + this.getNumero() + "\n\n" +
+                "Nombre Pasajero                             RUT/Pasaporte\n" +
+                nombrePasajero + "            " + rutPasaporte + "\n\n" +
+                "Patente bus       Asiento         Valor Pagado\n" +
+                patenteBus + "            " + this.getAsiento() + "              " + valorPagado + "\n\n" +
+                "Terminal origen   Terminal destino    Fecha         Hora\n" +
+                terminalOrigen + "    " + terminalDestino + "           " + fecha + "    " + hora + "\n" +
+                "----------------------------------------------------------";
     }
 
 

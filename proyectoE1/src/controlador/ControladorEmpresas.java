@@ -43,17 +43,18 @@ public class ControladorEmpresas {
         empresas.add(empresa);
     }
 
-    public void createBus(String patente, String marca, String modelo, int nroAsientos,Rut rutEmp) {
+    public void createBus(String patente, String marca, String modelo, int nroAsientos, Rut rutEmp) {
         Optional<Bus> buscarBusPat = findBus(patente);
         if (buscarBusPat.isPresent()) {
             throw new SVPException("Ya existe bus con la patente indicada " + patente);
         }
-        Optional<Empresa>buscarBusRut= findEmpresa(rutEmp);
+        Optional<Empresa> buscarBusRut = findEmpresa(rutEmp);
         if (buscarBusRut.isEmpty()) {
             throw new SVPException("No existe empresa con el rut indicado "+ rutEmp);
         }
 
-        Bus nuevoBus = new Bus(patente, nroAsientos, rutEmp);
+        Empresa empresaDuena = buscarBusRut.get();
+        Bus nuevoBus = new Bus(patente, nroAsientos, empresaDuena);
         nuevoBus.setMarca(marca);
         nuevoBus.setModelo(modelo);
         buses.add(nuevoBus);
@@ -209,7 +210,10 @@ public class ControladorEmpresas {
         }
     }
 
-    protected void setInstancePersistente()
+    protected void setInstancePersistente(ControladorEmpresas InstanciaPersistente) {
+
+
+    }
     Optional<Conductor> findConductor(IdPersona Id, Rut RutEmp) {
         Optional<Empresa> EmpresaOpcion = findEmpresa(RutEmp);
         if (EmpresaOpcion.isEmpty()) {
