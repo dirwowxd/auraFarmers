@@ -208,6 +208,8 @@ public class ControladorEmpresas {
             throw new SVPException("El Auxiliar con el id dado por la empresa ya se encuentra contratado.");
         }
     }
+
+    protected void setInstancePersistente()
     Optional<Conductor> findConductor(IdPersona Id, Rut RutEmp) {
         Optional<Empresa> EmpresaOpcion = findEmpresa(RutEmp);
         if (EmpresaOpcion.isEmpty()) {

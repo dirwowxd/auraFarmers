@@ -272,7 +272,7 @@ public class SistemaVentaPasajes {
         }
     }
 
-    public void saveDatosSistema() {
+    public void saveDatosSistema() throws SVPException {
         IOSVP io = IOSVP.getInstancia();
 
         Object[] arregloControladores = { this, ControladorEmpresas.getInstance() };
@@ -280,11 +280,28 @@ public class SistemaVentaPasajes {
         io.saveControladores(arregloControladores);
     }
     public void generatePasajesVenta(String idDoc, TipoDocumento tipo) throws SVPException {
-
+        Optional<Venta> ventaOpt = findVenta(idDoc, tipo);
+        if (ventaOpt.isEmpty()) {
+            throw new SVPException("No existe venta con el id y tipo de documento indicados");
+        }
+        String nombreArchivo = idDoc + tipo.name().toLowerCase() + ".txt";
+        try {
+            IOSVP.getInstancia().savePasajesDeVenta(ventaOpt.get().getPasajes(), nombreArchivo);
+        } catch (SVPException e) {
+            throw new SVPException(e.getMessage());
+        }
     }
 
-    public void readDatosSistemas(){
 
+    public void readDatosSistemas() throws SVPException {
+        try {
+            Object[] ControladorGuardadoObjetos = IOSVP.getInstancia().readControladores();
+            SistemaVentaPasajes.instance = (SistemaVentaPasajes) ControladorGuardadoObjetos[0];
+            ControladorEmpresas empresaGuardada = (ControladorEmpresas) ControladorGuardadoObjetos[1];
+            ControladorEmpresas.setInstancia(empresaGuardada);
+        } catch (SVPException e){
+            throw new SVPException("Error :" +e.getMessage());
+        }
     }
 
 
