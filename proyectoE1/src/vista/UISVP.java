@@ -454,7 +454,7 @@ public class UISVP {
             }
         }
 
-        Optional<Integer> montoOpt = sistema.getMontoVenta(idDoc, tipoDocumento);
+        Optional<Integer> montoOpt = Optional.of(sistema.getMontoVenta(idDoc, tipoDocumento));
         int montoTotal = montoOpt.orElse(0);
         System.out.println("\n:::: Monto total de la venta: $" + montoTotal);
         System.out.println(":::: Pago de la venta");

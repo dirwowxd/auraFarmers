@@ -254,7 +254,7 @@ public class IOSVP {
                 throw new SVPException("Inconsistencia: No se encontró la empresa con RUT " + rutEmpresaBuscado + " para asignar al bus patente " + patente);
             }
 
-            Bus nuevoBus = new Bus(patente, asientos, empresaDuena.getRut());
+            Bus nuevoBus = new Bus(patente, asientos, empresaDuena);
             nuevoBus.setMarca(marca);
             nuevoBus.setModelo(modelo);
             empresaDuena.addBuses(nuevoBus);
