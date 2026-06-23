@@ -336,8 +336,9 @@ public class UISVP {
 
         System.out.print("Cantidad de pasajes : ");
         int cantidadPasajes = Integer.parseInt(sc.nextLine());
+
         try {
-            sistema.iniciaVenta(idDoc, tipoDocumento, LocalDate.now(), idCliente);
+            sistema.iniciaVenta(idDoc, tipoDocumento, LocalDate.now(), idCliente, origenComuna, destinoComuna);
         } catch (SVPException e) {
             System.out.println("*** Error: " + e.getMessage() + " ***");
             return;
@@ -454,27 +455,8 @@ public class UISVP {
             }
         }
 
-        Optional<Integer> montoOpt = Optional.of(sistema.getMontoVenta(idDoc, tipoDocumento));
-        int montoTotal = montoOpt.orElse(0);
-        System.out.println("\n:::: Monto total de la venta: $" + montoTotal);
-        System.out.println(":::: Pago de la venta");
-        System.out.print("Efectivo[1] o Tarjeta[2] : ");
-        int tipoPago = Integer.parseInt(sc.nextLine());
-
-        try {
-            if (tipoPago == 1) {
-                sistema.pagaVenta(idDoc, tipoDocumento);
-            } else {
-                System.out.print("Ingrese número de tarjeta: ");
-                long nroTarjeta = Long.parseLong(sc.nextLine());
-                sistema.pagaVenta(idDoc, tipoDocumento, nroTarjeta);
-            }
-            System.out.println("...:::: Venta realizada exitosamente ::::....");
-        } catch (SVPException e) {
-            System.out.println("*** Error: " + e.getMessage());
-        } catch (NumberFormatException e) {
-            System.out.println(" Error : "+e.getMessage());
-        }
+        System.out.println("\n:::: Monto total de la venta: $" + sistema.getMontoVenta(idDoc, tipoDocumento));
+        PagaVentaPasajes(idDoc, tipoDocumento);
 
         System.out.println("\n:::: Imprimiendo los pasajes");
         for (String string : asientosAComprar) {
@@ -764,7 +746,7 @@ public class UISVP {
             System.out.println("Error inesperado: " + e.getMessage());
         }
     }
-    private void generatePasajesVenta() throws SVPException {
+    private void generatePasajesVenta() {
         System.out.println(" Generar Pasajes de Venta");
         System.out.print("ID Documento: ");
         String idDoc = sc.nextLine();
@@ -798,16 +780,24 @@ public class UISVP {
 
 
     public void PagaVentaPasajes(String idDoc, TipoDocumento tipo) {
-         try {
+        System.out.println(":::: Pago de la venta");
+        System.out.print("Efectivo[1] o Tarjeta[2] : ");
+        int tipoPago = Integer.parseInt(sc.nextLine());
+        try {
+            if (tipoPago == 1) {
+                sistema.pagaVenta(idDoc, tipo);
+            } else {
+                System.out.print("Ingrese número de tarjeta: ");
+                long nroTarjeta = Long.parseLong(sc.nextLine());
+                sistema.pagaVenta(idDoc, tipo, nroTarjeta);
+            }
+            System.out.println("...:::: Venta realizada exitosamente ::::....");
+        } catch (SVPException e) {
+            System.out.println(" Error: " + e.getMessage());
 
-             SistemaVentaPasajes.getInstance().pagaVenta(idDoc, tipo);
-             System.out.println("\n El pago del documento" + tipo + " con ID" + idDoc + "se registro y realizo con exito!");
-
-         } catch (SVPException e) {
-             System.out.println("No se pudo procesar el pago: "+e.getMessage());
-         } catch (Exception e) {
-             System.out.println("Ocurrio un error al momento de realizar el pago: "+e.getMessage());
-         }
+        } catch (NumberFormatException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
     }
 
 }

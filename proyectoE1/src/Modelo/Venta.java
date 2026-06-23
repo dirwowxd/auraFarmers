@@ -17,7 +17,7 @@ public class Venta {
         this.Fecha = fecha;
         this.cliente = cliente;
         this.pago = null; // corregido por vicente
-        this.pasajes = new Pasaje[5];
+        this.pasajes = new Pasaje[38];
         this.CantidadPasajes = 0;
         this.cliente.addVenta(this);
     }

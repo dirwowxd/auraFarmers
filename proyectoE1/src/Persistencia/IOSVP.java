@@ -9,6 +9,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,7 +28,7 @@ public class IOSVP {
         return instancia;
     }
 
-    public Object[] readDatosIniciales() {
+    public Object[] readDatosIniciales() throws SVPException{
         List<Object> lista = new ArrayList<>();
         String rutaArchivo = "SVPDatosIniciales.txt";
         try (FileReader fr = new FileReader(rutaArchivo);
@@ -74,19 +75,23 @@ public class IOSVP {
         return lista.toArray();
     }
 
-        public void saveControladores (Object[]controlador) throws SVPException{
-        File archivoObjetos = new File("SVPControladores.obj");
-        try (FileOutputStream Fos = new FileOutputStream(archivoObjetos);ObjectOutputStream Ous = new ObjectOutputStream(Fos)) {
-            Ous.writeObject(controlador);
+    public void saveControladores(Object[] controladores) throws SVPException {
+        File archivoObjetos = new File("SVPObjetos.obj");
+        try (FileOutputStream Fos = new FileOutputStream(archivoObjetos);
+             ObjectOutputStream Ous = new ObjectOutputStream(Fos)) {
+            for (Object obj : controladores) {
+                Ous.writeObject(obj);
+            }
         } catch (FileNotFoundException e) {
-            throw new  SVPException("No se pudo abrir ni crear el archivo SVPControladores.obj");
+            throw new SVPException("No se pudo abrir ni crear el archivo SVPObjetos.obj");
         } catch (IOException e) {
-            throw new SVPException("No se pudo grabar los objetos en el archivo SVPControladores.obj");
+            throw new SVPException("No se pudo grabar los objetos en el archivo SVPObjetos.obj");
         }
 
         }
+
         public Object[] readControladores () throws SVPException{
-            File archivoObjetos = new File("SVPControladores.obj");
+            File archivoObjetos = new File("SVPObjetos.obj");
 
             Object[]controladores = new Object[2];
 
@@ -96,9 +101,9 @@ public class IOSVP {
 
                   return controladores;
             } catch (FileNotFoundException e) {
-                throw new SVPException("No existe o no es posible abrir el archivo SVPControladores.obj");
+                throw new SVPException("No existe o no es posible abrir el archivo SVPObjetos.obj");
             } catch (IOException e) {
-                throw new SVPException("No se puede leer el archivo SVPControladores.obj");
+                throw new SVPException("No se puede leer el archivo SVPObjetos.obj");
             } catch (ClassNotFoundException e) {
                 throw new SVPException("No se encontro la clase de los objetos");
             }
@@ -151,8 +156,14 @@ public class IOSVP {
             } else if (tipoRegistro.equals("CP")) {
                 String email = datos[7];
 
-                Cliente clientePasajero = new Cliente(rutPersona, nombrePersona, email);
-                clientePasajero.setTelefono(telefono);
+                // crear Cliente
+                Cliente nuevoCliente = new Cliente(rutPersona, nombrePersona, email);
+                nuevoCliente.setTelefono(telefono);
+                listaTemporal.add(nuevoCliente);
+
+                // crear un pasajero con el mismo rut
+                Pasajero nuevoPasajero = new Pasajero(rutPersona, nombrePersona);
+                nuevoPasajero.setTelefono(telefono);
 
                 Nombre nomContacto = new Nombre();
                 nomContacto.setTratamiento(Tratamiento.valueOf(datos[8]));
@@ -160,10 +171,9 @@ public class IOSVP {
                 nomContacto.setApellidoPaterno(datos[10]);
                 nomContacto.setApellidoMaterno(datos[11]);
 
-                clientePasajero.setNombreCompleto(nomContacto);
-                clientePasajero.setTelefono(datos[12]);
-
-                listaTemporal.add(clientePasajero);
+                nuevoPasajero.setNomContacto(nomContacto);
+                nuevoPasajero.setFonoContacto(datos[12]);
+                listaTemporal.add(nuevoPasajero);
             }
 
         } catch (Exception e) {
@@ -206,14 +216,20 @@ public class IOSVP {
                 throw new SVPException("No existe Empresa con el rut : " + RutEmpresa);
             }
             if (tipoRegistro.equals("C")) {
-
                 empresaEmpleadora.addConductor(rutTripulante, nomTripulante, dirTripulante);
-                Conductor nuevoConductor = new Conductor(rutTripulante, nomTripulante, dirTripulante);
-                listaTemporal.add(nuevoConductor);
+                Tripulante nuevoConductor = Arrays.stream(empresaEmpleadora.getTripulantes())
+                        .filter(t -> t.getIdPersona().equals(rutTripulante))
+                        .findFirst()
+                        .orElse(null);
+                if (nuevoConductor != null) listaTemporal.add(nuevoConductor);
+
             } else if (tipoRegistro.equals("A")) {
                 empresaEmpleadora.addAuxiliar(rutTripulante, nomTripulante, dirTripulante);
-                Auxiliar nuevoAuxiliar = new Auxiliar(rutTripulante, nomTripulante, dirTripulante);
-                listaTemporal.add(nuevoAuxiliar);
+                Tripulante nuevoAuxiliar = Arrays.stream(empresaEmpleadora.getTripulantes())
+                        .filter(t -> t.getIdPersona().equals(rutTripulante))
+                        .findFirst()
+                        .orElse(null);
+                if (nuevoAuxiliar != null) listaTemporal.add(nuevoAuxiliar);
             }
 
         }catch (SVPException e){
@@ -301,24 +317,6 @@ public class IOSVP {
             throw new SVPException("Error de formato numérico en viaje.");
         } catch (Exception e) {
             throw new SVPException("Error al crear un Viaje: " + e.getMessage());
-        }
-    }
-    public void generatePasajesVenta(String idDoc, TipoDocumento tipo) {
-
-    }
-    public void savePasajesDeVenta(Object[] pasajes, String nombreArchivo)
-            throws SVPException {
-
-        try (PrintWriter pw = new PrintWriter(new FileWriter(nombreArchivo))) {
-
-            for (Object pasaje : pasajes) {
-                pw.println(pasaje.toString());
-                pw.println();
-            }
-
-        } catch (IOException e) {
-            throw new SVPException(
-                    "No se puede crear el archivo " + nombreArchivo);
         }
     }
 

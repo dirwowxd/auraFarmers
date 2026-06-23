@@ -233,7 +233,7 @@ public class ControladorEmpresas {
                             }
 
                             if (viaje.getTerminalLlegada().equals(terminal)) {
-                                LocalTime horaLlegada = viaje.getHora().plusHours(viaje.getDuracion());
+                                LocalTime horaLlegada = viaje.getHora().plusMinutes(viaje.getDuracion());
                                 filas.add(new String[]{
                                         "Llegada",
                                         horaLlegada.toString(),

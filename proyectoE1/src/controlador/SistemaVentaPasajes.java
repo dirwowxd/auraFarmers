@@ -103,18 +103,21 @@ public class SistemaVentaPasajes {
         viajes.add(nuevoViaje);
     }
 
-    public void iniciaVenta(String idDocumento, TipoDocumento tipo, LocalDate fechaVenta, IdPersona idCliente) {
-        Optional<Cliente> clienteOpt = findCliente(idCliente);
-        if (clienteOpt.isEmpty()) {
-            throw new SVPException("No existe cliente con id indicado");
-        }
-
-        Optional<Venta> ventaOpt = findVenta(idDocumento, tipo);
-        if (ventaOpt.isPresent()) {
+    public void iniciaVenta(String idDocumento, TipoDocumento tipo, LocalDate fechaVenta, IdPersona idCliente, String comunaSalida, String comunaLlegada) {
+        if (findVenta(idDocumento, tipo).isPresent()) {
             throw new SVPException("Ya existe venta con el id y tipo de documento indicados");
         }
-
-        Venta nuevaVenta = new Venta(idDocumento, tipo, fechaVenta, clienteOpt.get());
+        if (findCliente(idCliente).isEmpty()) {
+            throw new SVPException("No existe cliente con id indicado");
+        }
+        boolean hayViajes = viajes.stream()
+                .anyMatch(v -> v.getFecha().equals(fechaVenta)
+                        && v.getTerminalSalida().getDireccion().getComuna().equals(comunaSalida)
+                        && v.getTerminalLlegada().getDireccion().getComuna().equals(comunaLlegada));
+        if (!hayViajes) {
+            throw new SVPException("No existen viajes disponibles en la fecha y con terminales en las comunas de salida y llegada indicados");
+        }
+        Venta nuevaVenta = new Venta(idDocumento, tipo, fechaVenta, findCliente(idCliente).get());
         ventas.add(nuevaVenta);
     }
 
@@ -207,10 +210,7 @@ public class SistemaVentaPasajes {
         for (int i = 0; i < this.viajes.size(); i++) {
             Viaje v = this.viajes.get(i);
 
-            viajes[i][0] = v.getFecha().toString();
-            viajes[i][1] = v.getHora().toString();
-            viajes[i][2] = v.getFechaHoraTermino().toLocalTime().toString();
-            viajes[i][3] = "$" + v.getPrecio();
+            viajes[i][4] = String.valueOf(v.getNroAsientosDisponibles());
 
             String[][] asientos = v.getAsientos();
             int asientosLibres = 0;
@@ -308,22 +308,9 @@ public class SistemaVentaPasajes {
                 .findFirst();
     }
     private Optional<Pasajero> findPasajero(IdPersona idPasajero) {
-        Optional<Pasajero> pasajeroBuscado = pasajeros.stream()
+        return pasajeros.stream()
                 .filter(p -> idPasajero.equals(p.getIdPersona()))
                 .findFirst();
-
-        if (pasajeroBuscado.isPresent()) {
-            return pasajeroBuscado;
-        }
-        Optional<Cliente> c = findCliente(idPasajero);
-        if (c.isPresent()) {
-            Cliente clienteEncontrado = c.get();
-            Pasajero nuevo= new Pasajero(clienteEncontrado.getIdPersona(), clienteEncontrado.getNombreCompleto());
-            nuevo.setTelefono(clienteEncontrado.getTelefono());
-            pasajeros.add(nuevo);
-            return Optional.of(nuevo);
-        }
-        return Optional.empty();
     }
     public void pagaVenta(String idDocumento, TipoDocumento tipo, long nroTarjeta) { //tarjeta
         Optional<Venta> ventaOpt = findVenta(idDocumento, tipo);
