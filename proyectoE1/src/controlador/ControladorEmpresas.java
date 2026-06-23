@@ -82,6 +82,7 @@ public class ControladorEmpresas implements Serializable {
         Empresa empresa = findEmpresa(rut)
                 .orElseThrow(() -> new SVPException("No existe empresa con el rut indicado " + rut));
 
+
         return Arrays.stream(empresa.getBuses())
                 .flatMap(bus -> Arrays.stream(bus.getViajes()))
                 .flatMap(viaje -> Arrays.stream(viaje.getVentas()))
