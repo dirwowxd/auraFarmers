@@ -4,12 +4,13 @@ import Modelo.*;
 import excepciones.SVPException;
 import utilidades.*;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class ControladorEmpresas {
+public class ControladorEmpresas implements Serializable {
     private static ControladorEmpresas instance;
 
     private ArrayList<Empresa> empresas;

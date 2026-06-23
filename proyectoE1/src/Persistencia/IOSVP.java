@@ -85,6 +85,7 @@ public class IOSVP {
         } catch (FileNotFoundException e) {
             throw new SVPException("No se pudo abrir ni crear el archivo SVPObjetos.obj");
         } catch (IOException e) {
+            e.printStackTrace();
             throw new SVPException("No se pudo grabar los objetos en el archivo SVPObjetos.obj");
         }
 
@@ -110,9 +111,18 @@ public class IOSVP {
 
 
         }
-        public void savePasajesDeVenta (Pasaje[]pasajes, String nombreArchivo){
-
+    public void savePasajesDeVenta(Pasaje[] pasajes, String nombreArchivo) throws SVPException {
+        System.out.println("DEBUG : intentando crear un archivo : "+nombreArchivo);
+        try (PrintWriter pw = new PrintWriter(new FileWriter(nombreArchivo))) {
+            for (Pasaje pasaje : pasajes) {
+                pw.println(pasaje.toString());
+                pw.println();
+                System.out.println("DEBUG: Archivo creado correctamente.");
+            }
+        } catch (IOException e) {
+            throw new SVPException("No se puede abrir o crear el archivo " + nombreArchivo);
         }
+    }
 
 
     private void parsearClienteOPasajero(String[] datos, List<Object> listaTemporal) throws SVPException {

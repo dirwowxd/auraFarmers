@@ -1,6 +1,9 @@
 package Modelo;
 
-public class Pasaje {
+import java.io.Serializable;
+import java.time.format.DateTimeFormatter;
+
+public class Pasaje implements Serializable {
     private long numero;
     private int asiento;
     private Viaje viaje;
@@ -12,6 +15,7 @@ public class Pasaje {
         this.viaje = viaje;
         this.venta = venta;
         this.pasajero = pasajero;
+        this.numero = System.currentTimeMillis();
         viaje.addPasaje(this);
     }
 
@@ -37,26 +41,29 @@ public class Pasaje {
 
     @Override
     public String toString() {
-        String nombreEmpresa = this.getViaje().getBus().getEmpresas().getNombre();
-        String patenteBus = this.getViaje().getBus().getPatente();
-        String terminalOrigen = this.getViaje().getTerminalSalida().getNombre();
-        String terminalDestino = this.getViaje().getTerminalLlegada().getNombre();
+        String nombreEmpresa = this.viaje.getBus().getEmpresas().getNombre().toUpperCase();
+        String nombrePasajero = this.pasajero.getNombreCompleto().toString().toUpperCase();
+        String rutPasaporte = this.pasajero.getIdPersona().toString();
+        String patenteBus = this.viaje.getBus().getPatente();
+        String terminalOrigen = this.viaje.getTerminalSalida().getNombre().toUpperCase();
+        String terminalDestino = this.viaje.getTerminalLlegada().getNombre().toUpperCase();
+        String fecha = this.viaje.getFecha().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        String hora = this.viaje.getHora().toString();
+        int valorPagado = this.viaje.getPrecio();
 
-        String fecha = this.getViaje().getFecha().toString();
-        String hora = this.getViaje().getHora().toString();
-        int valorPagado = this.getViaje().getPrecio();
-        String nombrePasajero = this.getPasajero().getNomContacto().toString();
-        String rutPasaporte = this.getPasajero().getIdPersona().toString();
-        return "------------------- PASAJE ELECTRÓNICO -------------------\n" +
-                "Nombre Empresa            Número de pasaje\n" +
-                nombreEmpresa + "                 " + this.getNumero() + "\n\n" +
-                "Nombre Pasajero                             RUT/Pasaporte\n" +
-                nombrePasajero + "            " + rutPasaporte + "\n\n" +
-                "Patente bus       Asiento         Valor Pagado\n" +
-                patenteBus + "            " + this.getAsiento() + "              " + valorPagado + "\n\n" +
-                "Terminal origen   Terminal destino    Fecha         Hora\n" +
-                terminalOrigen + "    " + terminalDestino + "           " + fecha + "    " + hora + "\n" +
-                "----------------------------------------------------------";
+        return "-------------------- PASAJE ELECTRÓNICO --------------------\n" +
+                String.format("%-24s%s%n", "Nombre Empresa", "Número de pasaje") +
+                String.format("%-24s%s%n", nombreEmpresa, this.numero) +
+                "\n" +
+                String.format("%-44s%s%n", "Nombre Pasajero", "RUT/Pasaporte") +
+                String.format("%-44s%s%n", nombrePasajero, rutPasaporte) +
+                "\n" +
+                String.format("%-16s%-16s%s%n", "Patente bus", "Asiento", "Valor Pagado") +
+                String.format("%-16s%-16s%s%n", patenteBus, this.asiento, valorPagado) +
+                "\n" +
+                String.format("%-16s%-18s%-14s%s%n", "Terminal origen", "Terminal destino", "Fecha", "Hora") +
+                String.format("%-16s%-18s%-14s%s%n", terminalOrigen, terminalDestino, fecha, hora) +
+                "------------------------------------------------------------";
     }
 
 

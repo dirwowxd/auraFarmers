@@ -3,8 +3,10 @@ package Modelo;
 
 import utilidades.Direccion;
 
+import java.io.Serializable;
 
-public class Terminal {
+
+public class Terminal implements Serializable {
 
 
     private String nombre;

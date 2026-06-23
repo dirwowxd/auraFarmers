@@ -1,11 +1,13 @@
 package utilidades;
 
+import java.io.Serializable;
 import java.text.NumberFormat;
 import java.util.Locale;
 
-public class Rut implements IdPersona {
+public class Rut implements IdPersona, Serializable {
     private int numero;
     private char dv;
+    private static final long serialVersionUID = 1L;
 
     private Rut(int numero, char dv) {
         this.numero = numero;

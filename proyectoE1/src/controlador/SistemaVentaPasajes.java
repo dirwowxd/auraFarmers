@@ -8,12 +8,13 @@ import utilidades.Nombre;
 import utilidades.Rut;
 
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Optional;
 
-public class SistemaVentaPasajes {
+public class SistemaVentaPasajes implements Serializable {
 
     private static SistemaVentaPasajes instance;
     private final ArrayList<Cliente> clientes;
@@ -39,7 +40,6 @@ public class SistemaVentaPasajes {
         }
         return instance;
     }
-
 
 
     public void createCliente(IdPersona id, Nombre nom, String fono, String email) {
@@ -242,6 +242,17 @@ public class SistemaVentaPasajes {
     public void readDatosIniciales() throws SVPException {
         try {
             Object[] datos = IOSVP.getInstancia().readDatosIniciales();
+            clientes.clear();
+            pasajeros.clear();
+            viajes.clear();
+            ventas.clear();
+            buses.clear();
+            for (Object obj : datos) {
+                if (obj instanceof Cliente) clientes.add((Cliente) obj);
+                else if (obj instanceof Pasajero) pasajeros.add((Pasajero) obj);
+                else if (obj instanceof Viaje) viajes.add((Viaje) obj);
+                else if (obj instanceof Bus) buses.add((Bus) obj);
+            }
             controladorEmpresas.setDatosIniciales(datos);
         } catch (SVPException e) {
             throw new SVPException("Error al leer datos iniciales : " + e.getMessage());

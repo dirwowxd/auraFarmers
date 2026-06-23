@@ -336,9 +336,8 @@ public class UISVP {
 
         System.out.print("Cantidad de pasajes : ");
         int cantidadPasajes = Integer.parseInt(sc.nextLine());
-
         try {
-            sistema.iniciaVenta(idDoc, tipoDocumento, LocalDate.now(), idCliente, origenComuna, destinoComuna);
+            sistema.iniciaVenta(idDoc, tipoDocumento, fechaViaje, idCliente, origenComuna, destinoComuna);
         } catch (SVPException e) {
             System.out.println("*** Error: " + e.getMessage() + " ***");
             return;
@@ -366,7 +365,7 @@ public class UISVP {
         int seleccion = Integer.parseInt(sc.nextLine());
         int indice = seleccion - 1;
         String patenteBus = horarios[indice][0];
-        LocalTime horaViaje = LocalTime.parse(horarios[indice][1]);
+        LocalTime horaViaje = LocalTime.parse(horarios[indice][1], formatoHora);
 
         System.out.println("\n:::: Asientos disponibles para el viaje seleccionado");
         String[][] asientos = sistema.listAsientosDeViaje(fechaViaje, horaViaje, patenteBus);

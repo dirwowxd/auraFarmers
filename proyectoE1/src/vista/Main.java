@@ -1,6 +1,5 @@
 package vista;
 import utilidades.*;
-import java.util.Scanner;
 
 public class Main {
 
