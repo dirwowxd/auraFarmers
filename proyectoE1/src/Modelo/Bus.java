@@ -4,10 +4,11 @@ package Modelo;
 import utilidades.Rut;
 
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 
-public class Bus {
+public class Bus implements Serializable {
 
 
     private String patente;
@@ -16,14 +17,15 @@ public class Bus {
     private int nroAsientos;
     private Rut rutEmpresa;
     private ArrayList<Viaje> viajes = new ArrayList<>();
+    private Empresa empresa;
 
 
-    public Bus(String patente, int nroAsientos, Rut rutEmpresa) {
+    public Bus(String patente, int nroAsientos, Empresa empresa) {
 
 
         this.patente = patente;
         this.nroAsientos = nroAsientos;
-        this.rutEmpresa = rutEmpresa;
+        this.empresa= empresa;
     }
 
 
@@ -73,6 +75,9 @@ public class Bus {
 
     public Viaje[] getViajes() {
         return viajes.toArray(new Viaje[0]);
+    }
+    public Empresa getEmpresas(){
+        return empresa;
     }
 
 

@@ -2,9 +2,10 @@ package utilidades;
 
 import Modelo.Persona;
 
-import java.util.Objects;
+import java.io.Serializable;
 
-public class Direccion {
+
+public class Direccion implements Serializable {
 
     private String calle;
     private int numero;

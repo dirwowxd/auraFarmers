@@ -1,8 +1,9 @@
 package Modelo;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class Venta {
+public class Venta implements Serializable {
         private String idDocumento;
         private TipoDocumento Tipo;
         private LocalDate Fecha;
@@ -17,7 +18,7 @@ public class Venta {
         this.Fecha = fecha;
         this.cliente = cliente;
         this.pago = null; // corregido por vicente
-        this.pasajes = new Pasaje[5];
+        this.pasajes = new Pasaje[38];
         this.CantidadPasajes = 0;
         this.cliente.addVenta(this);
     }
