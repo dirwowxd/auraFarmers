@@ -20,6 +20,7 @@ public class Bus implements Serializable {
     private Empresa empresa;
 
 
+
     public Bus(String patente, int nroAsientos, Empresa empresa) {
 
 
