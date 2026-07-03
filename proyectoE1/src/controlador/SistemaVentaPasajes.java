@@ -252,6 +252,7 @@ public class SistemaVentaPasajes implements Serializable {
                 else if (obj instanceof Pasajero) pasajeros.add((Pasajero) obj);
                 else if (obj instanceof Viaje) viajes.add((Viaje) obj);
                 else if (obj instanceof Bus) buses.add((Bus) obj);
+                else if (obj instanceof Venta) ventas.add((Venta) obj);
             }
             controladorEmpresas.setDatosIniciales(datos);
         } catch (SVPException e) {
