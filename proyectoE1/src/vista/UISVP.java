@@ -6,6 +6,8 @@ import Modelo.TipoDocumento;
 import controlador.*;
 import excepciones.SVPException;
 import utilidades.*;
+
+import javax.swing.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -13,7 +15,7 @@ import java.util.InputMismatchException;
 import java.util.Optional;
 import java.util.Scanner;
 
-public class UISVP {
+public class UISVP extends JFrame {
 
     Scanner sc = new Scanner(System.in);
     ControladorEmpresas controlador = ControladorEmpresas.getInstance();
