@@ -40,9 +40,22 @@ public class Menu extends JDialog {
                 JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
 
         aplicarEstilos();
+        //
         leerDatosButton.setPreferredSize(new Dimension(150, 40));
         guardarDatosButton.setPreferredSize(new Dimension(150, 40));
         recuperarDatosButton.setPreferredSize(new Dimension(150, 40));
+        //datos
+
+        //opciones
+        ventaDePasajesButton.setPreferredSize(new Dimension(125, 30));
+        creacionDeViajeButton.setPreferredSize(new Dimension(125, 30));
+        opcionAElegirButton.setPreferredSize(new Dimension(125, 30));
+        opcionAElegirButton1.setPreferredSize(new Dimension(125, 30));
+        opcionAElegirButton2.setPreferredSize(new Dimension(125, 30));
+
+        //salir
+        salirDelSistemaButton.setPreferredSize(new Dimension(200, 60));
+
 
         leerDatosButton.addActionListener(e -> {
             try{
