@@ -217,6 +217,19 @@ public class ControladorEmpresas implements Serializable {
                 })
                 .toArray(String[][]::new);
     }
+    public String[][] listTerminales() {
+        if (terminales.isEmpty()) {
+            return new String[0][0];
+        }
+        return terminales.stream()
+                .map(t -> new String[]{
+                        t.getNombre(),
+                        t.getDireccion().getCalle(),
+                        String.valueOf(t.getDireccion().getNumero()),
+                        t.getDireccion().getComuna()
+                })
+                .toArray(String[][]::new);
+    }
     public String[][] listLlegadasSalidasTerminal(String nombreTerminal, LocalDate fecha) {
 
         Terminal terminal = findTerminal(nombreTerminal)

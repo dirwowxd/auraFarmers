@@ -94,6 +94,16 @@ public class Menu extends JDialog {
             VentanaConsultaViajes ventana = new VentanaConsultaViajes(this);
             ventana.setVisible(true);
         });
+        ventaDePasajesButton.addActionListener(e -> {
+            VentanaVentaPasajes ventana = new VentanaVentaPasajes();
+            ventana.setVisible(true);
+            dispose();
+        });
+        ListarTerminalesButton.addActionListener(e -> {
+            VentanaConsultaTerminales ventana = new VentanaConsultaTerminales();
+            ventana.setVisible(true);
+            dispose();
+        });
     }
 
     private void aplicarEstilos() {
