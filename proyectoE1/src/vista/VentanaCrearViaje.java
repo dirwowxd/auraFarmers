@@ -193,6 +193,7 @@ public class VentanaCrearViaje extends JFrame {
         }
     }
 
+
     private void onEmpresaSeleccionada() {
         cbBus.removeAllItems();
         cbAuxiliar.removeAllItems();
