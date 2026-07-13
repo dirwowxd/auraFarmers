@@ -196,6 +196,11 @@ public class ControladorEmpresas implements Serializable {
                 .filter(terminal -> terminal.getDireccion().getComuna().equals(comuna))
                 .findFirst();
     }
+
+    public Empresa[] getEmpresas() { return empresas.toArray(new Empresa[0]); }
+    public Terminal[] getTerminales() { return terminales.toArray(new Terminal[0]); }
+
+
     public String[][] listEmpresas() {
         if (empresas.isEmpty()) {
             return new String[0][0];

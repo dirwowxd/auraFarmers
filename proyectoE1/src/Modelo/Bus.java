@@ -60,7 +60,7 @@ public class Bus implements Serializable {
 
 
     public Rut getRutEmpresa() {
-        return rutEmpresa;
+        return (empresa != null) ? empresa.getRut() : null;
     }
 
 
