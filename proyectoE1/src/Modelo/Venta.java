@@ -1,8 +1,9 @@
 package Modelo;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class Venta {
+public class Venta implements Serializable {
         private String idDocumento;
         private TipoDocumento Tipo;
         private LocalDate Fecha;
@@ -17,7 +18,7 @@ public class Venta {
         this.Fecha = fecha;
         this.cliente = cliente;
         this.pago = null; // corregido por vicente
-        this.pasajes = new Pasaje[5];
+        this.pasajes = new Pasaje[38];
         this.CantidadPasajes = 0;
         this.cliente.addVenta(this);
     }
@@ -95,11 +96,9 @@ public class Venta {
     }
 
     public String getTipoPago() {
-
         if (this.pago == null) {
             return null;
         }
-
         if (this.pago instanceof PagoEfectivo) {
             return "Pago Efectivo";
         } else if (this.pago instanceof PagoTarjeta) {
@@ -108,22 +107,15 @@ public class Venta {
 
         return null;
     }
-
     @Override
     public boolean equals(Object otro) {
-
         if (this == otro) {
             return true;
         }
-
-
         if (otro == null || this.getClass() != otro.getClass()) {
             return false;
         }
-
-
         Venta otraVenta = (Venta) otro;
-
         return this.idDocumento.equals(otraVenta.idDocumento) &&
                 this.Tipo.equals(otraVenta.Tipo);
     }
