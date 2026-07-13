@@ -80,6 +80,7 @@ public class Menu extends JDialog {
                 JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
         });
+
         creacionDeViajeButton.addActionListener(e -> {
             VentanaCrearViaje ventana = new VentanaCrearViaje();
             ventana.setVisible(true);
