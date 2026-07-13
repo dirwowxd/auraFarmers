@@ -198,6 +198,7 @@ public class VentanaCrearViaje extends JFrame {
         for (Bus bus : empresa.getBuses()) {
             cbBus.addItem(bus);
         }
+
         for (Tripulante t : empresa.getTripulantes()) {
             if (t instanceof Auxiliar) {
                 cbAuxiliar.addItem((Auxiliar) t);
