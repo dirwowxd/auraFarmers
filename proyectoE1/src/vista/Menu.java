@@ -106,6 +106,7 @@ public class Menu extends JDialog {
             dispose();
         });
 
+
     }
 
     private void aplicarEstilos() {
