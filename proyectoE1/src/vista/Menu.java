@@ -53,7 +53,7 @@ public class Menu extends JDialog {
         opcionAElegirButton1.setPreferredSize(new Dimension(125, 30));
         opcionAElegirButton2.setPreferredSize(new Dimension(125, 30));
 
-        //salir
+        //boton de salir entero grande pa presionarlo altiro
         salirDelSistemaButton.setPreferredSize(new Dimension(200, 60));
 
 
