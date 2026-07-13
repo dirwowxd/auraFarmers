@@ -46,7 +46,13 @@ public class VentanaCrearViaje extends JFrame {
         construirInterfaz();
         cargarEmpresas();
         cargarTerminales();
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent e) {
+                volverAlMenu();
+            }
+        });
         setSize(480, 460);
         setLocationRelativeTo(null);
         setResizable(false);
@@ -147,7 +153,7 @@ public class VentanaCrearViaje extends JFrame {
         btnCrear = new JButton("Crear viaje");
         btnCerrar = new JButton("Cerrar");
         btnCrear.addActionListener(e -> crearViaje());
-        btnCerrar.addActionListener(e -> dispose());
+        btnCerrar.addActionListener(e -> volverAlMenu()); //modificado por vicente para poder volver al menu y que no se cierre todo
         panelBotones.add(btnCrear);
         panelBotones.add(btnCerrar);
 
@@ -322,6 +328,14 @@ public class VentanaCrearViaje extends JFrame {
         txtHora.setText("");
         txtPrecio.setText("");
         txtDuracion.setText("");
+    }
+    private void volverAlMenu() {
+        dispose();
+        Menu menu = new Menu();
+        menu.setTitle("Sistema Venta Pasajes");
+        menu.pack();
+        menu.setLocationRelativeTo(null);
+        menu.setVisible(true);
     }
 
 

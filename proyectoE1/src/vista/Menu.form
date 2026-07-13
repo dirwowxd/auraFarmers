@@ -90,7 +90,7 @@
               <text value="Creacion de Viaje"/>
             </properties>
           </component>
-          <component id="65dfd" class="javax.swing.JButton" binding="opcionAElegirButton" default-binding="true">
+          <component id="65dfd" class="javax.swing.JButton" binding="ListarEmpresasButton">
             <constraints>
               <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
@@ -98,20 +98,12 @@
               <text value="Listar Empresas"/>
             </properties>
           </component>
-          <component id="1dc87" class="javax.swing.JButton" binding="opcionAElegirButton1" default-binding="true">
+          <component id="1dc87" class="javax.swing.JButton" binding="ListarTerminalesButton">
             <constraints>
               <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
               <text value="Listar Terminales"/>
-            </properties>
-          </component>
-          <component id="119cc" class="javax.swing.JButton" binding="opcionAElegirButton2" default-binding="true">
-            <constraints>
-              <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-            </constraints>
-            <properties>
-              <text value="Viajes disponibles por fecha"/>
             </properties>
           </component>
           <component id="ef32c" class="javax.swing.JLabel">
@@ -120,6 +112,14 @@
             </constraints>
             <properties>
               <text value="OPCIONES"/>
+            </properties>
+          </component>
+          <component id="119cc" class="javax.swing.JButton" binding="ViajesDisponiblesporFechaButton">
+            <constraints>
+              <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value="Viajes disponibles por fecha"/>
             </properties>
           </component>
         </children>

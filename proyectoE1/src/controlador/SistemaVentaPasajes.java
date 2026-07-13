@@ -121,7 +121,7 @@ public class SistemaVentaPasajes implements Serializable {
         ventas.add(nuevaVenta);
     }
 
-    public String[][] getHorariosDisponibles(LocalDate fechaViaje) {
+    public String[][] getHorariosDisponibles(LocalDate fechaViaje, String comunaSalida, String comunaLlegada, int nroPasajes) {
         return viajes.stream()
                 .filter(viaje -> viaje.getFecha().equals(fechaViaje))
                 .map(viaje -> new String[]{

@@ -348,7 +348,7 @@ public class UISVP extends JFrame {
         String nombreClienteStr = nomClienteOpt.isPresent() ? nomClienteOpt.get() : "No registrado";
         System.out.println("Nombre Cliente : " + nombreClienteStr);
         System.out.println("\n:::: Listado de horarios disponibles");
-        String[][] horarios = sistema.getHorariosDisponibles(fechaViaje);
+        String[][] horarios = sistema.getHorariosDisponibles(fechaViaje, origenComuna, destinoComuna,  cantidadPasajes);
 
         if (horarios.length == 0) {
             System.out.println("No existen viajes disponibles para los criterios indicados.");
