@@ -74,7 +74,7 @@ public class Menu extends JDialog {
         recuperarDatosButton.addActionListener(e -> {
             try {
                 svp.readDatosSistemas();
-                JOptionPane.showMessageDialog(this, "Datos leisods exitosamente.", "Exito", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Datos recuperados exitosamente.", "Exito", JOptionPane.INFORMATION_MESSAGE);
 
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -91,9 +91,21 @@ public class Menu extends JDialog {
             dispose();
         });
         ViajesDisponiblesporFechaButton.addActionListener(e -> {
-            VentanaConsultaViajes ventana = new VentanaConsultaViajes(this);
+            VentanaConsultaViajes ventana = new VentanaConsultaViajes();
             ventana.setVisible(true);
+            dispose();
         });
+        ventaDePasajesButton.addActionListener(e -> {
+            VentanaVentaPasajes ventanaVentaPasajes = new VentanaVentaPasajes();
+            ventanaVentaPasajes.setVisible(true);
+            dispose();
+        });
+        ListarTerminalesButton.addActionListener(e -> {
+            VentanaConsultaTerminales ventanaConsultaTerminales = new VentanaConsultaTerminales();
+            ventanaConsultaTerminales.setVisible(true);
+            dispose();
+        });
+
     }
 
     private void aplicarEstilos() {
